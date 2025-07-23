@@ -1,7 +1,9 @@
 // Common
+import AuraImage from './img-aura.png'
 import DefaultAvatarImage from './img-default-avatar.png'
 import DiamondLevelToastImage from './img-diamond-level-toast.png'
 import FireImage from './img-fire.png'
+import FlagGreenImage from './img-flag-green.png'
 import GlowLevelToastImage2 from './img-glow-level-toast-2.png'
 import GlowLevelToastImage from './img-glow-level-toast.png'
 import ReferralCardMobileImage from './img-referral-card-mobile.png'
@@ -49,29 +51,26 @@ import CoinHeadLeanImage from './coin-flip/img-coin-head_lean.png'
 import CoinTailImage from './coin-flip/img-coin-tail.png'
 
 export {
-  // Games
   ArrowSlotImage,
+  AuraImage,
   BlurGoldenImage,
   BlurStatusImage,
   ButtonDefaultImage,
   ButtonSlotFullImage,
-  // Coin Flip
   CoinHeadImage,
   CoinHeadLeanImage,
   CoinTailImage,
-  // Common
   DefaultAvatarImage,
-  // Logo
   DesktopLogo,
   DiamondLevelToastImage,
   FireImage,
+  FlagGreenImage,
   GlowGreenImage,
   GlowingImage,
   GlowingLayerImage,
   GlowLevelToastImage,
   GlowLevelToastImage2,
   GradientHolderImage,
-  // Level
   Level1Image,
   Level2Image,
   Level3Image,
@@ -81,7 +80,6 @@ export {
   Level7Image,
   ReferralCardImage,
   ReferralCardMobileImage,
-  // Tokens/Chains
   SolanaGoldenLogo,
   SolanaLogo,
   StreamerPanelImage,

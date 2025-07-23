@@ -1,7 +1,6 @@
 import { AppHeader } from '@/components/app-header'
 import { useAppTheme } from '@/components/app-theme'
-import { CoinFlipIcon, JackpotIcon } from '@/components/icons'
-import Foundation from '@expo/vector-icons/Foundation'
+import { CoinFlipIcon, JackpotIcon, StatsIcon } from '@/components/icons'
 import { Tabs } from 'expo-router'
 import React from 'react'
 
@@ -31,18 +30,18 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="ranking"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <Foundation name="home" color={color} size={24} />,
-        }}
-      />
-
-      <Tabs.Screen
         name="coin-flip"
         options={{
           title: 'CoinFlip',
           tabBarIcon: ({ color }) => <CoinFlipIcon color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="stats"
+        options={{
+          title: 'Stats',
+          tabBarIcon: ({ color }) => <StatsIcon color={color} />,
         }}
       />
     </Tabs>
