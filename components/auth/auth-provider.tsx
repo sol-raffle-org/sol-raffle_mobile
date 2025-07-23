@@ -42,7 +42,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     () => ({
       signIn: async () => await signInMutation.mutateAsync(),
       signOut: async () => await disconnect(),
-      isAuthenticated: false,
+      isAuthenticated: true,
       isLoading: signInMutation.isPending || isLoading,
     }),
     [disconnect, signInMutation, isLoading],

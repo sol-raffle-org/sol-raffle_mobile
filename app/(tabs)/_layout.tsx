@@ -1,31 +1,48 @@
+import { AppHeader } from '@/components/app-header'
+import { useAppTheme } from '@/components/app-theme'
+import { CoinFlipIcon, JackpotIcon } from '@/components/icons'
+import Foundation from '@expo/vector-icons/Foundation'
 import { Tabs } from 'expo-router'
 import React from 'react'
-import { UiIconSymbol } from '@/components/ui/ui-icon-symbol'
 
 export default function TabLayout() {
+  const { theme } = useAppTheme()
   return (
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        header: () => <AppHeader />,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopColor: 'transparent',
+        },
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: '#888',
+      }}
+    >
       {/* The index redirects to the account screen */}
       <Tabs.Screen name="index" options={{ tabBarItemStyle: { display: 'none' } }} />
+
       <Tabs.Screen
-        name="account"
+        name="jackpot"
         options={{
-          title: 'Account',
-          tabBarIcon: ({ color }) => <UiIconSymbol size={28} name="wallet.pass.fill" color={color} />,
+          title: 'Jackpot',
+          tabBarIcon: ({ color }) => <JackpotIcon color={color} />,
         }}
       />
+
       <Tabs.Screen
-        name="settings"
+        name="ranking"
         options={{
-          title: 'Settings',
-          tabBarIcon: ({ color }) => <UiIconSymbol size={28} name="gearshape.fill" color={color} />,
+          title: 'Home',
+          tabBarIcon: ({ color }) => <Foundation name="home" color={color} size={24} />,
         }}
       />
+
       <Tabs.Screen
-        name="demo"
+        name="coin-flip"
         options={{
-          title: 'Demo',
-          tabBarIcon: ({ color }) => <UiIconSymbol size={28} name="ladybug.fill" color={color} />,
+          title: 'CoinFlip',
+          tabBarIcon: ({ color }) => <CoinFlipIcon color={color} />,
         }}
       />
     </Tabs>

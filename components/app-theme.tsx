@@ -1,22 +1,32 @@
+import { useColorScheme } from '@/hooks/use-color-scheme'
 import {
   DarkTheme as reactNavigationDark,
   DefaultTheme as reactNavigationLight,
   ThemeProvider,
 } from '@react-navigation/native'
-import { PropsWithChildren } from 'react'
-import { adaptNavigationTheme, MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper'
-import { useColorScheme } from '@/hooks/use-color-scheme'
 import merge from 'deepmerge'
+import { PropsWithChildren } from 'react'
+import { adaptNavigationTheme, MD3DarkTheme, PaperProvider } from 'react-native-paper'
 
-const { LightTheme, DarkTheme } = adaptNavigationTheme({ reactNavigationLight, reactNavigationDark })
+const { DarkTheme } = adaptNavigationTheme({ reactNavigationLight, reactNavigationDark })
 
-const AppThemeLight = merge(MD3LightTheme, LightTheme)
-const AppThemeDark = merge(MD3DarkTheme, DarkTheme)
+const AppThemeDark = {
+  ...merge(MD3DarkTheme, DarkTheme),
+  colors: {
+    ...MD3DarkTheme.colors,
+    ...DarkTheme.colors,
+    background: '#000000',
+    surface: '#000000',
+    onBackground: '#ffffff',
+    onSurface: '#ffffff',
+    primary: '#76D638',
+  },
+}
 
 export function useAppTheme() {
   const colorScheme = useColorScheme()
   const isDark = colorScheme === 'dark'
-  const theme = isDark ? AppThemeDark : AppThemeLight
+  const theme = AppThemeDark // Default to dark theme
   return {
     colorScheme,
     isDark,

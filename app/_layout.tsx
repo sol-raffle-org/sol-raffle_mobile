@@ -43,26 +43,21 @@ export default function RootLayout() {
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <AppProviders>
+        <StatusBar style="auto" />
         <AppSplashController />
         <RootNavigator />
-        <StatusBar style="auto" />
       </AppProviders>
     </View>
   )
 }
 
 function RootNavigator() {
-  useAuth()
-  const isAuthenticated = false
+  const { isAuthenticated } = useAuth()
 
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        navigationBarColor: '#000',
-        contentStyle: {
-          backgroundColor: '#000',
-        },
       }}
     >
       <Stack.Protected guard={isAuthenticated}>
@@ -71,7 +66,7 @@ function RootNavigator() {
       </Stack.Protected>
 
       <Stack.Protected guard={!isAuthenticated}>
-        <Stack.Screen name="intro" />
+        <Stack.Screen name="connect-wallet" />
       </Stack.Protected>
     </Stack>
   )
