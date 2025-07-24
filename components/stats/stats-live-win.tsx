@@ -1,9 +1,9 @@
-import { DefaultAvatarImage, FlagGreenImage, Level3Image, SolanaLogo } from '@/assets/images'
+import { BigWinImage, DefaultAvatarImage, FlagGreenImage, Level3Image, SolanaLogo } from '@/assets/images'
 import { AppText } from '@/components/app-text'
 import { ScrollView, View } from 'react-native'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
-import { JackpotIcon } from '../icons'
+import { CoinFlipIcon, JackpotIcon } from '../icons'
 import { StatsView } from './stats-view'
 
 export function StatsLiveWin() {
@@ -35,7 +35,12 @@ export function StatsLiveWin() {
         contentContainerStyle={{ width: '100%', flexDirection: 'column', gap: 8 }}
       >
         {data.map((item, index) => (
-          <StatsLiveWinItem key={index} {...item} />
+          <StatsLiveWinItem
+            key={index}
+            isBigWin={index === 2}
+            gameType={index === 3 ? 'coin-flip' : 'jackpot'}
+            {...item}
+          />
         ))}
       </ScrollView>
     </StatsView>
@@ -46,6 +51,8 @@ type StatsLiveWinItemProps = {
   avatar?: any
   addressWallet: string
   volume: string
+  isBigWin?: boolean
+  gameType?: 'jackpot' | 'coin-flip'
 }
 function StatsLiveWinItem(item: StatsLiveWinItemProps) {
   return (
@@ -85,9 +92,14 @@ function StatsLiveWinItem(item: StatsLiveWinItemProps) {
       </View>
 
       <View style={{ flex: 1, flexDirection: 'column' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <AppImage source={SolanaLogo} style={{ width: 17, height: 17, marginRight: 8 }} />
-          <AppItemText textType="title">{item.volume} SOL</AppItemText>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <AppImage source={SolanaLogo} style={{ width: 17, height: 17 }} />
+
+          <AppItemText textType="title" color={item.isBigWin ? '#FF4CE7' : '#76D638'}>
+            {item.volume}
+          </AppItemText>
+
+          {item.isBigWin && <AppImage source={BigWinImage} style={{ width: 40, height: 18 }} />}
         </View>
 
         <AppItemText textType="subtitle" style={{ textAlign: 'left' }} color="#FFFFFFB2">
@@ -96,10 +108,21 @@ function StatsLiveWinItem(item: StatsLiveWinItemProps) {
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
-        <JackpotIcon color="#ffffff66" />
-        <AppItemText textType="subtitle" color="#ffffff66">
-          Jackpot
-        </AppItemText>
+        {item.gameType === 'jackpot' ? (
+          <>
+            <JackpotIcon color="#ffffff66" />
+            <AppItemText textType="subtitle" color="#ffffff66">
+              Jackpot
+            </AppItemText>
+          </>
+        ) : (
+          <>
+            <CoinFlipIcon color="#ffffff66" />
+            <AppItemText textType="subtitle" color="#ffffff66">
+              CoinFlip
+            </AppItemText>
+          </>
+        )}
       </View>
     </View>
   )

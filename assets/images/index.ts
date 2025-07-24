@@ -1,5 +1,6 @@
 // Common
 import AuraImage from './img-aura.png'
+import BigWinImage from './img-big-win.png'
 import DefaultAvatarImage from './img-default-avatar.png'
 import DiamondLevelToastImage from './img-diamond-level-toast.png'
 import FireImage from './img-fire.png'
@@ -58,6 +59,7 @@ import LevelUpImage from './toast/img-level-up.png'
 export {
   ArrowSlotImage,
   AuraImage,
+  BigWinImage,
   BlurGoldenImage,
   BlurStatusImage,
   ButtonDefaultImage,
