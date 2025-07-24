@@ -2,8 +2,8 @@ import { DefaultAvatarImage, FlagGreenImage, Level3Image, SolanaLogo } from '@/a
 import { AppText } from '@/components/app-text'
 import { ScrollView, View } from 'react-native'
 import { AppImage } from '../app-image'
+import { AppItemText } from '../app-item-text'
 import { JackpotIcon } from '../icons'
-import { StatsText } from './stats-text'
 import { StatsView } from './stats-view'
 
 export function StatsLiveWin() {
@@ -87,19 +87,19 @@ function StatsLiveWinItem(item: StatsLiveWinItemProps) {
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <AppImage source={SolanaLogo} style={{ width: 17, height: 17, marginRight: 8 }} />
-          <StatsText textType="title">{item.volume} SOL</StatsText>
+          <AppItemText textType="title">{item.volume} SOL</AppItemText>
         </View>
 
-        <StatsText textType="subtitle" style={{ textAlign: 'left' }} color="#FFFFFFB2">
+        <AppItemText textType="subtitle" style={{ textAlign: 'left' }} color="#FFFFFFB2">
           {item.addressWallet}
-        </StatsText>
+        </AppItemText>
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
         <JackpotIcon color="#ffffff66" />
-        <StatsText textType="subtitle" color="#ffffff66">
+        <AppItemText textType="subtitle" color="#ffffff66">
           Jackpot
-        </StatsText>
+        </AppItemText>
       </View>
     </View>
   )

@@ -50,6 +50,11 @@ import CoinHeadImage from './coin-flip/img-coin-head.png'
 import CoinHeadLeanImage from './coin-flip/img-coin-head_lean.png'
 import CoinTailImage from './coin-flip/img-coin-tail.png'
 
+// Toast
+import GameWinImage from './toast/img-game-win.png'
+import InfoImage from './toast/img-info.png'
+import LevelUpImage from './toast/img-level-up.png'
+
 export {
   ArrowSlotImage,
   AuraImage,
@@ -65,12 +70,14 @@ export {
   DiamondLevelToastImage,
   FireImage,
   FlagGreenImage,
+  GameWinImage,
   GlowGreenImage,
   GlowingImage,
   GlowingLayerImage,
   GlowLevelToastImage,
   GlowLevelToastImage2,
   GradientHolderImage,
+  InfoImage,
   Level1Image,
   Level2Image,
   Level3Image,
@@ -78,6 +85,7 @@ export {
   Level5Image,
   Level6Image,
   Level7Image,
+  LevelUpImage,
   ReferralCardImage,
   ReferralCardMobileImage,
   SolanaGoldenLogo,

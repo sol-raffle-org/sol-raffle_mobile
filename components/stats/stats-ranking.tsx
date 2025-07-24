@@ -11,7 +11,7 @@ import { AppText } from '@/components/app-text'
 import { View } from 'react-native'
 import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
-import { StatsText } from './stats-text'
+import { AppItemText } from '../app-item-text'
 import { StatsView } from './stats-view'
 
 export function StatsRanking() {
@@ -91,11 +91,11 @@ function StatsRankingItem({ topNumber, user }: StatsRankingItemProps) {
         <AppImage source={topImage} style={{ width: 30, height: 26, position: 'absolute', top: -16, left: 38 }} />
       </View>
 
-      <StatsText textType="subtitle">{user.addressWallet}</StatsText>
+      <AppItemText textType="subtitle">{user.addressWallet}</AppItemText>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <AppImage source={SolanaLogo} style={{ width: 17, height: 17, marginRight: 8 }} />
-        <StatsText textType="title">{user.volume} SOL</StatsText>
+        <AppItemText textType="title">{user.volume} SOL</AppItemText>
       </View>
     </View>
   )

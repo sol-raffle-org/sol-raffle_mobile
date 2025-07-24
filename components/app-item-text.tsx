@@ -1,12 +1,12 @@
 import { Text as NativeText, StyleSheet } from 'react-native'
 import { Text, TextProps } from 'react-native-paper'
 
-export interface StatsTextProps extends TextProps<NativeText> {
+export interface AppItemTextProps extends TextProps<NativeText> {
   textType?: 'title' | 'subtitle'
   color?: string
 }
 
-export function StatsText({ textType, style, color = '#FFF', ...rest }: StatsTextProps) {
+export function AppItemText({ textType, style, color = '#FFF', ...rest }: AppItemTextProps) {
   return (
     <Text style={[{ color }, styles.text, textType === 'subtitle' ? styles.subtitle : styles.title, style]} {...rest} />
   )

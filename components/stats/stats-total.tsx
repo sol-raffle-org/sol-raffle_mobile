@@ -1,6 +1,6 @@
 import { View } from 'react-native'
+import { AppItemText } from '../app-item-text'
 import { CoinFlipIcon, SolanaIcon, UserGroupIcon } from '../icons'
-import { StatsText } from './stats-text'
 import { StatsView } from './stats-view'
 
 export function StatsTotal() {
@@ -27,10 +27,10 @@ function StatsTotalItem({ icon, subtitle, title }: StatsTotalItemProps) {
   return (
     <View style={{ flex: 1, padding: 8, gap: 6 }}>
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>{icon}</View>
-      <StatsText textType="subtitle" color="#FFFFFFB2">
+      <AppItemText textType="subtitle" color="#FFFFFFB2">
         {subtitle}
-      </StatsText>
-      <StatsText textType="title">{title}</StatsText>
+      </AppItemText>
+      <AppItemText textType="title">{title}</AppItemText>
     </View>
   )
 }
