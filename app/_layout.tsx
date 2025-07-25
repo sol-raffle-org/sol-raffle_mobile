@@ -61,13 +61,15 @@ function RootNavigator() {
       }}
     >
       <Stack.Protected guard={isAuthenticated}>
+        <Stack.Screen name="profile" />
         <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="+not-found" />
       </Stack.Protected>
 
       <Stack.Protected guard={!isAuthenticated}>
         <Stack.Screen name="connect-wallet" />
       </Stack.Protected>
+
+      <Stack.Screen name="+not-found" />
     </Stack>
   )
 }
