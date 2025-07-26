@@ -5,54 +5,6 @@ export const isValidEnumValue = <T extends { [key: string]: string }>(
   return Object.values(enumObj).includes(value as T[keyof T])
 }
 
-export const downloadDivAsImage = async (elementId: string, filename: string = 'download'): Promise<void> => {
-  const element = document.getElementById(elementId)
-
-  if (!element) {
-    console.error(`Element with ID "${elementId}" not found.`)
-    return
-  }
-
-  try {
-    const dataUrl = await toPng(element, {
-      pixelRatio: 1,
-      fetchRequestInit: { mode: 'no-cors' },
-      cacheBust: true,
-    })
-
-    const link = document.createElement('a')
-    link.download = `${filename}.png`
-    link.href = dataUrl
-    link.click()
-  } catch (error) {
-    console.error('Error capturing image:', error)
-  }
-}
-
-export const convertHTMLToCanvas = async (elementId: string, filename: string = 'download'): Promise<void> => {
-  const element = document.getElementById(elementId)
-
-  if (!element) {
-    console.error(`Element with ID "${elementId}" not found.`)
-    return
-  }
-
-  try {
-    const canvas = await html2canvas(element, {
-      useCORS: true,
-      backgroundColor: null,
-    })
-    const dataUrl = canvas.toDataURL('image/png')
-
-    const link = document.createElement('a')
-    link.download = `${filename}.png`
-    link.href = dataUrl
-    link.click()
-  } catch (error) {
-    console.error('Error capturing image:', error)
-  }
-}
-
 export const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const recall = async <T>(fn: () => T, delay: number, retries: number, maxRetries: number): Promise<T> => {

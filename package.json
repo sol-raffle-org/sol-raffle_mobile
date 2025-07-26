@@ -41,6 +41,7 @@
     "@wallet-standard/core": "^1.1.1",
     "apisauce": "^3.2.0",
     "axios": "^1.11.0",
+    "bs58": "^6.0.0",
     "deepmerge": "^4.3.1",
     "expo": "~53.0.16",
     "expo-blur": "~14.1.5",
@@ -79,6 +80,7 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "react-qr-code": "^2.0.16",
+    "socket.io-client": "^4.8.1",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
