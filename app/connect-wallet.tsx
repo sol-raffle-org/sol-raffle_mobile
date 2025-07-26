@@ -7,7 +7,7 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 
 export default function Login() {
   const router = useRouter()
-  const { isAuthenticated, isLoading, signIn } = useAuth()
+  const { isAuthenticated, isLoading, signIn, handleSignMessage, isConnected } = useAuth()
 
   const handleConnectWallet = async () => {
     await signIn()
@@ -50,8 +50,17 @@ export default function Login() {
       </View>
 
       <View style={[styles.buttonContainer]}>
-        <AppButton title="Connect Wallet Now" disabled={isLoading} onPress={handleConnectWallet} />
-        <AppButton title="Maybe later" variant="text" />
+        <AppButton
+          title={isConnected ? 'Sign Message' : 'Connect Wallet Now'}
+          disabled={isLoading}
+          onPress={() => {
+            if (isConnected) {
+              handleSignMessage()
+            } else {
+              handleConnectWallet()
+            }
+          }}
+        />
       </View>
     </View>
   )

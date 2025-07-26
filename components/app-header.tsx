@@ -1,4 +1,6 @@
 import { CoinHeadLeanImage, SolanaLogo } from '@/assets/images'
+import useAppStore from '@/stores/useAppStore'
+import { truncateHash } from '@/utils/common.utils'
 import Entypo from '@expo/vector-icons/Entypo'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useRouter } from 'expo-router'
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
 const AccountDropdown = () => {
   const { signOut } = useAuth()
   const router = useRouter()
+  const { accountInfo } = useAppStore()
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -79,7 +82,7 @@ const AccountDropdown = () => {
             <AppImage source={SolanaLogo} style={{ width: 24, height: 24 }} />
           </View>
 
-          <AppText style={accountDropdownStyles.text}>343t...33fs</AppText>
+          <AppText style={accountDropdownStyles.text}>{truncateHash(accountInfo?.wallet)}</AppText>
           <Entypo name="chevron-down" size={24} color="#FFFFFF4D" />
         </Pressable>
       }
