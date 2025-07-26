@@ -1,54 +1,46 @@
-import { SupportedChainEnum } from "@/types/common.type";
+import { SupportedChainEnum } from '@/types/common.type'
 
 import {
-  getRoundService,
+  createPlaceBetTransactionService,
   getBetAccountService,
   getGameAccountService,
-  createPlaceBetTransactionService,
-} from "@/services/games-service/jackpot/jackpot.blockchain-service";
+  getRoundService,
+} from '@/services/games-service/jackpot/jackpot.blockchain-service'
 
-import useTransaction from "@/hooks/blockchain-hooks";
-import useJackpotStore from "@/stores/useJackpotStore";
+import useTransaction from '@/hooks/blockchain-hooks'
+import useJackpotStore from '@/stores/useJackpotStore'
 
 const useJackpotGame = () => {
-  const { transactionError, handleReset, handleSendTransaction } =
-    useTransaction();
-  const { setCurrentAddressBetAccount, setGameAccount } = useJackpotStore();
+  const { transactionError, handleReset, handleSendTransaction } = useTransaction()
+  const { setCurrentAddressBetAccount, setGameAccount } = useJackpotStore()
 
   const handleGetBetAccount = async (walletAddress: string) => {
-    const betAccount = await getBetAccountService(walletAddress);
-    setCurrentAddressBetAccount(betAccount);
-  };
+    const betAccount = await getBetAccountService(walletAddress)
+    setCurrentAddressBetAccount(betAccount)
+  }
 
   const handleGetRoundInfo = async (roundId: string) => {
-    await getRoundService(Number(roundId));
-  };
+    await getRoundService(Number(roundId))
+  }
 
   const handleGetGameAccount = async () => {
-    const gameAccount = await getGameAccountService();
-    setGameAccount(gameAccount);
-  };
+    const gameAccount = await getGameAccountService()
+    setGameAccount(gameAccount)
+  }
 
   const handlePlaceBet = async (walletAddress: string, betAmount: number) => {
     try {
-      const betTransaction = await createPlaceBetTransactionService(
-        walletAddress,
-        betAmount
-      );
+      const betTransaction = await createPlaceBetTransactionService(walletAddress, betAmount)
+      if (!betTransaction) return ''
 
-      if (!betTransaction) return "";
+      const txHash = await handleSendTransaction(SupportedChainEnum.Solana, betTransaction)
 
-      const txHash = await handleSendTransaction(
-        SupportedChainEnum.Solana,
-        betTransaction
-      );
-
-      return txHash;
+      return txHash
     } catch (error) {
-      console.error("Error while send bet transaction", error);
-      return;
+      console.error('Error while send bet transaction', error)
+      return
     }
-  };
+  }
 
   return {
     transactionError,
@@ -58,7 +50,7 @@ const useJackpotGame = () => {
     handleGetRoundInfo,
     handleGetBetAccount,
     handleGetGameAccount,
-  };
-};
+  }
+}
 
-export default useJackpotGame;
+export default useJackpotGame
