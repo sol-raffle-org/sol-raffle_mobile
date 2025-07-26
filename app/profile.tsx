@@ -15,7 +15,7 @@ enum ProfileTab {
   transaction = 2,
 }
 export default function Profile() {
-  const [tabValue, setTabValue] = useState(ProfileTab.information)
+  const [tabValue, setTabValue] = useState(ProfileTab.transaction)
   const handleChangeTab = (selectedTab: number) => () => {
     setTabValue(selectedTab)
   }

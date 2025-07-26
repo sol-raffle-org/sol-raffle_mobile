@@ -8,9 +8,17 @@ import { AppItemText } from './app-item-text'
 export function AppDetailHeader({ title }: { title: string }) {
   const router = useRouter()
 
+  const handleBackScreen = () => {
+    if (router.canGoBack()) {
+      router.back()
+    } else {
+      router.replace('/(tabs)')
+    }
+  }
+
   return (
     <View style={{ gap: 16, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-      <TouchableOpacity onPress={() => router.back()}>
+      <TouchableOpacity onPress={handleBackScreen}>
         <FontAwesome5 name="chevron-left" size={24} color="white" />
       </TouchableOpacity>
 
