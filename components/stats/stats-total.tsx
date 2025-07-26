@@ -1,13 +1,16 @@
+import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { AppItemText } from '../app-item-text'
 import { CoinFlipIcon, SolanaIcon, UserGroupIcon } from '../icons'
 import { StatsView } from './stats-view'
 
 export function StatsTotal() {
+  const { t } = useTranslation()
+
   const data = [
-    { icon: <SolanaIcon color="#FFFFFF80" />, title: '133 SOL', subtitle: 'Total volume' },
-    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: '133 SOL', subtitle: 'Total bet' },
-    { icon: <UserGroupIcon color="#FFFFFF80" />, title: '133', subtitle: 'Total user' },
+    { icon: <SolanaIcon color="#FFFFFF80" />, title: '133 SOL', subtitle: t('lTotalVolume') },
+    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: '133 SOL', subtitle: t('lTotalBet') },
+    { icon: <UserGroupIcon color="#FFFFFF80" />, title: '133', subtitle: t('lTotalUser') },
   ]
   return (
     <StatsView>
