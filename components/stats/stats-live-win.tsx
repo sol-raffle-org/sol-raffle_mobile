@@ -23,8 +23,6 @@ export function StatsLiveWin() {
     return clonedWinnerList
   }, [winnerList])
 
-  console.log({ list })
-
   return (
     <StatsView variant="column" style={{ flex: 1, padding: 8 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -56,6 +54,7 @@ export function StatsLiveWin() {
 
 function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
   const isBigWin = item.type === WinTypeEnum.BigWin
+
   return (
     <View
       style={{
@@ -97,7 +96,7 @@ function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
           <AppImage source={SolanaLogo} style={{ width: 17, height: 17 }} />
 
           <AppItemText textType="title" color={isBigWin ? '#FF4CE7' : '#76D638'}>
-            {item.gameValue}
+            {item.gameValue || 0}
           </AppItemText>
 
           {item.type === WinTypeEnum.BigWin && <AppImage source={BigWinImage} style={{ width: 40, height: 18 }} />}

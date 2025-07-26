@@ -7,6 +7,7 @@ import { EditIcon } from '../../icons'
 
 type AppTextInputProps = {
   label?: string
+  value?: string
   onChangeText?: (text: string) => void
 } & TextInputProps
 
@@ -15,8 +16,8 @@ export function ProfileTextInput({ value, label, onChangeText }: AppTextInputPro
   const [isEdit, setIsEdit] = useState(false)
 
   const handleButtonClick = () => {
-    setIsEdit((prev) => !prev)
-    if (onChangeText) onChangeText(typingValue)
+    setIsEdit(!isEdit)
+    if (onChangeText && isEdit) onChangeText(typingValue)
   }
 
   const editColor = isEdit ? '#FFD600' : '#B0B0B0'

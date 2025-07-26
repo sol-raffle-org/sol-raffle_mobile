@@ -1,14 +1,13 @@
 import { STT_CREATED, STT_OK } from '@/constants/api.const'
-import { getClaimReferralRewardService } from '@/services/account-service/affiliate.service'
-import { getSolanaRpcEndpoint } from '@/utils/blockchain.utils'
-
 import {
   getAccountInfoService,
+  putUpdateAvatarService,
   putUpdateEmailService,
   putUpdateNameService,
   putUpdateRefCodeService,
   putUpdateReferByService,
 } from '@/services/account-service/account.service'
+import { getClaimReferralRewardService } from '@/services/account-service/affiliate.service'
 
 import useAppStore from '@/stores/useAppStore'
 import useBalances from '../blockchain-hooks/useBalance'
@@ -28,17 +27,16 @@ const useAccount = () => {
 
     if (status === STT_OK || status === STT_CREATED) {
       handleGetAccountInfo()
+      return true
     }
+
+    return false
   }
 
   const handleGetBalance = async () => {
     if (!accountInfo) return
 
-    const rpc = getSolanaRpcEndpoint()
-
-    const nativeBalance = await handleGetSvmNativeBalanceToken(accountInfo.wallet, rpc)
-
-    setBalance(nativeBalance)
+    setBalance(100)
   }
 
   const handleUpdateEmail = async (email: string) => {
@@ -46,7 +44,10 @@ const useAccount = () => {
 
     if (status === STT_OK || status === STT_CREATED) {
       handleGetAccountInfo()
+      return true
     }
+
+    return false
   }
 
   const handleUpdateRefCode = async (refCode: string) => {
@@ -83,6 +84,17 @@ const useAccount = () => {
     }
   }
 
+  const handleUpdateAvatar = async (file: any) => {
+    const { status } = await putUpdateAvatarService(file)
+
+    if (status === STT_OK || status === STT_CREATED) {
+      handleGetAccountInfo()
+      return true
+    } else {
+      return false
+    }
+  }
+
   return {
     handleUpdateName,
     handleGetBalance,
@@ -92,6 +104,7 @@ const useAccount = () => {
     handleUpdateRefCode,
     handleUpdateReferBy,
     handleGetAccountInfo,
+    handleUpdateAvatar,
   }
 }
 

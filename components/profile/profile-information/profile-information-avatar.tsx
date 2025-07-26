@@ -3,21 +3,26 @@ import { AppImage } from '@/components/app-image'
 import { AppItemText } from '@/components/app-item-text'
 import { AppView } from '@/components/app-view'
 import { useToast } from '@/components/toast/app-toast-provider'
+import { AccountInterface } from '@/types/app.type'
+import { getAvatarUrl } from '@/utils/common.utils'
 import { MaterialIcons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
-import { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 
-export function ProfileInformationAvatar() {
+interface ProfileInformationAvatarProps {
+  profile?: AccountInterface
+  onChange: (data: any) => Promise<boolean>
+}
+
+export function ProfileInformationAvatar({ profile, onChange }: ProfileInformationAvatarProps) {
   const { showToast } = useToast()
-  const [avatarUri, setAvatarUri] = useState<string | null>(null)
 
   const handleChangeAvatar = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
     if (!permission.granted) {
       showToast({
-        title: 'Permission denied. You need to allow access to media library.',
         type: 'info',
+        subtitle: 'Permission denied. You need to allow access to media library.',
       })
       return
     }
@@ -26,11 +31,29 @@ export function ProfileInformationAvatar() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true, // optional crop tool
       aspect: [1, 1], // square
-      quality: 0.8,
+      quality: 1,
     })
 
-    if (!result.canceled && result.assets.length > 0) {
-      setAvatarUri(result.assets[0].uri)
+    let isSuccess = false
+    if (!result.canceled && result.assets.length > 0 && result.assets[0].file) {
+      const asset = result.assets[0]
+
+      isSuccess = await onChange({
+        avatar: {
+          uri: asset.uri,
+          name: asset.fileName || `avatar.jpg`, // fallback name
+          type: asset.type || 'image/jpeg',
+        },
+      })
+    }
+
+    console.log({ isSuccess, result: result.assets })
+
+    if (!result.canceled && !isSuccess) {
+      showToast({
+        type: 'error',
+        subtitle: 'Can not change avatar',
+      })
     }
   }
 
@@ -45,7 +68,7 @@ export function ProfileInformationAvatar() {
         }}
       >
         <AppImage
-          source={avatarUri || DefaultAvatarImage}
+          source={profile?.avatar ? getAvatarUrl(profile.avatar) : DefaultAvatarImage}
           style={{
             width: 109,
             height: 109,
@@ -56,7 +79,7 @@ export function ProfileInformationAvatar() {
       <AppView>
         <ProfileView>
           <AppItemText textType="title" style={{ fontSize: 20 }}>
-            alrrx345
+            {profile?.name}
           </AppItemText>
           <AppView
             style={{
@@ -76,7 +99,7 @@ export function ProfileInformationAvatar() {
               }}
             />
             <AppItemText textType="title" style={{ fontSize: 10, color: '#81F70D' }}>
-              1
+              {profile?.level}
             </AppItemText>
           </AppView>
         </ProfileView>

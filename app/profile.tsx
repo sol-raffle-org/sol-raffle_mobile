@@ -15,7 +15,8 @@ enum ProfileTab {
   transaction = 2,
 }
 export default function Profile() {
-  const [tabValue, setTabValue] = useState(ProfileTab.transaction)
+  const [tabValue, setTabValue] = useState(ProfileTab.information)
+
   const handleChangeTab = (selectedTab: number) => () => {
     setTabValue(selectedTab)
   }
@@ -41,6 +42,7 @@ export default function Profile() {
               selected={tabValue === ProfileTab.information}
               onPress={handleChangeTab(ProfileTab.information)}
             />
+
             <ProfileTabItem
               renderIcon={(props) => <LoadListIcon name="account-box" {...props} />}
               iconName="help-circle-outline"

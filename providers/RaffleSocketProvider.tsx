@@ -334,6 +334,8 @@ const RaffleSocketProvider = () => {
       handlePlaySound(item),
     )
   }, [])
+
+  return null
 }
 
 export default RaffleSocketProvider

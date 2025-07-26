@@ -1,37 +1,34 @@
 import { AppItemText } from '@/components/app-item-text'
 import { AppView } from '@/components/app-view'
 import { LogoutIcon } from '@/components/icons'
-import { useToast } from '@/components/toast/app-toast-provider'
+import useAccount from '@/hooks/account-hooks/useAccount'
+import useAuthentication from '@/hooks/auth-hooks/useAuthentication'
+import useAppStore from '@/stores/useAppStore'
+import { useRouter } from 'expo-router'
 import { Button } from 'react-native-paper'
 import { ProfileInformationAvatar } from './profile-information-avatar'
 import { ProfileInformationForm } from './profile-information-form'
 
 export function ProfileInformation() {
-  const handleChangeProfile = () => {}
+  const { accountInfo } = useAppStore()
+  const { handleUpdateAvatar, handleUpdateName, handleUpdateEmail } = useAccount()
 
   return (
     <AppView style={{ gap: 16 }}>
-      <ProfileInformationAvatar />
-      <ProfileInformationForm
-        profile={{
-          name: 'alrrx345',
-          email: 'alrrx345@gmail.com',
-          referredBy: 'alrrx345',
-        }}
-        onChange={handleChangeProfile}
-      />
+      <ProfileInformationAvatar profile={accountInfo} onChange={handleUpdateAvatar} />
+      <ProfileInformationForm profile={accountInfo} onChangeName={handleUpdateName} onChangeEmail={handleUpdateEmail} />
       <ProfileLogOutButton />
     </AppView>
   )
 }
 
 const ProfileLogOutButton = () => {
-  const { showToast } = useToast()
-  const handleLogout = () => {
-    showToast({
-      title: 'Logout',
-      type: 'info',
-    })
+  const router = useRouter()
+  const { handleLogout } = useAuthentication()
+
+  const handleLogoutClick = () => {
+    router.replace('/connect-wallet')
+    handleLogout()
   }
 
   const color = '#DD6654'
@@ -45,7 +42,7 @@ const ProfileLogOutButton = () => {
         backgroundColor: '#1E0906',
       }}
       icon={() => <LogoutIcon color={color} />}
-      onPress={handleLogout}
+      onPress={handleLogoutClick}
     >
       <AppItemText
         textType="title"
