@@ -1,0 +1,1562 @@
+{
+  "address": "xx5Q5ZW2eB9DwADZzH21TyZdE5QNHWDVbVaUGbhgMkP",
+  "metadata": {
+    "name": "coinflip",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "close_game",
+      "discriminator": [
+        237,
+        236,
+        157,
+        201,
+        253,
+        20,
+        248,
+        67
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game.creator",
+                "account": "Game"
+              },
+              {
+                "kind": "account",
+                "path": "game.id",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_game",
+      "discriminator": [
+        124,
+        69,
+        75,
+        66,
+        184,
+        220,
+        72,
+        206
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "player_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "creator"
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "writable": true
+        },
+        {
+          "name": "creator",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "bet_amount",
+          "type": "u64"
+        },
+        {
+          "name": "creator_choice",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "finish_game",
+      "discriminator": [
+        168,
+        120,
+        86,
+        113,
+        64,
+        116,
+        2,
+        146
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game.creator",
+                "account": "Game"
+              },
+              {
+                "kind": "account",
+                "path": "game.id",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "creator_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game.creator",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game.player",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "creator",
+          "writable": true
+        },
+        {
+          "name": "player",
+          "writable": true
+        },
+        {
+          "name": "fee_account",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "server_seed",
+          "type": "string"
+        },
+        {
+          "name": "block_number",
+          "type": "u64"
+        },
+        {
+          "name": "blockhash",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "init_player_stats",
+      "discriminator": [
+        92,
+        93,
+        11,
+        83,
+        66,
+        83,
+        240,
+        178
+      ],
+      "accounts": [
+        {
+          "name": "player_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  112,
+                  108,
+                  97,
+                  121,
+                  101,
+                  114,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "fee_account",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "join_game",
+      "discriminator": [
+        107,
+        112,
+        18,
+        38,
+        56,
+        173,
+        60,
+        128
+      ],
+      "accounts": [
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game.creator",
+                "account": "Game"
+              },
+              {
+                "kind": "account",
+                "path": "game.id",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "start_game",
+      "discriminator": [
+        249,
+        47,
+        252,
+        172,
+        184,
+        162,
+        245,
+        14
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "game",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  101,
+                  101,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game.creator",
+                "account": "Game"
+              },
+              {
+                "kind": "account",
+                "path": "game.id",
+                "account": "Game"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "server_seed",
+          "type": "string"
+        },
+        {
+          "name": "block_number",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "toggle_maintenance",
+      "discriminator": [
+        86,
+        161,
+        7,
+        90,
+        153,
+        252,
+        209,
+        130
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_game_config",
+      "discriminator": [
+        180,
+        82,
+        7,
+        205,
+        89,
+        182,
+        61,
+        128
+      ],
+      "accounts": [
+        {
+          "name": "game_config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  105,
+                  110,
+                  102,
+                  108,
+                  105,
+                  112,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "game_duration",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "calculation_delay",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "minimum_bet",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "fee_percentage",
+          "type": {
+            "option": "i16"
+          }
+        },
+        {
+          "name": "fee_account",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "gas_fees",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Game",
+      "discriminator": [
+        27,
+        90,
+        166,
+        125,
+        74,
+        100,
+        121,
+        18
+      ]
+    },
+    {
+      "name": "GameConfig",
+      "discriminator": [
+        45,
+        146,
+        146,
+        33,
+        170,
+        69,
+        96,
+        133
+      ]
+    },
+    {
+      "name": "PlayerStats",
+      "discriminator": [
+        169,
+        146,
+        242,
+        176,
+        102,
+        118,
+        231,
+        172
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "GameClosed",
+      "discriminator": [
+        178,
+        203,
+        179,
+        224,
+        43,
+        18,
+        209,
+        4
+      ]
+    },
+    {
+      "name": "GameConfigInitialized",
+      "discriminator": [
+        215,
+        134,
+        22,
+        167,
+        128,
+        105,
+        21,
+        1
+      ]
+    },
+    {
+      "name": "GameConfigUpdated",
+      "discriminator": [
+        206,
+        0,
+        150,
+        51,
+        215,
+        134,
+        165,
+        180
+      ]
+    },
+    {
+      "name": "GameCreated",
+      "discriminator": [
+        218,
+        25,
+        150,
+        94,
+        177,
+        112,
+        96,
+        2
+      ]
+    },
+    {
+      "name": "GameFinished",
+      "discriminator": [
+        0,
+        128,
+        235,
+        237,
+        115,
+        180,
+        62,
+        221
+      ]
+    },
+    {
+      "name": "GameStarted",
+      "discriminator": [
+        222,
+        247,
+        78,
+        255,
+        61,
+        184,
+        156,
+        41
+      ]
+    },
+    {
+      "name": "MaintenanceToggled",
+      "discriminator": [
+        202,
+        159,
+        95,
+        118,
+        112,
+        164,
+        70,
+        140
+      ]
+    },
+    {
+      "name": "PlayerJoined",
+      "discriminator": [
+        39,
+        144,
+        49,
+        106,
+        108,
+        210,
+        183,
+        38
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "GameUnderMaintenance",
+      "msg": "Game is under maintenance"
+    },
+    {
+      "code": 6001,
+      "name": "UnauthorizedOperator",
+      "msg": "Only authorized operator can perform this action"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidGameDuration",
+      "msg": "Invalid game duration"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidCalculationDelay",
+      "msg": "Invalid calculation delay"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidMinimumBet",
+      "msg": "Invalid minimum bet amount"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidFeePercentage",
+      "msg": "Invalid fee percentage (must be between 0 and 1000)"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidGasFees",
+      "msg": "Invalid gas fees"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidServerSeed",
+      "msg": "Invalid server seed"
+    },
+    {
+      "code": 6008,
+      "name": "BetTooSmall",
+      "msg": "Bet amount is below minimum"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidChoice",
+      "msg": "Invalid choice (must be 0 or 1)"
+    },
+    {
+      "code": 6010,
+      "name": "GameNotJoinable",
+      "msg": "Game is not joinable"
+    },
+    {
+      "code": 6011,
+      "name": "GameNotStartable",
+      "msg": "Game cannot be started"
+    },
+    {
+      "code": 6012,
+      "name": "CannotJoinOwnGame",
+      "msg": "Cannot join own game"
+    },
+    {
+      "code": 6013,
+      "name": "BetAmountMismatch",
+      "msg": "Bet amount mismatch"
+    },
+    {
+      "code": 6014,
+      "name": "BetResultMismatch",
+      "msg": "Bet result mismatch"
+    },
+    {
+      "code": 6015,
+      "name": "CalculationError",
+      "msg": "Calculation error"
+    },
+    {
+      "code": 6016,
+      "name": "GameNotFinished",
+      "msg": "Game not finished"
+    },
+    {
+      "code": 6017,
+      "name": "GameIncomplete",
+      "msg": "Game incomplete - missing winner or player"
+    },
+    {
+      "code": 6018,
+      "name": "GameNotFinishable",
+      "msg": "Game not finishable"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidFeeAccount",
+      "msg": "Invalid fee account"
+    },
+    {
+      "code": 6020,
+      "name": "CalculationDelayNotPassed",
+      "msg": "Calculation delay not passed"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidGameStatus",
+      "msg": "Invalid game status"
+    },
+    {
+      "code": 6022,
+      "name": "NoPlayerJoined",
+      "msg": "No player joined"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidBlockNumber",
+      "msg": "Invalid block number"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidGameId",
+      "msg": "Invalid game ID"
+    }
+  ],
+  "types": [
+    {
+      "name": "Game",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "GameStatus"
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "started_at",
+            "type": "i64"
+          },
+          {
+            "name": "finished_at",
+            "type": "i64"
+          },
+          {
+            "name": "duration",
+            "type": "i64"
+          },
+          {
+            "name": "bet_amount",
+            "type": "u64"
+          },
+          {
+            "name": "server_seed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "block_number",
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "creator_choice",
+            "type": "u8"
+          },
+          {
+            "name": "result",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "winner",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "player",
+            "type": {
+              "option": "pubkey"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameClosed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "winner",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "is_maintenance",
+            "type": "bool"
+          },
+          {
+            "name": "game_duration",
+            "type": "i64"
+          },
+          {
+            "name": "calculation_delay",
+            "type": "i64"
+          },
+          {
+            "name": "minimum_bet",
+            "type": "u64"
+          },
+          {
+            "name": "fee_percentage",
+            "type": "i16"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameConfigInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "game_duration",
+            "type": "i64"
+          },
+          {
+            "name": "calculation_delay",
+            "type": "i64"
+          },
+          {
+            "name": "minimum_bet",
+            "type": "u64"
+          },
+          {
+            "name": "fee_percentage",
+            "type": "i16"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameConfigUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game_duration",
+            "type": "i64"
+          },
+          {
+            "name": "calculation_delay",
+            "type": "i64"
+          },
+          {
+            "name": "minimum_bet",
+            "type": "u64"
+          },
+          {
+            "name": "fee_percentage",
+            "type": "i16"
+          },
+          {
+            "name": "fee_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "bet_amount",
+            "type": "u64"
+          },
+          {
+            "name": "creator_choice",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameFinished",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "creator_choice",
+            "type": "u8"
+          },
+          {
+            "name": "block_number",
+            "type": "u64"
+          },
+          {
+            "name": "server_seed",
+            "type": "string"
+          },
+          {
+            "name": "blockhash",
+            "type": "string"
+          },
+          {
+            "name": "result",
+            "type": "u8"
+          },
+          {
+            "name": "winner",
+            "type": "pubkey"
+          },
+          {
+            "name": "prize_amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee_amount",
+            "type": "u64"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStarted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "server_seed",
+            "type": "string"
+          },
+          {
+            "name": "block_number",
+            "type": "u64"
+          },
+          {
+            "name": "started_at",
+            "type": "i64"
+          },
+          {
+            "name": "duration",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WaitingForPlayer"
+          },
+          {
+            "name": "WaitingStart"
+          },
+          {
+            "name": "InProgress"
+          },
+          {
+            "name": "Finished"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaintenanceToggled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_maintenance",
+            "type": "bool"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerJoined",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "game_id",
+            "type": "u64"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "bet_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_games_created",
+            "type": "u64"
+          },
+          {
+            "name": "total_games_won",
+            "type": "u64"
+          },
+          {
+            "name": "total_games_lost",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount_won",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount_lost",
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "updated_at",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
