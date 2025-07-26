@@ -1,5 +1,4 @@
-import { GET_SYSTEM_STATS } from '@/constants/api.const'
-import { createDappServices } from '@/services/client-side-config'
+import { getSystemStatsService } from '@/services/system-service/system.server-service'
 import { SystemStatsServiceType } from '@/types/service.type'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,23 +13,22 @@ export function StatsTotal() {
   const [statsData, setStatsData] = useState<Partial<SystemStatsServiceType>>({})
 
   useEffect(() => {
-    createDappServices()
-      .get(GET_SYSTEM_STATS)
-      .then((response: any) => {
-        setStatsData(response.ok ? response.data : {})
-        return true
-      })
+    getSystemStatsService().then((data) => {
+      setStatsData(data || {})
+      return true
+    })
   }, [])
 
   const data = [
     {
       icon: <SolanaIcon color="#FFFFFF80" />,
-      title: `${Math.round(statsData.totalWagered)} SOL`,
+      title: `${Math.round(parseFloat(statsData.totalWagered || '0'))} SOL`,
       subtitle: t('lTotalVolume'),
     },
     { icon: <CoinFlipIcon color="#FFFFFF80" />, title: `${statsData.totalBet} SOL`, subtitle: t('lTotalBet') },
-    { icon: <UserGroupIcon color="#FFFFFF80" />, title: statsData.totalPlayer || 0, subtitle: t('lTotalUser') },
+    { icon: <UserGroupIcon color="#FFFFFF80" />, title: `${statsData.totalPlayer || 0}`, subtitle: t('lTotalUser') },
   ]
+
   return (
     <StatsView>
       {data.map((item, index) => (

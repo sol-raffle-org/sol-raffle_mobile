@@ -8,6 +8,10 @@ import {
   Top3BadgeImage,
 } from '@/assets/images'
 import { AppText } from '@/components/app-text'
+import { getSystemTopPlayerService } from '@/services/system-service/system.server-service'
+import { SystemTopPlayerType } from '@/types/service.type'
+import { getAvatarUrl, truncateHash } from '@/utils/common.utils'
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
@@ -15,32 +19,15 @@ import { AppItemText } from '../app-item-text'
 import { StatsView } from './stats-view'
 
 export function StatsRanking() {
-  const data = [
-    {
-      topNumber: 1,
-      user: {
-        addressWallet: 'fdss...ssssf',
-        volume: '80.90',
-        avatar: DefaultAvatarImage,
-      },
-    },
-    {
-      topNumber: 2,
-      user: {
-        addressWallet: 'fdss...ssssf',
-        volume: '70.90',
-        avatar: DefaultAvatarImage,
-      },
-    },
-    {
-      topNumber: 3,
-      user: {
-        addressWallet: 'fdss...ssssf',
-        volume: '60.90',
-        avatar: DefaultAvatarImage,
-      },
-    },
-  ]
+  const [rankingList, setRankingList] = useState<SystemTopPlayerType[]>([])
+
+  useEffect(() => {
+    getSystemTopPlayerService().then((data) => {
+      setRankingList(data || [])
+      return true
+    })
+  }, [])
+
   return (
     <StatsView variant="column" style={{ padding: 8 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -59,8 +46,8 @@ export function StatsRanking() {
       </View>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {data.map((item, index) => (
-          <StatsRankingItem key={index} topNumber={item.topNumber} user={item.user} />
+        {rankingList.map((item: SystemTopPlayerType, index) => (
+          <StatsRankingItem key={index} topNumber={index + 1} user={item} />
         ))}
       </View>
     </StatsView>
@@ -69,11 +56,7 @@ export function StatsRanking() {
 
 type StatsRankingItemProps = {
   topNumber: number
-  user: {
-    avatar?: any
-    addressWallet: string
-    volume: string
-  }
+  user: SystemTopPlayerType
 }
 function StatsRankingItem({ topNumber, user }: StatsRankingItemProps) {
   const borderColor = topNumber === 1 ? '#FEEBA6' : topNumber === 2 ? '#DBE1E3' : '#A7CB75'
@@ -85,17 +68,20 @@ function StatsRankingItem({ topNumber, user }: StatsRankingItemProps) {
 
       <View style={{ marginTop: 24 }}>
         <AppCircle borderColor={borderColor}>
-          <AppImage source={user.avatar} style={{ width: 48, height: 48 }} />
+          <AppImage
+            source={user.avatar ? getAvatarUrl(user.avatar) : DefaultAvatarImage}
+            style={{ width: 48, height: 48 }}
+          />
         </AppCircle>
 
         <AppImage source={topImage} style={{ width: 30, height: 26, position: 'absolute', top: -16, left: 38 }} />
       </View>
 
-      <AppItemText textType="subtitle">{user.addressWallet}</AppItemText>
+      <AppItemText textType="subtitle">{truncateHash(user.wallet)}</AppItemText>
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <AppImage source={SolanaLogo} style={{ width: 17, height: 17, marginRight: 8 }} />
-        <AppItemText textType="title">{user.volume} SOL</AppItemText>
+        <AppItemText textType="title">{user.value} SOL</AppItemText>
       </View>
     </View>
   )
