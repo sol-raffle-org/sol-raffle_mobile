@@ -1,0 +1,1771 @@
+{
+  "address": "Fbedir6RBiGtyiscFUZmqaKUE9seQvu2LtDTNMoYRobb",
+  "metadata": {
+    "name": "raffle",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "close_round",
+      "discriminator": [
+        149,
+        14,
+        81,
+        88,
+        230,
+        226,
+        234,
+        37
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true
+        },
+        {
+          "name": "round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round_account.id",
+                "account": "Round"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_round",
+      "discriminator": [
+        229,
+        218,
+        236,
+        169,
+        231,
+        80,
+        134,
+        112
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game_state.total_rounds.checked_add(1)",
+                "account": "GameState"
+              }
+            ]
+          }
+        },
+        {
+          "name": "current_round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "game_state.current_round_id",
+                "account": "GameState"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bet_queue",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  98,
+                  101,
+                  116,
+                  95,
+                  113,
+                  117,
+                  101,
+                  117,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "finish_round",
+      "discriminator": [
+        23,
+        104,
+        163,
+        186,
+        110,
+        225,
+        11,
+        242
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round_account.id",
+                "account": "Round"
+              }
+            ]
+          }
+        },
+        {
+          "name": "winner_bet_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  98,
+                  101,
+                  116,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "winner_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "winner_account",
+          "writable": true
+        },
+        {
+          "name": "fee_account",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "server_seed",
+          "type": "string"
+        },
+        {
+          "name": "block_number",
+          "type": "u64"
+        },
+        {
+          "name": "blockhash",
+          "type": "string"
+        },
+        {
+          "name": "total_bets",
+          "type": "u64"
+        },
+        {
+          "name": "total_amount",
+          "type": "u64"
+        },
+        {
+          "name": "total_tickets",
+          "type": "u64"
+        },
+        {
+          "name": "winning_number",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "force_close_round",
+      "discriminator": [
+        141,
+        103,
+        223,
+        66,
+        159,
+        228,
+        54,
+        218
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round_account.id",
+                "account": "Round"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_bet_account",
+      "discriminator": [
+        229,
+        240,
+        116,
+        140,
+        5,
+        177,
+        61,
+        69
+      ],
+      "accounts": [
+        {
+          "name": "bet_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  98,
+                  101,
+                  116,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bet_queue",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  98,
+                  101,
+                  116,
+                  95,
+                  113,
+                  117,
+                  101,
+                  117,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "round",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "const",
+                "value": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "fee_account",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "place_bet",
+      "discriminator": [
+        222,
+        62,
+        67,
+        220,
+        63,
+        166,
+        126,
+        33
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true
+        },
+        {
+          "name": "round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round_account.id",
+                "account": "Round"
+              }
+            ]
+          }
+        },
+        {
+          "name": "bet_queue",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  98,
+                  101,
+                  116,
+                  95,
+                  113,
+                  117,
+                  101,
+                  117,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "bet_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  98,
+                  101,
+                  116,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "player"
+              }
+            ]
+          }
+        },
+        {
+          "name": "player",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "start_round",
+      "discriminator": [
+        144,
+        144,
+        43,
+        7,
+        193,
+        42,
+        217,
+        215
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true
+        },
+        {
+          "name": "round_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  114,
+                  111,
+                  117,
+                  110,
+                  100
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "round_account.id",
+                "account": "Round"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "server_seed",
+          "type": "string"
+        },
+        {
+          "name": "block_number",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "toggle_maintenance",
+      "discriminator": [
+        86,
+        161,
+        7,
+        90,
+        153,
+        252,
+        209,
+        130
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true
+        },
+        {
+          "name": "operator",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_game_config",
+      "discriminator": [
+        180,
+        82,
+        7,
+        205,
+        89,
+        182,
+        61,
+        128
+      ],
+      "accounts": [
+        {
+          "name": "game_state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  97,
+                  102,
+                  102,
+                  108,
+                  101,
+                  95,
+                  103,
+                  97,
+                  109,
+                  101,
+                  95,
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "round_duration",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "calculation_delay",
+          "type": {
+            "option": "i64"
+          }
+        },
+        {
+          "name": "min_bets",
+          "type": {
+            "option": "u8"
+          }
+        },
+        {
+          "name": "minimum_bet",
+          "type": {
+            "option": "u64"
+          }
+        },
+        {
+          "name": "fee_percentage",
+          "type": {
+            "option": "i16"
+          }
+        },
+        {
+          "name": "fee_account",
+          "type": {
+            "option": "pubkey"
+          }
+        },
+        {
+          "name": "gas_fees",
+          "type": {
+            "option": "u64"
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BetAccount",
+      "discriminator": [
+        117,
+        187,
+        165,
+        174,
+        194,
+        28,
+        119,
+        76
+      ]
+    },
+    {
+      "name": "BetQueue",
+      "discriminator": [
+        59,
+        48,
+        247,
+        111,
+        200,
+        107,
+        82,
+        246
+      ]
+    },
+    {
+      "name": "GameState",
+      "discriminator": [
+        144,
+        94,
+        208,
+        172,
+        248,
+        99,
+        134,
+        120
+      ]
+    },
+    {
+      "name": "Round",
+      "discriminator": [
+        87,
+        127,
+        165,
+        51,
+        73,
+        78,
+        116,
+        174
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "BetAccountInitialized",
+      "discriminator": [
+        17,
+        123,
+        197,
+        166,
+        90,
+        54,
+        57,
+        209
+      ]
+    },
+    {
+      "name": "BetPlaced",
+      "discriminator": [
+        88,
+        88,
+        145,
+        226,
+        126,
+        206,
+        32,
+        0
+      ]
+    },
+    {
+      "name": "GameStateUpdated",
+      "discriminator": [
+        99,
+        254,
+        30,
+        16,
+        56,
+        188,
+        169,
+        0
+      ]
+    },
+    {
+      "name": "MaintenanceToggled",
+      "discriminator": [
+        202,
+        159,
+        95,
+        118,
+        112,
+        164,
+        70,
+        140
+      ]
+    },
+    {
+      "name": "RoundCancelled",
+      "discriminator": [
+        238,
+        141,
+        105,
+        175,
+        182,
+        158,
+        15,
+        7
+      ]
+    },
+    {
+      "name": "RoundClosed",
+      "discriminator": [
+        45,
+        243,
+        28,
+        22,
+        132,
+        70,
+        175,
+        226
+      ]
+    },
+    {
+      "name": "RoundCreated",
+      "discriminator": [
+        16,
+        19,
+        68,
+        117,
+        87,
+        198,
+        7,
+        124
+      ]
+    },
+    {
+      "name": "RoundFinished",
+      "discriminator": [
+        219,
+        203,
+        57,
+        176,
+        225,
+        115,
+        234,
+        93
+      ]
+    },
+    {
+      "name": "RoundStarted",
+      "discriminator": [
+        180,
+        209,
+        2,
+        244,
+        238,
+        48,
+        170,
+        120
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BetTooSmall",
+      "msg": "Bet amount is below minimum"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidRound",
+      "msg": "Invalid round"
+    },
+    {
+      "code": 6002,
+      "name": "RoundFinished",
+      "msg": "Round is already finished"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidRoundStatus",
+      "msg": "Round is not in the correct status"
+    },
+    {
+      "code": 6004,
+      "name": "RoundNotFinished",
+      "msg": "Round time has not passed yet"
+    },
+    {
+      "code": 6005,
+      "name": "NotEnoughBets",
+      "msg": "Not enough bets placed"
+    },
+    {
+      "code": 6006,
+      "name": "CalculationDelayNotPassed",
+      "msg": "Calculation delay not passed"
+    },
+    {
+      "code": 6007,
+      "name": "ActiveRoundExists",
+      "msg": "Active round already exists"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidBet",
+      "msg": "Invalid bet for this round"
+    },
+    {
+      "code": 6009,
+      "name": "UnauthorizedOperator",
+      "msg": "Only authorized operator can perform this action"
+    },
+    {
+      "code": 6010,
+      "name": "GameUnderMaintenance",
+      "msg": "Game is under maintenance"
+    },
+    {
+      "code": 6011,
+      "name": "BetAccountFull",
+      "msg": "Bet account is full"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidBetAccount",
+      "msg": "Invalid bet account"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidWinningNumber",
+      "msg": "Invalid winning number"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidWinner",
+      "msg": "Invalid winner"
+    },
+    {
+      "code": 6015,
+      "name": "CalculationError",
+      "msg": "Calculation error"
+    },
+    {
+      "code": 6016,
+      "name": "RoundExpired",
+      "msg": "Round expired"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidServerSeed",
+      "msg": "Invalid server seed"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidBlockNumber",
+      "msg": "Invalid Block Number"
+    },
+    {
+      "code": 6019,
+      "name": "InvalidTotalBets",
+      "msg": "Invalid total bets"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidTotalAmount",
+      "msg": "Invalid total amount"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidTotalTickets",
+      "msg": "Invalid total tickets"
+    },
+    {
+      "code": 6022,
+      "name": "InvalidFeeAccount",
+      "msg": "Invalid Fee Account"
+    },
+    {
+      "code": 6023,
+      "name": "InvalidRoundDuration",
+      "msg": "Invalid round duration"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidCalculationDelay",
+      "msg": "Invalid calculation delay"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidMinBets",
+      "msg": "Invalid minimum bets"
+    },
+    {
+      "code": 6026,
+      "name": "InvalidMinimumBet",
+      "msg": "Invalid minimum bet amount"
+    },
+    {
+      "code": 6027,
+      "name": "InvalidFeePercentage",
+      "msg": "Invalid fee percentage (must be between 0 and 1000)"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidGasFees",
+      "msg": "Invalid gas fees"
+    },
+    {
+      "code": 6029,
+      "name": "MaxBetsPerAccountReached",
+      "msg": "Maximum bets per account reached"
+    },
+    {
+      "code": 6030,
+      "name": "CannotCloseActiveRound",
+      "msg": "Cannot close active round"
+    }
+  ],
+  "types": [
+    {
+      "name": "Bet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "start_number",
+            "type": "u64"
+          },
+          {
+            "name": "end_number",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "total_bets",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_wins",
+            "type": "u64"
+          },
+          {
+            "name": "total_wins_amount",
+            "type": "u64"
+          },
+          {
+            "name": "bets",
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "Bet"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetAccountInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "bet_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetPlaced",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "player",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "start_number",
+            "type": "u64"
+          },
+          {
+            "name": "end_number",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BetQueue",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total_bets",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          },
+          {
+            "name": "next_bet_number",
+            "type": "u64"
+          },
+          {
+            "name": "next_round_id",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "current_round_id",
+            "type": "u64"
+          },
+          {
+            "name": "total_rounds",
+            "type": "u64"
+          },
+          {
+            "name": "is_maintenance",
+            "type": "bool"
+          },
+          {
+            "name": "round_duration",
+            "type": "i64"
+          },
+          {
+            "name": "calculation_delay",
+            "type": "i64"
+          },
+          {
+            "name": "min_bets",
+            "type": "u8"
+          },
+          {
+            "name": "minimum_bet",
+            "type": "u64"
+          },
+          {
+            "name": "fee_percentage",
+            "type": "i16"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GameStateUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_duration",
+            "type": "i64"
+          },
+          {
+            "name": "calculation_delay",
+            "type": "i64"
+          },
+          {
+            "name": "min_bets",
+            "type": "u8"
+          },
+          {
+            "name": "minimum_bet",
+            "type": "u64"
+          },
+          {
+            "name": "fee_percentage",
+            "type": "i16"
+          },
+          {
+            "name": "fee_account",
+            "type": "pubkey"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaintenanceToggled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "is_maintenance",
+            "type": "bool"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Round",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "RoundStatus"
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "started_at",
+            "type": "i64"
+          },
+          {
+            "name": "total_bets",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          },
+          {
+            "name": "next_bet_number",
+            "type": "u64"
+          },
+          {
+            "name": "winner",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "winning_number",
+            "type": "u64"
+          },
+          {
+            "name": "server_seed",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "block_number",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "total_bets",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundClosed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "total_bets",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_tickets",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundFinished",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "winner",
+            "type": "pubkey"
+          },
+          {
+            "name": "winning_number",
+            "type": "u64"
+          },
+          {
+            "name": "prize_amount",
+            "type": "u64"
+          },
+          {
+            "name": "fee_amount",
+            "type": "u64"
+          },
+          {
+            "name": "gas_fees",
+            "type": "u64"
+          },
+          {
+            "name": "blockhash",
+            "type": "string"
+          },
+          {
+            "name": "block_number",
+            "type": "u64"
+          },
+          {
+            "name": "server_seed",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundStarted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "round_id",
+            "type": "u64"
+          },
+          {
+            "name": "total_bets",
+            "type": "u64"
+          },
+          {
+            "name": "total_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_tickets",
+            "type": "u64"
+          },
+          {
+            "name": "server_seed",
+            "type": "string"
+          },
+          {
+            "name": "block_number",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RoundStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Started"
+          },
+          {
+            "name": "Finished"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    }
+  ]
+}
