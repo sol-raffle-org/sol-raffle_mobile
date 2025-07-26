@@ -1,3 +1,5 @@
+import { AVATAR_URL_PREFIX } from '@env'
+
 export const isValidEnumValue = <T extends { [key: string]: string }>(
   enumObj: T,
   value: string,
@@ -39,7 +41,7 @@ export const getAvatarUrl = (filename?: string) => {
   if (!filename) return ''
 
   const encodeUri = encodeURIComponent(filename)
-  return `${process.env.AVATAR_URL_PREFIX}${encodeUri}`
+  return `${AVATAR_URL_PREFIX}${encodeUri}`
 }
 
 export const calculateWinChance = (userTotalEntryValue?: number, totalPot?: number): string => {

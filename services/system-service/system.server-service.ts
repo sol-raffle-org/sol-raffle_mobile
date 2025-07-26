@@ -5,13 +5,15 @@ import { ApiResponse } from 'apisauce'
 import { createDappServices } from '../client-side-config'
 
 export const getSystemStatsService = async (): Promise<SystemStatsServiceType | undefined> => {
-  const response: ApiResponse<SystemStatsServiceType> = await createDappServices().get(GET_SYSTEM_STATS)
+  const api = await createDappServices()
+  const response: ApiResponse<SystemStatsServiceType> = await api.get(GET_SYSTEM_STATS)
 
   return response?.data
 }
 
 export const getSystemTopPlayerService = async (): Promise<SystemTopPlayerType[] | undefined> => {
-  const response: ApiResponse<SystemTopPlayerType[]> = await createDappServices().get(GET_SYSTEM_TOP_WEEK)
+  const api = await createDappServices()
+  const response: ApiResponse<SystemTopPlayerType[]> = await api.get(GET_SYSTEM_TOP_WEEK)
 
   return response?.data
 }

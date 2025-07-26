@@ -25,7 +25,7 @@ export function StatsTotal() {
       title: `${Math.round(parseFloat(statsData.totalWagered || '0'))} SOL`,
       subtitle: t('lTotalVolume'),
     },
-    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: `${statsData.totalBet} SOL`, subtitle: t('lTotalBet') },
+    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: `${statsData.totalBet || 0} SOL`, subtitle: t('lTotalBet') },
     { icon: <UserGroupIcon color="#FFFFFF80" />, title: `${statsData.totalPlayer || 0}`, subtitle: t('lTotalUser') },
   ]
 

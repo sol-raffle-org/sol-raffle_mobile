@@ -1,5 +1,9 @@
-import { BigWinImage, DefaultAvatarImage, FlagGreenImage, Level3Image, SolanaLogo } from '@/assets/images'
+import { BigWinImage, FlagGreenImage, Level3Image, SolanaLogo } from '@/assets/images'
 import { AppText } from '@/components/app-text'
+import useJackpotStore from '@/stores/useJackpotStore'
+import { JackpotWinnerItemInterface, WinTypeEnum } from '@/types/jackpot.type'
+import { getAvatarUrl } from '@/utils/common.utils'
+import { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
@@ -7,11 +11,19 @@ import { CoinFlipIcon, JackpotIcon } from '../icons'
 import { StatsView } from './stats-view'
 
 export function StatsLiveWin() {
-  const data = new Array(30).fill({
-    addressWallet: 'fdss...ssssf',
-    volume: '80.90',
-    avatar: DefaultAvatarImage,
-  })
+  const { winnerList } = useJackpotStore()
+
+  const list = useMemo(() => {
+    if (!winnerList?.data) return []
+
+    if (!winnerList.data.length) return []
+
+    const clonedWinnerList = cloneData(winnerList.data)
+
+    return clonedWinnerList
+  }, [winnerList])
+
+  console.log({ list })
 
   return (
     <StatsView variant="column" style={{ flex: 1, padding: 8 }}>
@@ -34,27 +46,16 @@ export function StatsLiveWin() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ width: '100%', flexDirection: 'column', gap: 8 }}
       >
-        {data.map((item, index) => (
-          <StatsLiveWinItem
-            key={index}
-            isBigWin={index === 2}
-            gameType={index === 3 ? 'coin-flip' : 'jackpot'}
-            {...item}
-          />
+        {list.map((item, index) => (
+          <StatsLiveWinItem key={index} item={item} />
         ))}
       </ScrollView>
     </StatsView>
   )
 }
 
-type StatsLiveWinItemProps = {
-  avatar?: any
-  addressWallet: string
-  volume: string
-  isBigWin?: boolean
-  gameType?: 'jackpot' | 'coin-flip'
-}
-function StatsLiveWinItem(item: StatsLiveWinItemProps) {
+function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
+  const isBigWin = item.type === WinTypeEnum.BigWin
   return (
     <View
       style={{
@@ -66,7 +67,7 @@ function StatsLiveWinItem(item: StatsLiveWinItemProps) {
     >
       <View>
         <AppImage
-          source={item.avatar}
+          source={getAvatarUrl(item.avatar)}
           style={{
             width: 48,
             height: 48,
@@ -95,15 +96,15 @@ function StatsLiveWinItem(item: StatsLiveWinItemProps) {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
           <AppImage source={SolanaLogo} style={{ width: 17, height: 17 }} />
 
-          <AppItemText textType="title" color={item.isBigWin ? '#FF4CE7' : '#76D638'}>
-            {item.volume}
+          <AppItemText textType="title" color={isBigWin ? '#FF4CE7' : '#76D638'}>
+            {item.gameValue}
           </AppItemText>
 
-          {item.isBigWin && <AppImage source={BigWinImage} style={{ width: 40, height: 18 }} />}
+          {item.type === WinTypeEnum.BigWin && <AppImage source={BigWinImage} style={{ width: 40, height: 18 }} />}
         </View>
 
         <AppItemText textType="subtitle" style={{ textAlign: 'left' }} color="#FFFFFFB2">
-          {item.addressWallet}
+          {item.name}
         </AppItemText>
       </View>
 
@@ -126,4 +127,26 @@ function StatsLiveWinItem(item: StatsLiveWinItemProps) {
       </View>
     </View>
   )
+}
+
+const cloneData = (items: JackpotWinnerItemInterface[]): JackpotWinnerItemInterface[] => {
+  if (!items.length) return []
+
+  const result: JackpotWinnerItemInterface[] = []
+
+  while (result.length < 20) {
+    for (const item of items) {
+      if (result.length >= 20) break
+
+      const modifiedItem = {
+        ...item,
+        round: item.round + result.length,
+        createdAt: item.createdAt + result.length * 1000,
+      }
+
+      result.push(modifiedItem)
+    }
+  }
+
+  return result
 }

@@ -11,7 +11,7 @@ export type AppToastType = 'success' | 'error' | 'info' | 'game-win' | 'level-up
 export type AppToastProps = {
   visible: boolean
   type?: AppToastType
-  title: string
+  title?: string
   subtitle?: string
   onDismiss?: () => void
   duration?: number
@@ -68,7 +68,7 @@ export const AppToast = ({ visible, type = 'info', title, subtitle, onDismiss, d
 
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', paddingHorizontal: 8 }}>
         <AppItemText textType="title" color={getTitleColor(type)}>
-          {title}
+          {title || getTitleText(type)}
         </AppItemText>
 
         {subtitle && (
@@ -190,5 +190,26 @@ const getTitleColor = (type: AppToastType) => {
 
     default:
       return '#fff'
+  }
+}
+
+const getTitleText = (type: AppToastType) => {
+  switch (type) {
+    case 'error':
+      return 'Error Alert'
+
+    case 'success':
+      return 'Success'
+
+    case 'level-up':
+      return 'Level up! (lvl 1)'
+
+    case 'game-win':
+      return 'Game win'
+
+    case 'info':
+
+    default:
+      return 'information'
   }
 }
