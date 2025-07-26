@@ -4,6 +4,7 @@ import { AuthProvider } from '@/components/auth/auth-provider'
 import { SolanaProvider } from '@/components/solana/solana-provider'
 import '@/i18n'
 import i18n from '@/i18n'
+import AuthRaffleProvider from '@/providers/AuthProvider'
 import RaffleSocketProvider from '@/providers/RaffleSocketProvider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { PropsWithChildren } from 'react'
@@ -22,7 +23,9 @@ export function AppProviders({ children }: PropsWithChildren) {
             <AppToastProvider>
               <SolanaProvider>
                 <RaffleSocketProvider />
-                <AuthProvider>{children}</AuthProvider>
+                <AuthProvider>
+                  <AuthRaffleProvider>{children}</AuthRaffleProvider>
+                </AuthProvider>
               </SolanaProvider>
             </AppToastProvider>
           </ClusterProvider>
