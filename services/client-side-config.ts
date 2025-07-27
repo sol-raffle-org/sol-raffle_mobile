@@ -1,14 +1,15 @@
 import { KEY_TOKEN } from '@/constants/app.const'
 import { ApiResponseInterface } from '@/types/service.type'
 
-import { BASE_SOURCE, HEADER_DEFAULT, STT_CREATED, STT_OK, TIMEOUT } from '@/constants/api.const'
+import { HEADER_DEFAULT, STT_CREATED, STT_OK, TIMEOUT } from '@/constants/api.const'
 
 import apisauce, { ApiResponse, ApisauceConfig } from 'apisauce'
 
+import { DAPP_SERVICE_URL } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const DEFAULT_CONFIG: ApisauceConfig = {
-  baseURL: BASE_SOURCE,
+  baseURL: DAPP_SERVICE_URL,
   headers: { ...HEADER_DEFAULT },
   timeout: TIMEOUT,
 }

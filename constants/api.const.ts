@@ -1,5 +1,3 @@
-import { DAPP_SERVICE_URL } from '@env'
-
 // Settings
 export const HEADER_DEFAULT = {
   Accept: 'application/json',
@@ -7,8 +5,6 @@ export const HEADER_DEFAULT = {
 }
 
 export const TIMEOUT = 60000
-
-export const BASE_SOURCE = DAPP_SERVICE_URL
 
 // HTTP Status
 export const STT_OK = 200

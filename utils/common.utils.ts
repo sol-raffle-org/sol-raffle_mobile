@@ -41,6 +41,10 @@ export const getAvatarUrl = (filename?: string) => {
   if (!filename) return ''
 
   const encodeUri = encodeURIComponent(filename)
+  console.log({
+    AVATAR_URL_PREFIX,
+    uri: `${AVATAR_URL_PREFIX}${encodeUri}`,
+  })
   return `${AVATAR_URL_PREFIX}${encodeUri}`
 }
 

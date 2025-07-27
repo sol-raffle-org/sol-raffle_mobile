@@ -1,7 +1,8 @@
 import { AccountInterface } from '@/types/app.type'
 import { GetAffiliateInfoInterface, SystemStatsServiceType } from '@/types/service.type'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Socket } from 'socket.io-client'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import { shallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 
@@ -78,6 +79,7 @@ const useAppStore = createWithEqualityFn<AppStore>()(
     }),
     {
       name: 'app-store',
+      storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         soundOn: state.soundOn,
         solPrice: state.solPrice,

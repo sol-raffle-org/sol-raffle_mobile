@@ -23,6 +23,10 @@ export function StatsLiveWin() {
     return clonedWinnerList
   }, [winnerList])
 
+  console.log({
+    winnerList,
+  })
+
   return (
     <StatsView variant="column" style={{ flex: 1, padding: 8 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
