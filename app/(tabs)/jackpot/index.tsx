@@ -1,14 +1,31 @@
-import { AppPage } from '@/components/app-page'
-import { AppText } from '@/components/app-text'
+import { AppView } from '@/components/app-view'
+import { JackpotPlayInRound } from '@/components/jackpot/jackpot-play-in-round'
+import { JackpotSlotMachine } from '@/components/jackpot/jackpot-slot-machine'
+import { JackpotSlotMachineAction } from '@/components/jackpot/jackpot-slot-machine-action'
+import { ScrollView, View } from 'react-native'
 
 export default function JackpotScreen() {
   return (
-    <AppPage>
-      <AppText style={{ opacity: 0.5, fontSize: 14 }}>
-        This is the <AppText style={{ fontWeight: 'bold' }}>Jackpot</AppText> screen. Configure app info and clusters in{' '}
-        <AppText style={{ fontWeight: 'bold' }}>constants/app-config.tsx</AppText>.{'\n\n'}
-        Note: This screen is currently under development and may not be fully functional.
-      </AppText>
-    </AppPage>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        gap: 16,
+      }}
+    >
+      <JackpotSlotMachine />
+
+      <AppView style={{ flex: 1, padding: 8 }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+          contentContainerStyle={{ flexDirection: 'column', gap: 8 }}
+        >
+          <JackpotSlotMachineAction />
+
+          <JackpotPlayInRound />
+        </ScrollView>
+      </AppView>
+    </View>
   )
 }
