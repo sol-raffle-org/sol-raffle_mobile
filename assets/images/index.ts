@@ -56,6 +56,9 @@ import GameWinImage from './toast/img-game-win.png'
 import InfoImage from './toast/img-info.png'
 import LevelUpImage from './toast/img-level-up.png'
 
+// Slot Machine
+import SlotMachineDemoImage from './slot-machine/img-slot-machine-demo.png'
+
 export {
   ArrowSlotImage,
   AuraImage,
@@ -90,6 +93,7 @@ export {
   LevelUpImage,
   ReferralCardImage,
   ReferralCardMobileImage,
+  SlotMachineDemoImage,
   SolanaGoldenLogo,
   SolanaLogo,
   StreamerPanelImage,
