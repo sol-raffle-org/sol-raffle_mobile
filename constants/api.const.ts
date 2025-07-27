@@ -6,8 +6,6 @@ export const HEADER_DEFAULT = {
 
 export const TIMEOUT = 60000
 
-export const BASE_SOURCE = 'https://dev-api.solraffle.xyz'
-
 // HTTP Status
 export const STT_OK = 200
 export const STT_CREATED = 201

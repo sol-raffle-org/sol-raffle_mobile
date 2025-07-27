@@ -2,6 +2,11 @@
 
 # dependencies
 node_modules/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
 # Expo
 .expo/
@@ -25,6 +30,9 @@ expo-env.d.ts
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
 # macOS
 .DS_Store
@@ -32,9 +40,23 @@ yarn-error.*
 
 # local env files
 .env*.local
+.env*
 
 # typescript
 *.tsbuildinfo
 
 app-example
 tmp/
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# ignore contract file
+services/games-service/jackpot/raffle.json
+services/games-service/jackpot/raffle.ts
+services/games-service/coin-flip/coinflip.json
+services/games-service/coin-flip/coinflip.ts
+
+
+# others
+.npmrc

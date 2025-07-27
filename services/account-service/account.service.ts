@@ -1,4 +1,4 @@
-import { GET_USER, PUT_EMAIL, PUT_NAME, PUT_REFER_BY, PUT_REF_CODE } from '@/constants/api.const'
+import { GET_USER, POST_UPDATE_AVATAR, PUT_EMAIL, PUT_NAME, PUT_REFER_BY, PUT_REF_CODE } from '@/constants/api.const'
 import { AccountInterface } from '@/types/app.type'
 import { ApiResponse } from 'apisauce'
 import { createDappServices } from '../client-side-config'
@@ -53,6 +53,23 @@ export const putUpdateRefCodeService = async (referralCode: string) => {
 export const putUpdateReferByService = async (referralCode: string) => {
   const dappService = await createDappServices()
   const response: ApiResponse<any> = await dappService.put(PUT_REFER_BY, { referralCode })
+
+  return {
+    status: response.status,
+    errorCode: response?.data?.errorCode,
+    message: response?.data?.message,
+    statusCode: response?.data?.statusCode,
+  }
+}
+
+export const putUpdateAvatarService = async (avatar: any) => {
+  const formData = new FormData()
+  formData.append('avatar', avatar)
+
+  const api = await createDappServices(undefined, undefined, {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  })
+  const response: ApiResponse<any> = await api.post(POST_UPDATE_AVATAR, formData)
 
   return {
     status: response.status,

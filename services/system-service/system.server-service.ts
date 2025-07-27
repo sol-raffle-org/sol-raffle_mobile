@@ -1,21 +1,19 @@
-"use server";
+import { GET_SYSTEM_STATS, GET_SYSTEM_TOP_WEEK } from '@/constants/api.const'
 
-import { GET_SYSTEM_STATS, GET_SYSTEM_TOP_WEEK } from "@/constants/api.const";
-import { fetchWithAuthServerSide } from "../server-side-config";
+import { SystemStatsServiceType, SystemTopPlayerType } from '@/types/service.type'
+import { ApiResponse } from 'apisauce'
+import { createDappServices } from '../client-side-config'
 
-import {
-  SystemTopPlayerType,
-  SystemStatsServiceType,
-} from "@/types/service.type";
+export const getSystemStatsService = async (): Promise<SystemStatsServiceType | undefined> => {
+  const api = await createDappServices()
+  const response: ApiResponse<SystemStatsServiceType> = await api.get(GET_SYSTEM_STATS)
 
-export const getSystemStatsService = async (): Promise<
-  SystemStatsServiceType | undefined
-> => {
-  return fetchWithAuthServerSide(GET_SYSTEM_STATS, { method: "GET" });
-};
+  return response?.data
+}
 
-export const getSystemTopPlayerService = async (): Promise<
-  SystemTopPlayerType[] | undefined
-> => {
-  return fetchWithAuthServerSide(GET_SYSTEM_TOP_WEEK, { method: "GET" });
-};
+export const getSystemTopPlayerService = async (): Promise<SystemTopPlayerType[] | undefined> => {
+  const api = await createDappServices()
+  const response: ApiResponse<SystemTopPlayerType[]> = await api.get(GET_SYSTEM_TOP_WEEK)
+
+  return response?.data
+}

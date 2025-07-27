@@ -1,3 +1,6 @@
+import { getSystemStatsService } from '@/services/system-service/system.server-service'
+import { SystemStatsServiceType } from '@/types/service.type'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { AppItemText } from '../app-item-text'
@@ -7,11 +10,25 @@ import { StatsView } from './stats-view'
 export function StatsTotal() {
   const { t } = useTranslation()
 
+  const [statsData, setStatsData] = useState<Partial<SystemStatsServiceType>>({})
+
+  useEffect(() => {
+    getSystemStatsService().then((data) => {
+      setStatsData(data || {})
+      return true
+    })
+  }, [])
+
   const data = [
-    { icon: <SolanaIcon color="#FFFFFF80" />, title: '133 SOL', subtitle: t('lTotalVolume') },
-    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: '133 SOL', subtitle: t('lTotalBet') },
-    { icon: <UserGroupIcon color="#FFFFFF80" />, title: '133', subtitle: t('lTotalUser') },
+    {
+      icon: <SolanaIcon color="#FFFFFF80" />,
+      title: `${Math.round(parseFloat(statsData.totalWagered || '0'))} SOL`,
+      subtitle: t('lTotalVolume'),
+    },
+    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: `${statsData.totalBet || 0} SOL`, subtitle: t('lTotalBet') },
+    { icon: <UserGroupIcon color="#FFFFFF80" />, title: `${statsData.totalPlayer || 0}`, subtitle: t('lTotalUser') },
   ]
+
   return (
     <StatsView>
       {data.map((item, index) => (
