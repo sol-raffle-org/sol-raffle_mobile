@@ -5,6 +5,7 @@ import { NetworkModeEnum, SupportedChainEnum } from '@/types/common.type'
 import { BN } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
 
+import { NETWORK_MODE } from '@/constants/blockchain.const'
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token'
 
 export const getSolanaRpcEndpoint = (rpcUrl?: string): string => {
@@ -14,11 +15,11 @@ export const getSolanaRpcEndpoint = (rpcUrl?: string): string => {
 
   let mode = 'devnet'
 
-  if (process.env.NETWORK_MODE === 'devnet') {
+  if (NETWORK_MODE === 'devnet') {
     mode = 'devnet'
-  } else if (process.env.NETWORK_MODE === 'testnet') {
+  } else if (NETWORK_MODE === 'testnet') {
     mode = 'devnet'
-  } else if (process.env.NETWORK_MODE === 'mainnet') {
+  } else if (NETWORK_MODE === 'mainnet') {
     mode = 'mainnet-beta'
   } else {
     mode = 'devnet'

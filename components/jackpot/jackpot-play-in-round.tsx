@@ -1,5 +1,10 @@
 import { DefaultAvatarImage, SolanaLogo } from '@/assets/images'
-import React from 'react'
+import useAppStore from '@/stores/useAppStore'
+import useJackpotStore from '@/stores/useJackpotStore'
+import { PlayerBetInterface } from '@/types/jackpot.type'
+import { calculateWinChance, getAvatarUrl, truncateHash } from '@/utils/common.utils'
+import { formatNumber } from '@/utils/format.utils'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
@@ -8,6 +13,24 @@ import { AppView, AppViewProps } from '../app-view'
 import { CopyIcon } from '../icons'
 
 export function JackpotPlayInRound() {
+  const { jackpotGameData } = useJackpotStore()
+
+  const [maxChance, totalPot] = useMemo(() => {
+    if (!jackpotGameData || !jackpotGameData?.bets?.length) return [0, 0]
+
+    const totalPots = jackpotGameData.bets.map((item) => item.betInfo.totalPot || 0)
+
+    const totalPot = Math.max(...totalPots)
+
+    const chances = jackpotGameData.bets.map((item) =>
+      !totalPot || !item.betInfo.wagered ? 0 : item.betInfo.wagered / totalPot,
+    )
+
+    if (!chances.length || !totalPots.length) return [0, 0]
+
+    return [Math.max(...chances), totalPot]
+  }, [jackpotGameData])
+
   return (
     <View style={{ paddingHorizontal: 8 }}>
       <JackpotRow
@@ -22,20 +45,22 @@ export function JackpotPlayInRound() {
           <AppItemText textType="subtitle" color="#FFFFFF8C">
             Total Player:
           </AppItemText>
-          <AppItemText>10</AppItemText>
+          <AppItemText>{jackpotGameData?.bets?.length || 0}</AppItemText>
         </JackpotRow>
         <JackpotRow style={{ gap: 4 }}>
           <AppItemText textType="subtitle" color="#FFFFFF8C">
             Round:
           </AppItemText>
-          <AppItemText>22334</AppItemText>
+          <AppItemText>{jackpotGameData?.gameId}</AppItemText>
         </JackpotRow>
       </JackpotRow>
 
       <AppView>
-        {new Array(10).fill(0).map((_, index) => (
-          <JackpotPlayer key={index} />
-        ))}
+        {jackpotGameData?.bets.map((item, index) => {
+          const chance = !totalPot ? 0 : item.betInfo.wagered / totalPot
+          const isHighestChance = chance === maxChance
+          return <JackpotPlayer key={index} data={item} totalPot={totalPot} />
+        })}
       </AppView>
 
       <JackpotRow
@@ -49,13 +74,13 @@ export function JackpotPlayInRound() {
         <JackpotRow style={{ gap: 4 }}>
           <CopyIcon color="#FFFFFF8C" />
           <AppItemText textType="subtitle" color="#FFFFFF8C">
-            Hash seed: ea9d5...
+            Hash seed: {jackpotGameData?.serverSeed ? truncateHash(jackpotGameData?.serverSeed) : 'Waiting'}
           </AppItemText>
         </JackpotRow>
         <JackpotRow style={{ gap: 4 }}>
           <CopyIcon color="#FFFFFF8C" />
           <AppItemText textType="subtitle" color="#FFFFFF8C">
-            EOS Block: Waiting
+            EOS Block: {jackpotGameData?.blockNumber || 'Waiting'}
           </AppItemText>
         </JackpotRow>
       </JackpotRow>
@@ -63,7 +88,8 @@ export function JackpotPlayInRound() {
   )
 }
 
-const JackpotPlayer = () => {
+const JackpotPlayer = ({ data, totalPot }: { data: PlayerBetInterface; totalPot: number }) => {
+  const { solPrice } = useAppStore()
   return (
     <AppView
       style={{
@@ -77,24 +103,24 @@ const JackpotPlayer = () => {
       }}
     >
       <JackpotRow style={{ gap: 4 }}>
-        <JackpotPlayerAvatar />
-        <AppItemText>Name</AppItemText>
+        <JackpotPlayerAvatar avatar={getAvatarUrl(data.userInfo.avatar)} />
+        <AppItemText>{data.userInfo.name}</AppItemText>
         <AppCircle
           style={{
-            borderWidth: 2,
+            borderWidth: 1,
             borderColor: '#ffffff40',
             paddingVertical: 4,
             paddingHorizontal: 8,
           }}
         >
-          <AppItemText style={{ fontSize: 12 }}>1</AppItemText>
+          <AppItemText style={{ fontSize: 12 }}>{data.userInfo.level}</AppItemText>
         </AppCircle>
       </JackpotRow>
 
       <JackpotRow style={{ gap: 8 }}>
         <AppImage source={SolanaLogo} style={{ width: 24, height: 24 }} />
         <View>
-          <AppItemText>0.030</AppItemText>
+          <AppItemText>{data.betInfo.wagered}</AppItemText>
           <AppItemText
             textType="subtitle"
             style={{
@@ -102,7 +128,7 @@ const JackpotPlayer = () => {
               fontSize: 12,
             }}
           >
-            ~$4.98
+            ~${formatNumber(data.betInfo.wagered * solPrice, 3)}
           </AppItemText>
         </View>
       </JackpotRow>
@@ -117,7 +143,7 @@ const JackpotPlayer = () => {
         >
           Chance
         </AppItemText>
-        <AppItemText>30.90%</AppItemText>
+        <AppItemText>{calculateWinChance(data.betInfo.wagered, totalPot)}</AppItemText>
       </View>
     </AppView>
   )
@@ -127,7 +153,7 @@ const JackpotRow = ({ style, ...props }: AppViewProps) => (
   <AppView style={[{ flexDirection: 'row', alignItems: 'center' }, style]} {...props} />
 )
 
-const JackpotPlayerAvatar = ({ avatar }) => (
+const JackpotPlayerAvatar = ({ avatar }: { avatar?: string }) => (
   <AppView
     style={{
       borderWidth: 2,

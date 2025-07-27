@@ -1,18 +1,41 @@
-import React from 'react'
+import useAppStore from '@/stores/useAppStore'
+import useJackpotStore from '@/stores/useJackpotStore'
+import { calculateWinChance } from '@/utils/common.utils'
+import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { AppItemText } from '../app-item-text'
 import { AppView } from '../app-view'
 import { JackpotAmountInput } from './jackpot-amount-input'
 
 export function JackpotSlotMachineAction() {
+  const { accountInfo } = useAppStore()
+  const { jackpotGameData } = useJackpotStore()
+
+  const totalPot = useMemo(() => {
+    if (!jackpotGameData || !jackpotGameData?.bets?.length) return 0
+
+    const totalPots = jackpotGameData.bets.map((item) => item.betInfo.totalPot || 0)
+
+    return Math.max(...totalPots)
+  }, [jackpotGameData])
+
+  const [totalWagered, chance] = useMemo(() => {
+    if (!jackpotGameData || !accountInfo) return [0, 0]
+    const totalWagered = jackpotGameData.bets
+      ?.filter((entry) => entry.userInfo.wallet === accountInfo.wallet)
+      ?.reduce((sum, entry) => sum + entry.betInfo.wagered, 0)
+
+    return [totalWagered || 0, calculateWinChance(totalWagered, totalPot)]
+  }, [jackpotGameData, accountInfo, totalPot])
+
   const data = [
     {
       title: 'Your Wager',
-      value: 0.001,
+      value: totalWagered,
     },
     {
       title: 'Your Chance',
-      value: `${0.2} %`,
+      value: chance,
     },
   ]
 

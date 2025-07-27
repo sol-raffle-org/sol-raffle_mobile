@@ -8,6 +8,7 @@ import {
   putUpdateReferByService,
 } from '@/services/account-service/account.service'
 import { getClaimReferralRewardService } from '@/services/account-service/affiliate.service'
+import { getSolanaRpcEndpoint } from '@/utils/blockchain.utils'
 
 import useAppStore from '@/stores/useAppStore'
 import useBalances from '../blockchain-hooks/useBalance'
@@ -36,7 +37,11 @@ const useAccount = () => {
   const handleGetBalance = async () => {
     if (!accountInfo) return
 
-    setBalance(100)
+    const rpc = getSolanaRpcEndpoint()
+
+    const nativeBalance = await handleGetSvmNativeBalanceToken(accountInfo.wallet, rpc)
+
+    setBalance(nativeBalance)
   }
 
   const handleUpdateEmail = async (email: string) => {

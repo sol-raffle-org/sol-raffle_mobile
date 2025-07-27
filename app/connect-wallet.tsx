@@ -20,8 +20,6 @@ export default function Login() {
     }
   }, [isAuthenticated, router])
 
-  console.log('Login component rendered', { isLoading, isAuthenticated })
-
   return (
     <View style={styles.container}>
       <View style={[styles.fullContainer, styles.spaceContent]}>
