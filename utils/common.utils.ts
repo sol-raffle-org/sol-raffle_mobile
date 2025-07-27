@@ -1,4 +1,4 @@
-import { AVATAR_URL_PREFIX } from '@env'
+import { AVATAR_URL_PREFIX } from '@/constants/app.const'
 
 export const isValidEnumValue = <T extends { [key: string]: string }>(
   enumObj: T,
@@ -41,10 +41,7 @@ export const getAvatarUrl = (filename?: string) => {
   if (!filename) return ''
 
   const encodeUri = encodeURIComponent(filename)
-  console.log({
-    AVATAR_URL_PREFIX,
-    uri: `${AVATAR_URL_PREFIX}${encodeUri}`,
-  })
+
   return `${AVATAR_URL_PREFIX}${encodeUri}`
 }
 
@@ -104,4 +101,8 @@ export const deepEqual = (value1: any, value2: any) => {
   }
 
   return true
+}
+
+export const isNil = (value: any): value is null | undefined => {
+  return value === null || value === undefined
 }

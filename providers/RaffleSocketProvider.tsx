@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { COIN_FLIP, ROOT } from '@/constants/path.const'
+import { COIN_FLIP, JACKPOT } from '@/constants/path.const'
 import { FlipGameInterface } from '@/types/coin-flip.type'
 import { Socket, io } from 'socket.io-client'
 import { updateFlipGameData } from './helper'
@@ -18,19 +18,18 @@ import {
 
 import { Audio } from 'expo-av'
 
-import { KEY_TOKEN } from '@/constants/app.const'
+import { KEY_TOKEN, SOCKET_URL } from '@/constants/app.const'
 
-import soundCoolDown from '@/assets/sounds/sound-cooldown.mp3'
-import soundNewEntry from '@/assets/sounds/sound-new-entry.mp3'
-import soundPlaying from '@/assets/sounds/sound-playing.mp3'
-import soundPump from '@/assets/sounds/sound-pump.mp3'
-import soundSpinning from '@/assets/sounds/sound-spinning.mp3'
-import soundWinning from '@/assets/sounds/sound-winning.mp3'
+// import soundCoolDown from '@/assets/sounds/sound-cooldown.mp3'
+// import soundNewEntry from '@/assets/sounds/sound-new-entry.mp3'
+// import soundPlaying from '@/assets/sounds/sound-playing.mp3'
+// import soundPump from '@/assets/sounds/sound-pump.mp3'
+// import soundSpinning from '@/assets/sounds/sound-spinning.mp3'
+// import soundWinning from '@/assets/sounds/sound-winning.mp3'
 import { useToast } from '@/components/toast/app-toast-provider'
 import useAppStore from '@/stores/useAppStore'
 import useCoinFlipStore from '@/stores/useCoinflipStore'
 import useJackpotStore from '@/stores/useJackpotStore'
-import { SOCKET_URL } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { usePathname } from 'expo-router'
 import { useTranslation } from 'react-i18next'
@@ -107,7 +106,7 @@ const RaffleSocketProvider = () => {
     })
   }
 
-  const handlePlaySound = async (soundFile) => {
+  const handlePlaySound = async (soundFile: any) => {
     const { sound } = await Audio.Sound.createAsync(soundFile)
     await sound.playAsync()
     // Optional: unload to free memory
@@ -130,11 +129,11 @@ const RaffleSocketProvider = () => {
   useEffect(() => {
     if (!raffleSocket) return
 
-    if (!raffleSocket.connected) {
+    if (!raffleSocket.connected || !socketConnected) {
       raffleSocket.connect()
     }
 
-    if (pathname === ROOT) {
+    if (pathname === JACKPOT) {
       raffleSocket.emit('jp-join-room')
       raffleSocket.emit('jp-game-data')
       raffleSocket.emit('notify-win-data')
@@ -147,7 +146,7 @@ const RaffleSocketProvider = () => {
 
     handleEventJackpot()
     handleEventCoinFlip()
-  }, [raffleSocket, pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [raffleSocket, pathname, socketConnected]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!raffleSocket) return
@@ -176,7 +175,7 @@ const RaffleSocketProvider = () => {
   }, [raffleSocket]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (pathname !== ROOT && raffleSocket && raffleSocket.connected) {
+    if (pathname !== JACKPOT && raffleSocket && raffleSocket.connected) {
       raffleSocket.emit('jp-leave-room')
 
       raffleSocket.off('level-up')
@@ -297,45 +296,45 @@ const RaffleSocketProvider = () => {
     })
   }, [raffleSocket, flipGamesTable]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (!hasNewEntry || pathname !== ROOT || !soundOn) return
+  // useEffect(() => {
+  //   if (!hasNewEntry || pathname !== ROOT || !soundOn) return
 
-    handlePlaySound(soundNewEntry)
+  //   handlePlaySound(soundNewEntry)
 
-    setTimeout(() => setHasNewEntry(false), 1000)
-  }, [hasNewEntry, pathname, soundOn])
+  //   setTimeout(() => setHasNewEntry(false), 1000)
+  // }, [hasNewEntry, pathname, soundOn])
 
-  useEffect(() => {
-    if (!isPlaying || pathname !== ROOT || !soundOn) return
+  // useEffect(() => {
+  //   if (!isPlaying || pathname !== ROOT || !soundOn) return
 
-    handlePlaySound(soundPlaying)
+  //   handlePlaySound(soundPlaying)
 
-    setTimeout(() => setIsPlaying(false), 1000)
-  }, [isPlaying, pathname, soundOn])
+  //   setTimeout(() => setIsPlaying(false), 1000)
+  // }, [isPlaying, pathname, soundOn])
 
-  useEffect(() => {
-    if (!isAwarding || pathname !== ROOT || !soundOn) return
+  // useEffect(() => {
+  //   if (!isAwarding || pathname !== ROOT || !soundOn) return
 
-    handlePlaySound(soundPump)
+  //   handlePlaySound(soundPump)
 
-    setTimeout(() => setIsAwarding(false), 1000)
-  }, [isAwarding, pathname, soundOn])
+  //   setTimeout(() => setIsAwarding(false), 1000)
+  // }, [isAwarding, pathname, soundOn])
 
-  useEffect(() => {
-    if (!isBetSuccess) return
+  // useEffect(() => {
+  //   if (!isBetSuccess) return
 
-    const betTimeout = setTimeout(() => setIsBetSuccess(false), 3000)
+  //   const betTimeout = setTimeout(() => setIsBetSuccess(false), 3000)
 
-    return () => clearTimeout(betTimeout)
-  }, [isBetSuccess])
+  //   return () => clearTimeout(betTimeout)
+  // }, [isBetSuccess])
 
-  useEffect(() => {
-    ;[soundNewEntry, soundSpinning, soundCoolDown, soundWinning, soundPlaying, soundPump].map((item) =>
-      handlePlaySound(item),
-    )
-  }, [])
+  // useEffect(() => {
+  //   ;[soundNewEntry, soundSpinning, soundCoolDown, soundWinning, soundPlaying, soundPump].map((item) =>
+  //     handlePlaySound(item),
+  //   )
+  // }, [])
 
-  return null
+  return <></>
 }
 
 export default RaffleSocketProvider
