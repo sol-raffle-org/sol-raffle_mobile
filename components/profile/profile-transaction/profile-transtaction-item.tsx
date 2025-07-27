@@ -1,60 +1,90 @@
-import { SolanaLogo } from '@/assets/images'
-import { AppImage } from '@/components/app-image'
-import { AppItemText, AppItemTextProps } from '@/components/app-item-text'
-import { FC } from 'react'
-import { View, ViewProps } from 'react-native'
+import { AppPagination } from '@/components/app-pagination'
+import { AppView } from '@/components/app-view'
+import useGetUserJackpotHistory from '@/hooks/game-hooks/jackpot-hooks/useGetUserJackpotHistory'
+import useJackpotStore from '@/stores/useJackpotStore'
+import { JackpotTransactionItemType } from '@/types/service.type'
+import { useEffect } from 'react'
+import { ScrollView } from 'react-native'
+import { ProfileTransactionItem } from './profile-transtaction-item'
 
-export interface ProfileTransactionItemProps {
-  transaction: {
-    [x: string]: string
+export function ProfileTransaction() {
+  const { page, setPage, setTotalItems, userJackpotHistory } = useJackpotStore()
+  const { handleGetTransactionHistory } = useGetUserJackpotHistory()
+
+  console.log({
+    transaction: userJackpotHistory,
+    refactorList: refactorData(userJackpotHistory),
+  })
+
+  const handlePrevClick = () => {
+    const nextPage = Math.max(1, page - 1)
+    setPage(nextPage)
   }
-}
-export const ProfileTransactionItem: FC<ProfileTransactionItemProps> = ({ transaction, ...props }) => {
-  const isWin = Math.round(Math.random())
+
+  const handleNextClick = () => {
+    const nextPage = page + 1
+    setPage(nextPage)
+  }
+
+  useEffect(() => {
+    if (!page) return
+
+    handleGetTransactionHistory(page)
+  }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    return () => {
+      setPage(1)
+      setTotalItems(0)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <View
-      style={{
-        flexDirection: 'column',
-        padding: 16,
-        borderRadius: 16,
-        backgroundColor: '#FFFFFF14',
-        borderWidth: 1,
-        borderColor: '#FFFFFF1A',
-        overflow: 'hidden',
-        gap: 16,
-      }}
-    >
-      <RowView>
-        <RowText textType="subtitle" color="#FFFFFF80">
-          sd3415vvsdf-...
-        </RowText>
-        <RowText textType="subtitle" color="#FFFFFF80">
-          11:23 May, 10, 2025
-        </RowText>
-      </RowView>
-      <RowView>
-        <RowText textType="subtitle" color="#FFFFFF80">
-          Deposit
-        </RowText>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-          <AppImage source={SolanaLogo} style={{ width: 21, height: 21 }} />
+    <AppView style={{ flex: 1, flexDirection: 'column' }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexDirection: 'column', gap: 8 }}
+      >
+        {new Array(10).fill({}).map((transaction, index) => (
+          <ProfileTransactionItem key={index} transaction={transaction} />
+        ))}
+      </ScrollView>
 
-          <AppItemText textType="title">0.001</AppItemText>
-        </View>
-      </RowView>
-      <RowView>
-        <RowText textType="subtitle">Status</RowText>
-        <RowText textType="subtitle" color={isWin ? '#76D638' : '#FFFFFF80'}>
-          {isWin ? 'Win' : 'Completed'}
-        </RowText>
-      </RowView>
-    </View>
+      <AppPagination
+        currentPage={currentPage}
+        pageSize={10}
+        totalItems={35}
+        pageText="Transactions"
+        onPrev={handlePrevClick}
+        onNext={handleNextClick}
+      />
+    </AppView>
   )
 }
 
-const RowView: FC<ViewProps> = ({ style = {}, ...props }) => (
-  <View style={[{ flexDirection: 'row', justifyContent: 'space-between' }, style]} {...props} />
-)
+const refactorData = (userJackpotHistory?: JackpotTransactionItemType[]) => {
+  if (!userJackpotHistory || !userJackpotHistory.length) return
 
-const RowText: FC<AppItemTextProps> = (props) => <AppItemText textType="subtitle" color="#FFFFFF80" {...props} />
+  const data = userJackpotHistory.map((item) => {
+    return {
+      id: item.id,
+      prize: item.wagered,
+      type: item.gameType,
+      status: item.isWin,
+      date: item.createdAt,
+      txHash: item.tx,
+    }
+  })
+
+  return data as TransactionDataType[]
+}
+
+export type TransactionDataType = {
+  id: string
+  prize: number
+  type: string
+  status: boolean
+  date: string
+  txHash: string
+}
