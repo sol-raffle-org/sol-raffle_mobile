@@ -11,6 +11,7 @@ export const AppButton: FC<CommonButtonProps> = ({
   title,
   children,
   variant = 'contained',
+  style,
   onPress,
   ...otherProps
 }) => {
@@ -21,7 +22,7 @@ export const AppButton: FC<CommonButtonProps> = ({
         styles.button,
         variant === 'contained' && styles.containedGreen,
         pressed && { opacity: 0.8 },
-        otherProps.style, // Allow additional styles to be passed
+        style,
       ]}
       {...otherProps}
     >
@@ -38,11 +39,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 2,
-
-    paddingTop: 16,
-    paddingRight: 8,
-    paddingBottom: 16,
-    paddingLeft: 8,
   },
   containedGreen: {
     backgroundColor: 'rgba(37, 92, 47, 1)',
