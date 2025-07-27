@@ -60,3 +60,5 @@ services/games-service/coin-flip/coinflip.ts
 
 # others
 .npmrc
+android/gradle.properties
+android/app/test-raffle.keystore
