@@ -252,22 +252,30 @@ const PlaceBet = ({ value, balance, disableBet, onChangeValue, onBetClick }: Pla
 
 interface BetButtonProps {
   title?: string
+  style?: ViewStyle
+  contentStyle?: ViewStyle
   onPress: () => void
 }
-export function BetButton({ title, onPress }: BetButtonProps) {
+export function BetButton({ style, contentStyle, title, onPress }: BetButtonProps) {
   return (
     <Button
       dark
       mode="contained"
       onPress={onPress}
-      style={{
-        backgroundColor: 'transparent',
-        borderRadius: 10,
-      }}
-      contentStyle={{
-        backgroundColor: '#FFFFFF1F',
-        borderRadius: 10,
-      }}
+      style={[
+        {
+          backgroundColor: 'transparent',
+          borderRadius: 10,
+        },
+        style,
+      ]}
+      contentStyle={[
+        {
+          backgroundColor: '#FFFFFF1F',
+          borderRadius: 10,
+        },
+        contentStyle,
+      ]}
     >
       <AppItemText style={{ color: '#fff' }}>{title}</AppItemText>
     </Button>
