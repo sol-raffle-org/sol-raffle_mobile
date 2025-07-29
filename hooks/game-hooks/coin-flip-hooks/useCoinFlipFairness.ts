@@ -1,45 +1,39 @@
-import { showErrorToast } from "@/components/common/custom-toast";
-import { DEFAULT_PAGE_SIZE } from "@/constants/api.const";
+import { useToast } from '@/components/toast/app-toast-provider'
+import { DEFAULT_PAGE_SIZE } from '@/constants/api.const'
 import {
   getCoinFlipFairnessService,
   getCoinFlipFairnessTransactionService,
-} from "@/services/games-service/coin-flip/coin-flip.service";
-import useCoinFlipStore from "@/stores/useCoinflipStore";
+} from '@/services/games-service/coin-flip/coin-flip.service'
+import useCoinFlipStore from '@/stores/useCoinflipStore'
 
 const useCoinFlipFairness = () => {
-  const { setPage, setTotalItems, setCoinFlipFairness, setCurrentTransaction } =
-    useCoinFlipStore();
+  const { showToast } = useToast()
+  const { setPage, setTotalItems, setCoinFlipFairness, setCurrentTransaction } = useCoinFlipStore()
 
   const handleGetCoinFlipFairness = async (page: number) => {
-    const response = await getCoinFlipFairnessService(page, DEFAULT_PAGE_SIZE);
+    const response = await getCoinFlipFairnessService(page, DEFAULT_PAGE_SIZE)
 
-    if (!response) return;
+    if (!response) return
 
-    setCoinFlipFairness(response.pageData);
-    setTotalItems(response.total);
-    setPage(response.pageNum);
-  };
+    setCoinFlipFairness(response.pageData)
+    setTotalItems(response.total)
+    setPage(response.pageNum)
+  }
 
-  const handleGetCoinFlipFairnessTransaction = async (
-    gameId: number,
-    creatorWallet: string
-  ) => {
-    const response = await getCoinFlipFairnessTransactionService(
-      gameId,
-      creatorWallet
-    );
+  const handleGetCoinFlipFairnessTransaction = async (gameId: number, creatorWallet: string) => {
+    const response = await getCoinFlipFairnessTransactionService(gameId, creatorWallet)
 
     if (!response || !Array.isArray(response)) {
-      showErrorToast("Error");
-      return;
+      showToast({ type: 'error', subtitle: 'Error' })
+      return
     }
 
-    setCurrentTransaction(response);
+    setCurrentTransaction(response)
 
-    return response;
-  };
+    return response
+  }
 
-  return { handleGetCoinFlipFairness, handleGetCoinFlipFairnessTransaction };
-};
+  return { handleGetCoinFlipFairness, handleGetCoinFlipFairnessTransaction }
+}
 
-export default useCoinFlipFairness;
+export default useCoinFlipFairness
