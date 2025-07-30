@@ -4,9 +4,11 @@ import { useAuth } from '@/components/auth/auth-provider'
 import { useRouter } from 'expo-router'
 import React, { useEffect } from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-export default function Login() {
+export default function ConnectWallet() {
   const router = useRouter()
+  const insets = useSafeAreaInsets()
   const { isAuthenticated, isLoading, signIn, handleSignMessage, isConnected } = useAuth()
 
   const handleConnectWallet = async () => {
@@ -21,7 +23,7 @@ export default function Login() {
   }, [isAuthenticated, router])
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <View style={[styles.fullContainer, styles.spaceContent]}>
         <AppCarousel
           data={data}
@@ -48,9 +50,19 @@ export default function Login() {
       </View>
 
       <View style={[styles.buttonContainer]}>
+        <View
+          style={{
+            backgroundColor: '#133018',
+            paddingBottom: 3,
+            borderRadius: 2,
+          }}
+        ></View>
         <AppButton
           title={isConnected ? 'Sign Message' : 'Connect Wallet Now'}
-          disabled={isLoading}
+          disabled={true}
+          style={{
+            borderRadius: 2,
+          }}
           onPress={() => {
             if (isConnected) {
               handleSignMessage()
@@ -102,7 +114,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingTop: 56,
-    paddingBottom: 40,
+    paddingBottom: 36,
     paddingHorizontal: 16,
   },
 })
