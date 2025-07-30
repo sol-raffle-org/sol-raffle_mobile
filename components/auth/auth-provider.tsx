@@ -13,6 +13,7 @@ export interface AuthState {
   isAuthenticated: boolean
   isLoading: boolean
   isConnected: boolean
+  connect: () => Promise<Account>
   signIn: () => Promise<Account>
   signOut: () => Promise<void>
   handleSignMessage: () => Promise<void>
@@ -40,12 +41,21 @@ function useSignInMutation() {
   })
 }
 
+function useConnectMutation() {
+  const { connect } = useMobileWallet()
+
+  return useMutation({
+    mutationFn: async () => await connect(),
+  })
+}
+
 export function AuthProvider({ children }: PropsWithChildren) {
   const { signMessage } = useMobileWallet()
   const { selectedAccount, isLoading, accounts } = useAuthorization()
   const { setAccountInfo } = useAppStore()
   const { handleGetNonce, handleVerify, handleLogout } = useAuthentication()
   const signInMutation = useSignInMutation()
+  const connectMutation = useConnectMutation()
 
   const [isSigned, setIsSigned] = useState(false)
   const [hasToken, setHasToken] = useState(false)
@@ -80,6 +90,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const value: AuthState = useMemo(
     () => ({
+      connect: async () => await connectMutation.mutateAsync(),
       signIn: async () => await signInMutation.mutateAsync(),
       signOut: async () => await handleLogout(),
       handleSignMessage: async () => await handleSignMessage(),
