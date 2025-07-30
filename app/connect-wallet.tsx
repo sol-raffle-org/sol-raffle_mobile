@@ -8,11 +8,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function ConnectWallet() {
   const router = useRouter()
+  const { isAuthenticated, connect, handleSignMessage, isConnected } = useAuth()
   const insets = useSafeAreaInsets()
-  const { isAuthenticated, isLoading, signIn, handleSignMessage, isConnected } = useAuth()
 
   const handleConnectWallet = async () => {
-    await signIn()
+    await connect()
     router.replace('/')
   }
 
