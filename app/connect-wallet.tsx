@@ -7,10 +7,10 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 
 export default function Login() {
   const router = useRouter()
-  const { isAuthenticated, isLoading, signIn, handleSignMessage, isConnected } = useAuth()
+  const { isAuthenticated, isLoading, connect, handleSignMessage, isConnected } = useAuth()
 
   const handleConnectWallet = async () => {
-    await signIn()
+    await connect()
     router.replace('/')
   }
 
