@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import Svg, { Path, SvgProps } from 'react-native-svg'
+import Svg, { ClipPath, Defs, G, Path, Rect, SvgProps } from 'react-native-svg'
 
 export const CloseIcon: FC<SvgProps> = ({ ...otherProps }) => {
   return (
@@ -483,6 +483,7 @@ export const VersusIcon: FC<SvgProps> = ({ ...otherProps }) => {
     </Svg>
   )
 }
+
 export const StatsIcon: FC<SvgProps> = ({ ...otherProps }) => {
   return (
     <Svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg" {...otherProps}>
@@ -490,6 +491,24 @@ export const StatsIcon: FC<SvgProps> = ({ ...otherProps }) => {
         d="M15 15.5H0V13.8333H15V15.5ZM4.16667 6.33333H0.833333V12.1667H4.16667V6.33333ZM9.16667 0.5H5.83333V12.1667H9.16667V0.5ZM14.1667 3H10.8333V12.1667H14.1667V3Z"
         fill="currentColor"
       />
+    </Svg>
+  )
+}
+
+export const WalletIcon: FC<SvgProps> = ({ ...otherProps }) => {
+  return (
+    <Svg width={16} height={16} viewBox="0 0 16 16" fill="none" {...otherProps}>
+      <G clipPath="url(#clip0)">
+        <Path
+          d="M15.36 0H0.64C0.286 0 0 0.286 0 0.64V15.36C0 15.714 0.286 16 0.64 16H15.36C15.714 16 16 15.714 16 15.36V0.64C16 0.286 15.714 0 15.36 0ZM14.56 9.28H8.32V6.72H14.56V9.28ZM14.56 14.56H1.44V1.44H14.56V5.44H7.68C7.326 5.44 7.04 5.726 7.04 6.08V9.92C7.04 10.274 7.326 10.56 7.68 10.56H14.56V14.56ZM9.36 8C9.36 8.21217 9.44428 8.41566 9.59431 8.56569C9.74434 8.71572 9.94783 8.8 10.16 8.8C10.3722 8.8 10.5757 8.71572 10.7257 8.56569C10.8757 8.41566 10.96 8.21217 10.96 8C10.96 7.78783 10.8757 7.58434 10.7257 7.43431C10.5757 7.28429 10.3722 7.2 10.16 7.2C9.94783 7.2 9.74434 7.28429 9.59431 7.43431C9.44428 7.58434 9.36 7.78783 9.36 8Z"
+          fill="currentColor"
+        />
+      </G>
+      <Defs>
+        <ClipPath id="clip0">
+          <Rect width={16} height={16} fill="white" />
+        </ClipPath>
+      </Defs>
     </Svg>
   )
 }

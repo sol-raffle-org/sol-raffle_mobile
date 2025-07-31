@@ -13,7 +13,10 @@ export function StatsView({ variant = 'row', style, ...props }: StatsViewProps) 
           flexDirection: variant || 'row',
           justifyContent: 'space-around',
           alignItems: 'center',
-          backgroundColor: '#FFFFFF0F',
+          backgroundColor: '#00000099',
+          borderWidth: 1,
+          borderColor: '#76D63733',
+          borderRadius: 4,
         },
         style,
       ]}

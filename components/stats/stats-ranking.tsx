@@ -7,10 +7,10 @@ import {
   Top2BadgeImage,
   Top3BadgeImage,
 } from '@/assets/images'
-import { AppText } from '@/components/app-text'
 import { getSystemTopPlayerService } from '@/services/system-service/system.server-service'
 import { SystemTopPlayerType } from '@/types/service.type'
 import { getAvatarUrl, truncateHash } from '@/utils/common.utils'
+import { LinearGradient } from 'expo-linear-gradient'
 import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { AppCircle } from '../app-circle'
@@ -29,23 +29,25 @@ export function StatsRanking() {
   }, [])
 
   return (
-    <StatsView variant="column" style={{ padding: 8 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <AppImage source={FlagGreenImage} style={{ width: 21, height: 25 }} />
-        <AppText
+    <StatsView variant="column">
+      <LinearGradient
+        colors={['rgba(254, 220, 133, 0.1)', 'rgba(254, 220, 133, 0)']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', padding: 12 }}
+      >
+        <AppImage source={FlagGreenImage} style={{ width: 17, height: 19 }} />
+        <AppItemText
           style={{
-            flex: 1,
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#FFF',
+            color: '#FEDC85',
             padding: 8,
           }}
         >
           Play of week
-        </AppText>
-      </View>
+        </AppItemText>
+      </LinearGradient>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 8 }}>
         {rankingList.map((item: SystemTopPlayerType, index) => (
           <StatsRankingItem key={index} topNumber={index + 1} user={item} />
         ))}
@@ -79,9 +81,9 @@ function StatsRankingItem({ topNumber, user }: StatsRankingItemProps) {
 
       <AppItemText textType="subtitle">{truncateHash(user.wallet)}</AppItemText>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <AppImage source={SolanaLogo} style={{ width: 17, height: 17, marginRight: 8 }} />
-        <AppItemText textType="title">{user.value} SOL</AppItemText>
+        <AppItemText textType="title">{user.value}</AppItemText>
       </View>
     </View>
   )

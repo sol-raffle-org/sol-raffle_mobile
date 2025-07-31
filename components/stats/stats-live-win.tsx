@@ -1,10 +1,11 @@
-import { BigWinImage, FlagGreenImage, Level3Image, SolanaLogo } from '@/assets/images'
-import { AppText } from '@/components/app-text'
+import { BigWinImage, Level3Image, SolanaLogo } from '@/assets/images'
 import useJackpotStore from '@/stores/useJackpotStore'
 import { JackpotWinnerItemInterface, WinTypeEnum } from '@/types/jackpot.type'
 import { getAvatarUrl } from '@/utils/common.utils'
+import { LinearGradient } from 'expo-linear-gradient'
 import { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
+import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
 import { CoinFlipIcon, JackpotIcon } from '../icons'
@@ -28,21 +29,32 @@ export function StatsLiveWin() {
   })
 
   return (
-    <StatsView variant="column" style={{ flex: 1, padding: 8 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <AppImage source={FlagGreenImage} style={{ width: 21, height: 25 }} />
-        <AppText
+    <StatsView variant="column" style={{ flex: 1 }}>
+      <LinearGradient
+        colors={['rgba(254, 220, 133, 0.1)', 'rgba(254, 220, 133, 0)']}
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', padding: 12 }}
+      >
+        <AppCircle
           style={{
-            flex: 1,
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#FFF',
+            width: 10,
+            height: 10,
+            backgroundColor: '#E00303',
+            borderWidth: 3,
+            borderColor: '#E0030330',
+          }}
+        />
+
+        <AppItemText
+          style={{
+            color: '#FEDC85',
             padding: 8,
           }}
         >
-          Live wins
-        </AppText>
-      </View>
+          Live Wins
+        </AppItemText>
+      </LinearGradient>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -58,6 +70,9 @@ export function StatsLiveWin() {
 
 function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
   const isBigWin = item.type === WinTypeEnum.BigWin
+  const gameValueColor = isBigWin ? '#FF4CE7' : '#76D638'
+  const walletColor = 'rgba(255, 255, 255, 0.7)'
+  const iconColor = 'rgba(255, 255, 255, 0.3)'
 
   return (
     <View
@@ -99,14 +114,14 @@ function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
           <AppImage source={SolanaLogo} style={{ width: 17, height: 17 }} />
 
-          <AppItemText textType="title" color={isBigWin ? '#FF4CE7' : '#76D638'}>
+          <AppItemText textType="title" color={gameValueColor}>
             {item.gameValue || 0}
           </AppItemText>
 
           {item.type === WinTypeEnum.BigWin && <AppImage source={BigWinImage} style={{ width: 40, height: 18 }} />}
         </View>
 
-        <AppItemText textType="subtitle" style={{ textAlign: 'left' }} color="#FFFFFFB2">
+        <AppItemText textType="subtitle" style={{ textAlign: 'left' }} color={walletColor}>
           {item.name}
         </AppItemText>
       </View>
@@ -114,15 +129,15 @@ function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
         {item.gameType === 'jackpot' ? (
           <>
-            <JackpotIcon color="#ffffff66" />
-            <AppItemText textType="subtitle" color="#ffffff66">
+            <JackpotIcon color={iconColor} />
+            <AppItemText textType="subtitle" color={iconColor}>
               Jackpot
             </AppItemText>
           </>
         ) : (
           <>
-            <CoinFlipIcon color="#ffffff66" />
-            <AppItemText textType="subtitle" color="#ffffff66">
+            <CoinFlipIcon color={iconColor} />
+            <AppItemText textType="subtitle" color={iconColor}>
               CoinFlip
             </AppItemText>
           </>

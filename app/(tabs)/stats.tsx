@@ -11,7 +11,7 @@ export default function StatsScreen() {
     <AppTabView>
       <AutoHeightImage source={StatsBackgroundImage} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
 
-      <AppPage style={{ flexDirection: 'column' }}>
+      <AppPage style={{ flexDirection: 'column', flex: 1 }}>
         <StatsTotal />
         <StatsRanking />
         <StatsLiveWin />

@@ -1,5 +1,4 @@
 import { CoinFlipTitleImage, JackpotTitleImage, StatsTitleImage } from '@/assets/images'
-import AntDesign from '@expo/vector-icons/AntDesign'
 import { useRoute } from '@react-navigation/native'
 import { Link } from 'expo-router'
 import React from 'react'
@@ -7,6 +6,7 @@ import { View } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AppImage } from './app-image'
+import { WalletIcon } from './icons'
 
 export const HEADER_PADDING = 16
 export function AppHeader() {
@@ -35,7 +35,7 @@ export function AppHeader() {
             top: (32 + insets.top) / 2,
             right: 0,
           }}
-          icon={() => <AntDesign name="wallet" size={16} color="black" />}
+          icon={() => <WalletIcon color="#000" />}
         />
       </Link>
     </View>
