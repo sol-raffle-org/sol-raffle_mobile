@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 
   paginationContainer: {
-    paddingVertical: 8,
+    paddingVertical: 4,
   },
   dot: {
     width: 6,

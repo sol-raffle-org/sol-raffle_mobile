@@ -47,6 +47,7 @@ import GlowingLayerImage from './slot-machine/img-layer-win.png'
 import WinnerBannerImage from './slot-machine/img-winner-banner.png'
 
 // Coin Flip
+import CoinFlipTitleImage from './coin-flip/img-coin-flip-title.png'
 import CoinHeadImage from './coin-flip/img-coin-head.png'
 import CoinHeadLeanImage from './coin-flip/img-coin-head_lean.png'
 import CoinTailImage from './coin-flip/img-coin-tail.png'
@@ -59,6 +60,13 @@ import LevelUpImage from './toast/img-level-up.png'
 // Slot Machine
 import SlotMachineDemoImage from './slot-machine/img-slot-machine-demo.png'
 
+// Stats
+import StatsBackgroundImage from './stats/img-stats-background.png'
+import StatsTitleImage from './stats/img-stats-title.png'
+
+// Jackpot
+import JackpotTitleImage from './jackpot/img-jackpot-title.png'
+
 export {
   ArrowSlotImage,
   AuraImage,
@@ -67,6 +75,7 @@ export {
   BlurStatusImage,
   ButtonDefaultImage,
   ButtonSlotFullImage,
+  CoinFlipTitleImage,
   CoinHeadImage,
   CoinHeadLeanImage,
   CoinTailImage,
@@ -83,6 +92,7 @@ export {
   GlowLevelToastImage2,
   GradientHolderImage,
   InfoImage,
+  JackpotTitleImage,
   Level1Image,
   Level2Image,
   Level3Image,
@@ -96,6 +106,8 @@ export {
   SlotMachineDemoImage,
   SolanaGoldenLogo,
   SolanaLogo,
+  StatsBackgroundImage,
+  StatsTitleImage,
   StreamerPanelImage,
   TelegramLogo,
   TelegramPanelImage,

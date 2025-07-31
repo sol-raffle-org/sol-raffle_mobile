@@ -25,6 +25,7 @@ export default function RootLayout() {
 
   const onLayoutRootView = useCallback(async () => {
     console.log('onLayoutRootView')
+
     if (loaded) {
       console.log('loaded')
       // This tells the splash screen to hide immediately! If we call this after
@@ -44,7 +45,7 @@ export default function RootLayout() {
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <AppProviders>
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
         <AppSplashController />
         <RootNavigator />
       </AppProviders>
@@ -64,6 +65,7 @@ function RootNavigator() {
     >
       <Stack.Protected guard={isAuthenticated}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="profile" />
         <Stack.Screen name="+not-found" />
       </Stack.Protected>
 
