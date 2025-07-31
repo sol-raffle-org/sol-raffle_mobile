@@ -7,6 +7,7 @@ import useAppStore from '@/stores/useAppStore'
 import { CoinSideEnum } from '@/types/coin-flip.type'
 import { BlockchainTransactionStatusEnum, SupportedChainEnum } from '@/types/common.type'
 import { isNil } from '@/utils/common.utils'
+import { formatNumber } from '@/utils/format.utils'
 import React, { useEffect, useState } from 'react'
 import { Pressable, StyleProp, View, ViewStyle } from 'react-native'
 import { IconButton, TextInput } from 'react-native-paper'
@@ -45,7 +46,7 @@ export function CoinFlipCreateGame() {
           color: '#FFFFFF66',
         }}
       >
-        Balance: {balance} SOL
+        Balance: {formatNumber(balance)} SOL
       </AppItemText>
 
       <CoinFlipSide value={typingValue} />

@@ -47,10 +47,13 @@ import GlowingLayerImage from './slot-machine/img-layer-win.png'
 import WinnerBannerImage from './slot-machine/img-winner-banner.png'
 
 // Coin Flip
+import FlipHeadGif from './coin-flip/gif-flip-head.gif'
+import FlipTailGif from './coin-flip/gif-flip-tail.gif'
 import CoinFlipTitleImage from './coin-flip/img-coin-flip-title.png'
 import CoinHeadImage from './coin-flip/img-coin-head.png'
 import CoinHeadLeanImage from './coin-flip/img-coin-head_lean.png'
 import CoinTailImage from './coin-flip/img-coin-tail.png'
+import FlipCardBgImage from './coin-flip/img-flip-bg.png'
 
 // Toast
 import GameWinImage from './toast/img-game-win.png'
@@ -86,6 +89,9 @@ export {
   DiamondLevelToastImage,
   FireImage,
   FlagGreenImage,
+  FlipCardBgImage,
+  FlipHeadGif,
+  FlipTailGif,
   GameWinImage,
   GlowGreenImage,
   GlowingImage,

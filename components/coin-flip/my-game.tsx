@@ -1,8 +1,10 @@
 import useAppStore from '@/stores/useAppStore'
 import useCoinFlipStore from '@/stores/useCoinflipStore'
 import React, { useMemo } from 'react'
-import { Button, Text } from 'react-native-paper'
-import { AppView } from '../app-view'
+import { ScrollView } from 'react-native'
+import { AppButton } from '../app-button'
+import { AppItemText } from '../app-item-text'
+import FlipCard from './flip-card'
 
 export function MyGame() {
   const { appSocket, accountInfo } = useAppStore()
@@ -24,38 +26,31 @@ export function MyGame() {
   }
 
   return (
-    <AppView>
+    <ScrollView
+      style={{ flex: 1 }}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
+    >
       {myGames.map((item, index) => {
         return (
-          <AppView
+          <FlipCard
             key={index}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 4,
-              borderWidth: 1,
-              borderColor: 'white',
-            }}
-          >
-            <AppView>
-              <Text>Creator data</Text>
-              <Text>Bet: {item.creatorChoice === 0 ? 'Heads' : 'Tails'}</Text>
-            </AppView>
-
-            <Text>{item.result === 0 ? 'Heads' : item.result === 1 ? 'Tails' : 'Waiting result'}</Text>
-
-            {item.userJoin ? (
-              <AppView>
-                <Text>User join data</Text>
-                <Text>Bet: {item.creatorChoice === 0 ? 'Tails' : 'Heads'}</Text>
-              </AppView>
-            ) : (
-              <Button onPress={() => handleCallBot(item.gameId)}>Call bot</Button>
-            )}
-          </AppView>
+            data={item}
+            action={
+              <AppButton
+                variant="contained"
+                style={{
+                  width: 79,
+                  height: 33,
+                }}
+                onPress={() => handleCallBot(item.gameId)}
+              >
+                <AppItemText>Call bot</AppItemText>
+              </AppButton>
+            }
+          />
         )
       })}
-    </AppView>
+    </ScrollView>
   )
 }
