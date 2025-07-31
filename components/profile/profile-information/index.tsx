@@ -27,8 +27,8 @@ const ProfileLogOutButton = () => {
   const { handleLogout } = useAuthentication()
 
   const handleLogoutClick = () => {
-    router.replace('/connect-wallet')
     handleLogout()
+    router.replace('/connect-wallet')
   }
 
   const color = '#DD6654'
@@ -37,7 +37,7 @@ const ProfileLogOutButton = () => {
     <Button
       mode="contained"
       style={{
-        width: 96,
+        width: 100,
         borderRadius: 42,
         backgroundColor: '#1E0906',
       }}
