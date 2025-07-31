@@ -9,7 +9,24 @@ import { AppView } from '../app-view'
 import { JackpotAmountInput } from './jackpot-amount-input'
 
 export function JackpotSlotMachineAction() {
-  const { accountInfo } = useAppStore()
+  return (
+    <AppView
+      style={{
+        borderWidth: 1,
+        borderColor: '#76D63733',
+        borderRadius: 4,
+        padding: 16,
+        backgroundColor: '#0A100A03',
+      }}
+    >
+      <JackpotView />
+      <JackpotAmountInput />
+    </AppView>
+  )
+}
+
+const JackpotView = () => {
+  const { accountInfo, balance } = useAppStore()
   const { jackpotGameData } = useJackpotStore()
 
   const totalPot = useMemo(() => {
@@ -41,14 +58,7 @@ export function JackpotSlotMachineAction() {
   ]
 
   return (
-    <AppView
-      style={{
-        borderWidth: 1,
-        borderColor: '#76D63733',
-        borderRadius: 4,
-        padding: 16,
-      }}
-    >
+    <AppView style={{ gap: 8 }}>
       <View
         style={{
           flexDirection: 'row',
@@ -57,26 +67,16 @@ export function JackpotSlotMachineAction() {
         }}
       >
         {data.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-            }}
-          >
-            <AppItemText
-              style={{
-                color: '#FFFFFF80',
-              }}
-            >
-              {item.title}
-            </AppItemText>
+          <View key={index} style={{ alignItems: 'flex-start' }}>
+            <AppItemText style={{ color: '#FFFFFF80', fontSize: 12 }}>{item.title}</AppItemText>
             <AppItemText style={{ fontSize: 16 }}>{item.value}</AppItemText>
           </View>
         ))}
       </View>
 
-      <JackpotAmountInput />
+      <AppItemText textType="subtitle" style={{ color: '#FFFFFF80', textAlign: 'left', fontSize: 12 }}>
+        Ballance: {balance || 0}
+      </AppItemText>
     </AppView>
   )
 }

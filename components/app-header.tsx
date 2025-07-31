@@ -33,7 +33,7 @@ export function AppHeader() {
             borderRadius: 4,
             position: 'absolute',
             top: (32 + insets.top) / 2,
-            right: 0,
+            right: HEADER_PADDING - 4,
           }}
           icon={() => <WalletIcon color="#000" />}
         />

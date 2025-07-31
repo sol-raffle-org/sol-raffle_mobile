@@ -65,6 +65,8 @@ import StatsBackgroundImage from './stats/img-stats-background.png'
 import StatsTitleImage from './stats/img-stats-title.png'
 
 // Jackpot
+import JackpotBackgroundImage from './jackpot/img-jackpot-background.png'
+import JackpotPlaceBetImage from './jackpot/img-jackpot-place-bet.png'
 import JackpotTitleImage from './jackpot/img-jackpot-title.png'
 
 export {
@@ -92,6 +94,8 @@ export {
   GlowLevelToastImage2,
   GradientHolderImage,
   InfoImage,
+  JackpotBackgroundImage,
+  JackpotPlaceBetImage,
   JackpotTitleImage,
   Level1Image,
   Level2Image,

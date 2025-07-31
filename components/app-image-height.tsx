@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, Image, ImageSourcePropType, ImageStyle, ImageURISource, StyleProp } from 'react-native'
+import { Dimensions, Image, ImageProps, ImageSourcePropType, ImageStyle, ImageURISource, StyleProp } from 'react-native'
 
-interface AutoHeightImageProps {
+interface AutoHeightImageProps extends ImageProps {
   source: ImageSourcePropType
   width?: number
   style?: StyleProp<ImageStyle>
 }
 
-export function AutoHeightImage({ source, width = Dimensions.get('screen').width, style }: AutoHeightImageProps) {
+export function AutoHeightImage({
+  source,
+  width = Dimensions.get('screen').width,
+  style,
+  ...otherProps
+}: AutoHeightImageProps) {
   const [height, setHeight] = useState<number>(0)
 
   useEffect(() => {
@@ -31,5 +36,5 @@ export function AutoHeightImage({ source, width = Dimensions.get('screen').width
     }
   }, [source, width])
 
-  return <Image source={source} style={[{ width, height }, style]} resizeMode="contain" />
+  return <Image source={source} style={[{ width, height }, style]} resizeMode="contain" {...otherProps} />
 }
