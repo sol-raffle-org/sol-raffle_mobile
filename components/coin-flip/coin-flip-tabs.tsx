@@ -9,15 +9,16 @@ export function CoinFlipCreateTabs() {
   const { gameTab, setGameTab } = useCoinFlipStore()
 
   return (
-    <AppView style={{ flexDirection: 'row' }}>
+    <AppView style={{ flexDirection: 'row', gap: 0 }}>
       <Pressable
         style={({ pressed }) => [
           {
             height: 40,
+            width: 116,
             borderRadius: 2,
             paddingLeft: 10,
             paddingRight: 10,
-            backgroundColor: gameTab === 0 ? '#255C2F66' : pressed ? '#FFFFFF33' : '#FFFFFF1A',
+            backgroundColor: gameTab === 0 ? '#255C2F66' : pressed ? '#FFFFFF33' : 'transparent',
             justifyContent: 'center',
             alignItems: 'center',
           } as StyleProp<ViewStyle>,
@@ -30,10 +31,11 @@ export function CoinFlipCreateTabs() {
         style={({ pressed }) => [
           {
             height: 40,
+            width: 116,
             borderRadius: 2,
             paddingLeft: 10,
             paddingRight: 10,
-            backgroundColor: gameTab === 1 ? '#255C2F66' : pressed ? '#FFFFFF33' : '#FFFFFF1A',
+            backgroundColor: gameTab === 1 ? '#255C2F66' : pressed ? '#FFFFFF33' : 'transparent',
             justifyContent: 'center',
             alignItems: 'center',
           } as StyleProp<ViewStyle>,

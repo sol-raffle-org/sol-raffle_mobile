@@ -8,9 +8,11 @@ import { FlipGameInterface } from '@/types/coin-flip.type'
 import { BlockchainTransactionStatusEnum, SupportedChainEnum } from '@/types/common.type'
 import { isNil } from '@/utils/common.utils'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Text } from 'react-native-paper'
-import { AppView } from '../app-view'
+import { ScrollView } from 'react-native'
+import { AppButton } from '../app-button'
+import { AppItemText } from '../app-item-text'
 import { useToast } from '../toast/app-toast-provider'
+import FlipCard from './flip-card'
 
 export function OtherGames() {
   const { flipGamesTable } = useCoinFlipStore()
@@ -25,39 +27,15 @@ export function OtherGames() {
   }, [flipGamesTable, accountInfo])
 
   return (
-    <AppView>
+    <ScrollView
+      style={{ flex: 1 }}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
+    >
       {otherGames.map((item, index) => {
-        return (
-          <AppView
-            key={index}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 4,
-              borderWidth: 1,
-              borderColor: 'white',
-            }}
-          >
-            <AppView>
-              <Text>Creator data</Text>
-              <Text>Bet: {item.creatorChoice === 0 ? 'Heads' : 'Tails'}</Text>
-            </AppView>
-
-            <Text>{item.result === 0 ? 'Heads' : item.result === 1 ? 'Tails' : 'Waiting result'}</Text>
-
-            {item.userJoin ? (
-              <AppView>
-                <Text>User join data</Text>
-                <Text>Bet: {item.creatorChoice === 0 ? 'Tails' : 'Heads'}</Text>
-              </AppView>
-            ) : (
-              <JoinGameButton gameData={item} />
-            )}
-          </AppView>
-        )
+        return <FlipCard key={index} data={item} action={<JoinGameButton gameData={item} />} />
       })}
-    </AppView>
+    </ScrollView>
   )
 }
 
@@ -158,5 +136,16 @@ const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
     }
   }, [txHash, txStatus]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <Button onPress={() => handleJoinGame()}>Join game</Button>
+  return (
+    <AppButton
+      variant="contained"
+      style={{
+        width: 79,
+        height: 33,
+      }}
+      onPress={() => handleJoinGame()}
+    >
+      <AppItemText>Join game</AppItemText>
+    </AppButton>
+  )
 }
