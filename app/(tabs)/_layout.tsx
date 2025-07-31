@@ -8,6 +8,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         header: () => <AppHeader />,
+        headerTransparent: true,
       }}
       tabBar={(props) => <AppTabBar {...props} />}
     >

@@ -3,16 +3,26 @@ import AntDesign from '@expo/vector-icons/AntDesign'
 import { useRoute } from '@react-navigation/native'
 import { Link } from 'expo-router'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { IconButton } from 'react-native-paper'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AppImage } from './app-image'
 
+export const HEADER_PADDING = 16
 export function AppHeader() {
+  const insets = useSafeAreaInsets()
+
   return (
-    <View style={styles.header}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <AppHeaderTitle />
-      </View>
+    <View
+      style={{
+        padding: HEADER_PADDING,
+        paddingTop: HEADER_PADDING + insets.top,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <AppHeaderTitle />
 
       <Link href="/profile" asChild>
         <IconButton
@@ -22,6 +32,7 @@ export function AppHeader() {
             backgroundColor: '#76D637',
             borderRadius: 4,
             position: 'absolute',
+            top: (32 + insets.top) / 2,
             right: 0,
           }}
           icon={() => <AntDesign name="wallet" size={16} color="black" />}
@@ -30,12 +41,6 @@ export function AppHeader() {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 64 },
-  headerLogo: { width: 42, height: 39, marginRight: 10, resizeMode: 'cover' },
-  content: { flex: 1, flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' },
-})
 
 const AppHeaderTitle = () => {
   const route = useRoute()
