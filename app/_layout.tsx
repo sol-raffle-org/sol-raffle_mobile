@@ -19,7 +19,8 @@ export default function RootLayout() {
     console.log(`Track ${pathname}`, { params })
   })
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    'InriaSans-Regular': require('../assets/fonts/InriaSans-Regular.ttf'),
+    'InriaSans-Bold': require('../assets/fonts/InriaSans-Bold.ttf'),
   })
 
   const onLayoutRootView = useCallback(async () => {
@@ -53,6 +54,7 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { isAuthenticated } = useAuth()
+  console.log({ isAuthenticated })
 
   return (
     <Stack
