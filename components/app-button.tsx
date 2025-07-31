@@ -11,6 +11,7 @@ export const AppButton: FC<CommonButtonProps> = ({
   title,
   children,
   variant = 'contained',
+  disabled,
   style,
   onPress,
   ...otherProps
