@@ -1,6 +1,7 @@
 import useAppStore from '@/stores/useAppStore'
 import useJackpotStore from '@/stores/useJackpotStore'
 import { calculateWinChance } from '@/utils/common.utils'
+import { formatNumber } from '@/utils/format.utils'
 import React, { useMemo } from 'react'
 import { View } from 'react-native'
 import { AppItemText } from '../app-item-text'
@@ -31,7 +32,7 @@ export function JackpotSlotMachineAction() {
   const data = [
     {
       title: 'Your Wager',
-      value: totalWagered,
+      value: formatNumber(totalWagered),
     },
     {
       title: 'Your Chance',
