@@ -1,7 +1,7 @@
-import { SolanaLogo } from '@/assets/images'
+import { JackpotPlaceBetImage, SolanaLogo } from '@/assets/images'
 import React, { useEffect, useMemo, useState } from 'react'
-import { View, ViewStyle } from 'react-native'
-import { Button, TextInput, TextInputProps } from 'react-native-paper'
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
+import { TextInput, TextInputProps } from 'react-native-paper'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
 import { AppView } from '../app-view'
@@ -138,57 +138,49 @@ export function JackpotAmountInput({ onChange }: JackpotAmountInputProps) {
 
   return (
     <AppView>
-      <View
+      <TextInput
+        mode="outlined"
+        inputMode="decimal"
+        value={typingValue}
+        onChangeText={handleChange}
+        placeholder="Bet amount..."
+        placeholderTextColor="#FFFFFF66"
         style={{
-          gap: 8,
+          backgroundColor: 'transparent',
+          paddingRight: 36,
         }}
-      >
-        <AppItemText textType="title" style={{ color: '#FFFFFF80', textAlign: 'left', fontSize: 12 }}>
-          Ballance: {balance || 0}
-        </AppItemText>
+        outlineStyle={{
+          borderRadius: 10,
+          borderColor: 'rgba(255,255,255,0.08)',
+          borderWidth: 2,
+        }}
+        left={
+          <TextInput.Icon
+            style={{
+              width: 28,
+              height: 28,
+              backgroundColor: '#000',
+            }}
+            icon={() => <AppImage source={SolanaLogo} style={{ width: 28, height: 28 }} />}
+          />
+        }
+        right={
+          <TextInput.Icon
+            style={{
+              width: 37,
+              height: 30,
+              borderRadius: 8,
+              backgroundColor: '#FFFFFF1A',
+            }}
+            icon={() => <TrashIcon color="#FFFFFF66" />}
+            onPress={handleClearClick}
+            onTouchEnd={(e) => {
+              e.stopPropagation()
+            }}
+          />
+        }
+      />
 
-        <TextInput
-          mode="outlined"
-          inputMode="decimal"
-          value={typingValue}
-          onChangeText={handleChange}
-          placeholder="Bet amount..."
-          style={{
-            backgroundColor: 'transparent',
-            paddingRight: 36,
-          }}
-          outlineStyle={{
-            borderRadius: 10,
-            borderColor: '#ffffff1a',
-            borderWidth: 2,
-          }}
-          left={
-            <TextInput.Icon
-              style={{
-                width: 28,
-                height: 28,
-                backgroundColor: '#000',
-              }}
-              icon={() => <AppImage source={SolanaLogo} style={{ width: 28, height: 28 }} />}
-            />
-          }
-          right={
-            <TextInput.Icon
-              style={{
-                width: 37,
-                height: 30,
-                borderRadius: 8,
-                backgroundColor: '#FFFFFF1A',
-              }}
-              icon={() => <TrashIcon color="#FFFFFF66" />}
-              onPress={handleClearClick}
-              onTouchEnd={(e) => {
-                e.stopPropagation()
-              }}
-            />
-          }
-        />
-      </View>
       <PlaceBet
         onChangeValue={handleChange}
         onBetClick={handleBet}
@@ -235,10 +227,11 @@ const PlaceBet = ({ value, balance, disableBet, onChangeValue, onBetClick }: Pla
   return (
     <AppView
       style={{
-        gap: 0,
-        display: 'flex',
         flexDirection: 'row',
+        alignItems: 'stretch',
+        alignSelf: 'flex-start',
         justifyContent: 'space-between',
+        gap: 6,
       }}
     >
       {autoBetData.map((item) => (
@@ -250,84 +243,52 @@ const PlaceBet = ({ value, balance, disableBet, onChangeValue, onBetClick }: Pla
   )
 }
 
-interface BetButtonProps {
+interface BetButtonProps extends TouchableOpacityProps {
   title?: string
-  style?: ViewStyle
-  contentStyle?: ViewStyle
-  onPress: () => void
 }
-export function BetButton({ style, contentStyle, title, onPress }: BetButtonProps) {
-  return (
-    <Button
-      dark
-      mode="contained"
-      onPress={onPress}
-      style={[
-        {
-          backgroundColor: 'transparent',
-          borderRadius: 10,
-        },
-        style,
-      ]}
-      contentStyle={[
-        {
-          backgroundColor: '#FFFFFF1F',
-          borderRadius: 10,
-        },
-        contentStyle,
-      ]}
-    >
-      <AppItemText style={{ color: '#fff' }}>{title}</AppItemText>
-    </Button>
-  )
-}
-
-export function PlaceBetButton({
-  title = 'Place Bet',
-  style,
-  onPress,
-  disabled,
-}: {
-  title?: string
-  style?: ViewStyle
-  disabled: boolean
-  onPress: () => void
-}) {
-  const borderRadius = 8
-
+export function BetButton({ title, ...otherProps }: BetButtonProps) {
   return (
     <LinearGradient
-      colors={['rgba(255, 255, 255)', 'rgba(255, 255, 255, 0.68)', 'rgba(255, 255, 255, 0.5)']}
+      colors={[
+        'rgba(255,255,255,0.14)', // top
+        'rgba(255,255,255,0.1)', // center
+        'rgba(255,255,255,0.1)', // bottom
+      ]}
       start={{ x: 0.5, y: 0 }}
       end={{ x: 0.5, y: 1 }}
       style={{
-        borderRadius: 10,
         padding: 2,
-        ...style,
+        borderRadius: 8,
       }}
     >
-      <LinearGradient
-        colors={['#B7CA49', '#508031']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
+      <TouchableOpacity
+        activeOpacity={0.5}
         style={{
-          flex: 1,
-          borderRadius: borderRadius,
+          width: 56,
+          height: 30,
+          backgroundColor: '#1c1c1e',
+          borderRadius: 8,
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
+        {...otherProps}
       >
-        <Button
-          dark
-          mode="contained"
-          onPress={onPress}
-          style={{
-            backgroundColor: 'transparent',
-            borderRadius: borderRadius,
-          }}
-          disabled={disabled}
-        >
-          <AppItemText style={{ color: '#fff' }}>{title}</AppItemText>
-        </Button>
-      </LinearGradient>
+        <AppItemText textType="subtitle">{title}</AppItemText>
+      </TouchableOpacity>
     </LinearGradient>
+  )
+}
+
+export function PlaceBetButton({ ...props }: TouchableOpacityProps) {
+  return (
+    <TouchableOpacity activeOpacity={0.5} {...props}>
+      <AppImage
+        source={JackpotPlaceBetImage}
+        style={{
+          width: 128,
+          height: 34,
+        }}
+      />
+    </TouchableOpacity>
   )
 }

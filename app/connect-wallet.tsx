@@ -2,25 +2,19 @@ import { AppButton } from '@/components/app-button'
 import { AppCarousel } from '@/components/app-carousel'
 import { useAuth } from '@/components/auth/auth-provider'
 import { useRouter } from 'expo-router'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function ConnectWallet() {
   const router = useRouter()
-  const { isAuthenticated, isLoading, connect, handleSignMessage, isConnected } = useAuth()
+  const { isLoading, connect, handleSignMessage, isConnected } = useAuth()
   const insets = useSafeAreaInsets()
 
   const handleConnectWallet = async () => {
     await connect()
-    router.replace('/')
+    router.replace('/(tabs)')
   }
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      router.replace('/(tabs)/stats')
-    }
-  }, [isAuthenticated, router])
 
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom }]}>

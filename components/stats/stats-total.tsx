@@ -19,18 +19,19 @@ export function StatsTotal() {
     })
   }, [])
 
+  const iconColor = '#76D638'
   const data = [
     {
-      icon: <SolanaIcon color="#FFFFFF80" />,
+      icon: <SolanaIcon color={iconColor} />,
       title: `${Math.round(parseFloat(statsData.totalWagered || '0'))} SOL`,
       subtitle: t('lTotalVolume'),
     },
-    { icon: <CoinFlipIcon color="#FFFFFF80" />, title: `${statsData.totalBet || 0} SOL`, subtitle: t('lTotalBet') },
-    { icon: <UserGroupIcon color="#FFFFFF80" />, title: `${statsData.totalPlayer || 0}`, subtitle: t('lTotalUser') },
+    { icon: <CoinFlipIcon color={iconColor} />, title: `${statsData.totalBet || 0} SOL`, subtitle: t('lTotalBet') },
+    { icon: <UserGroupIcon color={iconColor} />, title: `${statsData.totalPlayer || 0}`, subtitle: t('lTotalUser') },
   ]
 
   return (
-    <StatsView>
+    <StatsView style={{ backgroundColor: 'transparent', alignItems: 'stretch', gap: 16, borderWidth: 0 }}>
       {data.map((item, index) => (
         <StatsTotalItem key={index} icon={item.icon} title={item.title} subtitle={item.subtitle} />
       ))}
@@ -45,7 +46,19 @@ type StatsTotalItemProps = {
 }
 function StatsTotalItem({ icon, subtitle, title }: StatsTotalItemProps) {
   return (
-    <View style={{ flex: 1, padding: 8, gap: 6 }}>
+    <View
+      style={{
+        flex: 1,
+        paddingHorizontal: 8,
+        paddingVertical: 16,
+        borderWidth: 1,
+        borderColor: '#76D63733',
+        backgroundColor: '#000',
+        borderRadius: 4,
+        justifyContent: 'center',
+        gap: 6,
+      }}
+    >
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>{icon}</View>
       <AppItemText textType="subtitle" color="#FFFFFFB2">
         {subtitle}

@@ -1,11 +1,12 @@
-import { DefaultAvatarImage, SolanaLogo } from '@/assets/images'
+import { DefaultAvatarImage, FireImage, SolanaLogo } from '@/assets/images'
 import useAppStore from '@/stores/useAppStore'
 import useJackpotStore from '@/stores/useJackpotStore'
 import { PlayerBetInterface } from '@/types/jackpot.type'
 import { calculateWinChance, getAvatarUrl, truncateHash } from '@/utils/common.utils'
 import { formatNumber } from '@/utils/format.utils'
+import { LinearGradient } from 'expo-linear-gradient'
 import React, { useMemo } from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
@@ -57,9 +58,7 @@ export function JackpotPlayInRound() {
 
       <AppView>
         {jackpotGameData?.bets.map((item, index) => {
-          const chance = !totalPot ? 0 : item.betInfo.wagered / totalPot
-          const isHighestChance = chance === maxChance
-          return <JackpotPlayer key={index} data={item} totalPot={totalPot} />
+          return <JackpotPlayer key={index} data={item} maxChance={maxChance} totalPot={totalPot} />
         })}
       </AppView>
 
@@ -88,64 +87,108 @@ export function JackpotPlayInRound() {
   )
 }
 
-const JackpotPlayer = ({ data, totalPot }: { data: PlayerBetInterface; totalPot: number }) => {
+const JackpotPlayer = ({
+  data,
+  maxChance,
+  totalPot,
+}: {
+  data: PlayerBetInterface
+  totalPot: number
+  maxChance: number
+}) => {
   const { solPrice } = useAppStore()
+  const chance = !totalPot ? 0 : data.betInfo.wagered / totalPot
+  const isHighestChance = chance === maxChance
+
+  console.log({ chance })
+
+  const [backgroundColor, borderStyle, borderAvatarColor] = useMemo(() => getStyles(chance * 100), [chance])
+
   return (
-    <AppView
+    <View
       style={{
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderWidth: 2,
-        borderColor: '#19E18733',
+        position: 'relative',
         padding: 16,
+        borderColor: borderStyle,
+        borderWidth: 2,
         borderRadius: 16,
+        overflow: 'hidden',
       }}
     >
-      <JackpotRow style={{ gap: 4 }}>
-        <JackpotPlayerAvatar avatar={getAvatarUrl(data.userInfo.avatar)} />
-        <AppItemText>{data.userInfo.name}</AppItemText>
-        <AppCircle
-          style={{
-            borderWidth: 1,
-            borderColor: '#ffffff40',
-            paddingVertical: 4,
-            paddingHorizontal: 8,
-          }}
-        >
-          <AppItemText style={{ fontSize: 12 }}>{data.userInfo.level}</AppItemText>
-        </AppCircle>
-      </JackpotRow>
+      <LinearGradient style={StyleSheet.absoluteFill} {...backgroundColor} />
 
-      <JackpotRow style={{ gap: 8 }}>
-        <AppImage source={SolanaLogo} style={{ width: 24, height: 24 }} />
+      <AppView
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <JackpotRow style={{ gap: 4 }}>
+          <JackpotPlayerAvatar avatar={getAvatarUrl(data.userInfo.avatar)} borderColor={borderAvatarColor} />
+          <AppItemText>{data.userInfo.name}</AppItemText>
+          <AppCircle
+            style={{
+              borderWidth: 1,
+              borderColor: '#ffffff40',
+              paddingVertical: 4,
+              paddingHorizontal: 8,
+            }}
+          >
+            <AppItemText style={{ fontSize: 12 }}>{data.userInfo.level}</AppItemText>
+          </AppCircle>
+        </JackpotRow>
+
+        <JackpotRow style={{ gap: 8 }}>
+          <AppImage source={SolanaLogo} style={{ width: 24, height: 24 }} />
+          <View>
+            <AppItemText>{data.betInfo.wagered}</AppItemText>
+            <AppItemText
+              textType="subtitle"
+              style={{
+                color: '#FFFFFF99',
+                fontSize: 12,
+              }}
+            >
+              ~${formatNumber(data.betInfo.wagered * solPrice, 3)}
+            </AppItemText>
+          </View>
+        </JackpotRow>
+
         <View>
-          <AppItemText>{data.betInfo.wagered}</AppItemText>
           <AppItemText
             textType="subtitle"
             style={{
-              color: '#FFFFFF99',
+              color: '#FFF',
               fontSize: 12,
             }}
           >
-            ~${formatNumber(data.betInfo.wagered * solPrice, 3)}
+            Chance
           </AppItemText>
-        </View>
-      </JackpotRow>
+          <AppView
+            style={{
+              flexDirection: 'row',
+              gap: 4,
+            }}
+          >
+            {isHighestChance && (
+              <AppImage
+                source={FireImage}
+                style={{
+                  width: 13,
+                  height: 17,
+                }}
+              />
+            )}
 
-      <View>
-        <AppItemText
-          textType="subtitle"
-          style={{
-            color: '#FFF',
-            fontSize: 12,
-          }}
-        >
-          Chance
-        </AppItemText>
-        <AppItemText>{calculateWinChance(data.betInfo.wagered, totalPot)}</AppItemText>
-      </View>
-    </AppView>
+            <AppItemText style={[isHighestChance && { color: '#D59704' }]}>
+              {calculateWinChance(data.betInfo.wagered, totalPot)}
+            </AppItemText>
+          </AppView>
+        </View>
+      </AppView>
+    </View>
   )
 }
 
@@ -153,11 +196,11 @@ const JackpotRow = ({ style, ...props }: AppViewProps) => (
   <AppView style={[{ flexDirection: 'row', alignItems: 'center' }, style]} {...props} />
 )
 
-const JackpotPlayerAvatar = ({ avatar }: { avatar?: string }) => (
+const JackpotPlayerAvatar = ({ avatar, borderColor }: { avatar?: string; borderColor?: string }) => (
   <AppView
     style={{
       borderWidth: 2,
-      borderColor: '#D19710',
+      borderColor: borderColor || '#fff',
       borderRadius: 10,
       overflow: 'hidden',
     }}
@@ -171,3 +214,56 @@ const JackpotPlayerAvatar = ({ avatar }: { avatar?: string }) => (
     />
   </AppView>
 )
+
+const getStyles = (winChance: number): any => {
+  if (winChance >= 75) {
+    return [
+      {
+        colors: ['rgba(250,197,122,0.2)', 'rgba(0,0,0,0)'],
+        start: { x: 0.73, y: 0.5 },
+        end: { x: 0.73, y: 1.2 },
+      },
+      '#FAC57A33',
+      '#FAC57A',
+    ]
+  } else if (winChance >= 50) {
+    return [
+      {
+        colors: ['rgba(25, 225, 135, 0.1)', 'rgba(25, 225, 135, 0)'],
+        start: { x: 0, y: 0.2 },
+        end: { x: 0.5, y: 1 },
+      },
+      '#19E18733',
+      '#BCFA7A',
+    ]
+  } else if (winChance >= 10) {
+    return [
+      {
+        colors: ['rgba(59, 156, 247, 0.2)', 'rgba(59, 156, 247, 0)'],
+        start: { x: 0, y: 0.78 },
+        end: { x: 1, y: 0.78 },
+      },
+      '#3B9CF733',
+      '#3B9CF7',
+    ]
+  } else {
+    return [
+      {
+        colors: ['rgba(255, 255, 255, 0.1)', 'rgba(255, 255, 255, 0)'],
+        start: { x: 0, y: 0.2 },
+        end: { x: 0.5, y: 1 },
+      },
+      '#FFFFFF33',
+      '#FFFFFF',
+    ]
+  }
+}
+
+const extractNumber = (input: string): number => {
+  const cleaned = input.replace('%', '')
+  const parsed = parseFloat(cleaned)
+  if (isNaN(parsed)) {
+    throw new Error(`Invalid number in string: "${input}"`)
+  }
+  return parsed
+}
