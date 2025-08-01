@@ -20,8 +20,8 @@ export function ProfileTextInput({ value, label, onChangeText, ...otherProps }: 
     if (onChangeText && isEdit) onChangeText(typingValue)
   }
 
-  const editColor = isEdit ? '#FFD600' : '#B0B0B0'
-  const borderColor = isEdit ? '#FFD600' : '#ffffff1a'
+  const editColor = isEdit ? '#FFD600' : '#FFFFFF80'
+  const borderColor = isEdit ? '#76D63873' : '#ffffff1a'
   const visibleEdit = Boolean(onChangeText)
 
   return (
