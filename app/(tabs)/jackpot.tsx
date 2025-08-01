@@ -19,11 +19,16 @@ export default function JackpotScreen() {
 
     setRandom(Math.random())
   }, [jackpotGameData])
+
   return (
     <AppTabView>
       <AutoHeightImage source={JackpotBackgroundImage} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
 
-      <AppPage style={{ flex: 1, flexDirection: 'column', gap: 16 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexDirection: 'column', gap: 16, paddingTop: 16 }}
+      >
         <View
           style={{
             height: 280,
@@ -37,15 +42,11 @@ export default function JackpotScreen() {
           />
         </View>
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ flex: 1 }}
-          contentContainerStyle={{ flexDirection: 'column', gap: 8 }}
-        >
+        <AppPage style={{ flexDirection: 'column', gap: 8 }}>
           <JackpotSlotMachineAction />
           <JackpotPlayInRound />
-        </ScrollView>
-      </AppPage>
+        </AppPage>
+      </ScrollView>
     </AppTabView>
   )
 }

@@ -37,7 +37,7 @@ const ProfileLogOutButton = () => {
     <Button
       mode="contained"
       style={{
-        width: 100,
+        alignSelf: 'flex-start',
         borderRadius: 42,
         backgroundColor: '#1E0906',
       }}
