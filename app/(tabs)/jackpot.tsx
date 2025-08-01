@@ -43,10 +43,14 @@ export default function JackpotScreen() {
               height: 280,
               position: 'relative',
               zIndex: 10,
-              transform: [
-                { scale: 1.05 }, // 👈 Scale by 1.5x
-              ],
+              transform: [{ scale: 1.05 }],
+              backgroundColor: 'transparent',
             }}
+            injectedJavaScript={`
+              document.body.style.background = 'transparent';
+              document.body.style.backgroundColor = 'transparent';
+              true;
+            `}
           />
           <View
             style={{
@@ -58,7 +62,7 @@ export default function JackpotScreen() {
           />
         </View>
 
-        <AppPage style={{ flexDirection: 'column', gap: 8 }}>
+        <AppPage style={{ flexDirection: 'column', gap: 8, marginTop: -30 }}>
           <JackpotSlotMachineAction />
           <JackpotPlayInRound />
         </AppPage>
