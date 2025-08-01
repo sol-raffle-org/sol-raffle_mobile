@@ -4,6 +4,7 @@ import { useAuth } from '@/components/auth/auth-provider'
 import { useRouter } from 'expo-router'
 import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function ConnectWallet() {
@@ -54,6 +55,7 @@ export default function ConnectWallet() {
           <AppButton
             title={isConnected ? 'Sign Message' : 'Connect Wallet Now'}
             disabled={isLoading}
+            style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 }}
             onPress={() => {
               if (isConnected) {
                 handleSignMessage()
@@ -61,7 +63,9 @@ export default function ConnectWallet() {
                 handleConnectWallet()
               }
             }}
-          />
+          >
+            {isLoading && <ActivityIndicator animating={true} color="#fff" />}
+          </AppButton>
         </View>
       </View>
     </View>

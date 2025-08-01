@@ -11,7 +11,7 @@ type AppTextInputProps = {
   onChangeText?: (text: string) => void
 } & TextInputProps
 
-export function ProfileTextInput({ value, label, onChangeText }: AppTextInputProps) {
+export function ProfileTextInput({ value, label, onChangeText, ...otherProps }: AppTextInputProps) {
   const [typingValue, setTypingValue] = useState(value || '')
   const [isEdit, setIsEdit] = useState(false)
 
@@ -42,6 +42,7 @@ export function ProfileTextInput({ value, label, onChangeText }: AppTextInputPro
         onChangeText={setTypingValue}
         editable={isEdit}
         placeholder="Your Name"
+        placeholderTextColor="#FFFFFF66"
         style={{
           backgroundColor: 'transparent',
           paddingRight: 36,
@@ -82,6 +83,7 @@ export function ProfileTextInput({ value, label, onChangeText }: AppTextInputPro
             />
           )
         }
+        {...otherProps}
       />
     </View>
   )

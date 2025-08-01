@@ -4,19 +4,17 @@ import { AppItemText } from '@/components/app-item-text'
 import AppLevel from '@/components/app-level'
 import { AppView } from '@/components/app-view'
 import { useToast } from '@/components/toast/app-toast-provider'
-import { AccountInterface } from '@/types/app.type'
+import useAccount from '@/hooks/account-hooks/useAccount'
+import useAppStore from '@/stores/useAppStore'
 import { getAvatarUrl } from '@/utils/common.utils'
 import { MaterialIcons } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 import { TouchableOpacity } from 'react-native'
 
-interface ProfileInformationAvatarProps {
-  profile?: AccountInterface
-  onChange: (data: any) => Promise<boolean>
-}
-
-export function ProfileInformationAvatar({ profile, onChange }: ProfileInformationAvatarProps) {
+export function ProfileInformationAvatar() {
   const { showToast } = useToast()
+  const { accountInfo } = useAppStore()
+  const { handleUpdateAvatar } = useAccount()
 
   const handleChangeAvatar = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -36,19 +34,18 @@ export function ProfileInformationAvatar({ profile, onChange }: ProfileInformati
     })
 
     let isSuccess = false
-    if (!result.canceled && result.assets.length > 0 && result.assets[0].file) {
+    if (!result.canceled && result.assets.length > 0) {
       const asset = result.assets[0]
 
-      isSuccess = await onChange({
+      isSuccess = await handleUpdateAvatar({
         avatar: {
           uri: asset.uri,
           name: asset.fileName || `avatar.jpg`, // fallback name
           type: asset.type || 'image/jpeg',
+          fileName: asset.fileName || `avatar.jpg`,
         },
       })
     }
-
-    console.log({ isSuccess, result: result.assets })
 
     if (!result.canceled && !isSuccess) {
       showToast({
@@ -69,7 +66,7 @@ export function ProfileInformationAvatar({ profile, onChange }: ProfileInformati
         }}
       >
         <AppImage
-          source={profile?.avatar ? getAvatarUrl(profile.avatar) : DefaultAvatarImage}
+          source={accountInfo?.avatar ? getAvatarUrl(accountInfo.avatar) : DefaultAvatarImage}
           style={{
             width: 109,
             height: 109,
@@ -78,9 +75,9 @@ export function ProfileInformationAvatar({ profile, onChange }: ProfileInformati
       </AppView>
 
       <AppView>
-        <ProfileView>
+        <ProfileView style={{ alignItems: 'center' }}>
           <AppItemText textType="title" style={{ fontSize: 20 }}>
-            {profile?.name}
+            {accountInfo?.name}
           </AppItemText>
           <AppLevel
             style={{
@@ -91,8 +88,8 @@ export function ProfileInformationAvatar({ profile, onChange }: ProfileInformati
               borderRadius: 2,
               gap: 4,
             }}
-            level={profile?.level}
-            label={profile?.level}
+            level={accountInfo?.level}
+            label={accountInfo?.level}
           />
         </ProfileView>
 

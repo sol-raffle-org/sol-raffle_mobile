@@ -100,8 +100,6 @@ const JackpotPlayer = ({
   const chance = !totalPot ? 0 : data.betInfo.wagered / totalPot
   const isHighestChance = chance === maxChance
 
-  console.log({ chance })
-
   const [backgroundColor, borderStyle, borderAvatarColor] = useMemo(() => getStyles(chance * 100), [chance])
 
   return (

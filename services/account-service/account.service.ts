@@ -66,13 +66,11 @@ export const putUpdateAvatarService = async (avatar: any) => {
   const formData = new FormData()
   formData.append('avatar', avatar)
 
-  const api = await createDappServices(undefined, undefined, {
-    'Content-Type': 'application/x-www-form-urlencoded',
-  })
+  const api = await createDappServices(undefined, undefined)
   const response: ApiResponse<any> = await api.post(POST_UPDATE_AVATAR, formData)
 
   return {
-    status: response.status,
+    ...response,
     errorCode: response?.data?.errorCode,
     message: response?.data?.message,
     statusCode: response?.data?.statusCode,

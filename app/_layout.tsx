@@ -55,7 +55,6 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { isAuthenticated } = useAuth()
-  console.log({ isAuthenticated })
 
   return (
     <Stack

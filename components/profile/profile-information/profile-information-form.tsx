@@ -1,20 +1,18 @@
 import { AppView } from '@/components/app-view'
 import { ProfileTextInput } from '@/components/profile/profile-information/profile-text-input'
 import { useToast } from '@/components/toast/app-toast-provider'
-import { AccountInterface } from '@/types/app.type'
+import useAccount from '@/hooks/account-hooks/useAccount'
+import useAppStore from '@/stores/useAppStore'
 import { useTranslation } from 'react-i18next'
 
-interface ProfileInformationFormProps {
-  profile?: AccountInterface
-  onChangeName: (data: string) => Promise<boolean>
-  onChangeEmail: (data: string) => Promise<boolean>
-}
-export function ProfileInformationForm({ profile, onChangeName, onChangeEmail }: ProfileInformationFormProps) {
+export function ProfileInformationForm() {
   const { t } = useTranslation()
   const { showToast } = useToast()
+  const { accountInfo } = useAppStore()
+  const { handleUpdateName, handleUpdateEmail } = useAccount()
 
   const handleChange = (field: string) => async (text: string) => {
-    const isResult = field === 'name' ? await onChangeName(text) : await onChangeEmail(text)
+    const isResult = field === 'name' ? await handleUpdateName(text) : await handleUpdateEmail(text)
     if (!isResult) {
       showToast({
         type: 'error',
@@ -25,11 +23,21 @@ export function ProfileInformationForm({ profile, onChangeName, onChangeEmail }:
 
   return (
     <AppView style={{ flexDirection: 'column', gap: 16 }}>
-      <ProfileTextInput label="Name" value={profile?.name} onChangeText={handleChange('name')} />
+      <ProfileTextInput label="Name" value={accountInfo?.name} onChangeText={handleChange('name')} />
 
-      <ProfileTextInput label="Email" value={profile?.email || ''} onChangeText={handleChange('email')} />
+      <ProfileTextInput
+        label="Email"
+        placeholder="Your Email"
+        value={accountInfo?.email || ''}
+        onChangeText={handleChange('email')}
+      />
 
-      <ProfileTextInput label="Referred By" value={profile?.referralByWallet || ''} disabled />
+      <ProfileTextInput
+        label="Referred By"
+        placeholder="Referred By"
+        value={accountInfo?.referralByWallet || ''}
+        disabled
+      />
     </AppView>
   )
 }
