@@ -89,6 +89,7 @@ export interface JackpotWinnerItemInterface {
   message: string
   createdAt: number
   avatar?: string
+  level?: number
 }
 
 export interface JackpotWinnerListInterface {

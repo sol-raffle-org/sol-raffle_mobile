@@ -105,7 +105,7 @@ function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          level={1}
+          level={item.level}
         />
       </View>
 
