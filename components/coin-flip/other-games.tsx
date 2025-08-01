@@ -7,24 +7,17 @@ import useCoinFlipStore from '@/stores/useCoinflipStore'
 import { FlipGameInterface } from '@/types/coin-flip.type'
 import { BlockchainTransactionStatusEnum, SupportedChainEnum } from '@/types/common.type'
 import { isNil } from '@/utils/common.utils'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { AppButton } from '../app-button'
 import { AppItemText } from '../app-item-text'
 import { useToast } from '../toast/app-toast-provider'
 import FlipCard from './flip-card'
+import { CallBotButton } from './my-game'
 
 export function OtherGames() {
   const { flipGamesTable } = useCoinFlipStore()
   const { accountInfo } = useAppStore()
-
-  const otherGames = useMemo(() => {
-    if (!accountInfo) return flipGamesTable || []
-
-    if (!flipGamesTable?.length) return []
-
-    return flipGamesTable.filter((item) => item?.userCreator?.wallet !== accountInfo?.wallet)
-  }, [flipGamesTable, accountInfo])
 
   return (
     <ScrollView
@@ -32,8 +25,20 @@ export function OtherGames() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
     >
-      {otherGames.map((item, index) => {
-        return <FlipCard key={index} data={item} action={<JoinGameButton gameData={item} />} />
+      {flipGamesTable?.map((item, index) => {
+        return (
+          <FlipCard
+            key={index}
+            data={item}
+            action={
+              item.userCreator.wallet === accountInfo?.wallet ? (
+                <CallBotButton gameId={item.gameId} />
+              ) : (
+                <JoinGameButton gameData={item} />
+              )
+            }
+          />
+        )
       })}
     </ScrollView>
   )
@@ -45,6 +50,8 @@ const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
   const { appSocket, accountInfo, balance, setBalance } = useAppStore()
   const { showToast } = useToast()
   const { transactionError, handleReset, handleJoinFlipGame } = useCoinFlipGame()
+
+  const [isLoading, setIsLoading] = useState(false)
 
   const [txHash, setTxHash] = useState('')
   const [txStatus, setTxStatus] = useState<BlockchainTransactionStatusEnum | undefined>(undefined)
@@ -69,6 +76,8 @@ const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
   const handleJoinGame = async () => {
     if (!appSocket || !appSocket.connected || !accountInfo) return
 
+    setIsLoading(true)
+
     appSocket.emit('fl-sitdown-table', {
       creator: gameData.userCreator.wallet,
       gameId: gameData.gameId,
@@ -82,11 +91,12 @@ const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
       setTxHash(hash)
       setBalance(Math.max(0, balance - Number(gameData.gameValue || 0)))
     }
+
+    setIsLoading(false)
   }
 
   useEffect(() => {
     if (!transactionError || !appSocket || !appSocket.connected || !gameData) return
-
     appSocket.emit('fl-leave-table', {
       creator: gameData.userCreator.wallet,
       gameId: gameData.gameId,
@@ -144,6 +154,7 @@ const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
         height: 33,
       }}
       onPress={() => handleJoinGame()}
+      disabled={isLoading}
     >
       <AppItemText>Join game</AppItemText>
     </AppButton>

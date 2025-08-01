@@ -36,6 +36,7 @@ export function CoinFlipCreateGame() {
         borderRadius: 4,
         padding: 16,
         gap: 8,
+        backgroundColor: '#00000099',
       }}
     >
       <CoinFlipAmount value={typingValue} onChange={handleChange} />
@@ -249,7 +250,6 @@ const CoinFlipSide = ({ value }: CoinFlipSideProps) => {
       </View>
 
       <AppButton
-        variant="contained"
         style={{
           width: 105,
           height: 40,

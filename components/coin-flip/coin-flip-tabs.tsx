@@ -9,7 +9,18 @@ export function CoinFlipCreateTabs() {
   const { gameTab, setGameTab } = useCoinFlipStore()
 
   return (
-    <AppView style={{ flexDirection: 'row', gap: 0 }}>
+    <AppView
+      style={{
+        flexDirection: 'row',
+        gap: 0,
+        padding: 1,
+        borderWidth: 1,
+        borderRadius: 4,
+        borderColor: '#FFFFFF4D',
+        backgroundColor: '#000000',
+        alignSelf: 'flex-start',
+      }}
+    >
       <Pressable
         style={({ pressed }) => [
           {
@@ -25,7 +36,7 @@ export function CoinFlipCreateTabs() {
         ]}
         onPress={() => setGameTab(0)}
       >
-        <AppItemText>Others Games</AppItemText>
+        <AppItemText>All Games</AppItemText>
       </Pressable>
       <Pressable
         style={({ pressed }) => [

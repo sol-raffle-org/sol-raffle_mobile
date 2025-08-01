@@ -6,15 +6,15 @@ interface LevelProps extends ViewProps {
 }
 
 const Level: FC<LevelProps> = ({ level, style, ...otherProps }) => {
-  return <AppLevel style={StyleSheet.flatten([styles.container, style])} {...otherProps} level={level} />
+  return <AppLevel style={StyleSheet.flatten([styles.container, style])} label={level} {...otherProps} level={level} />
 }
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4, // RN 0.71+; otherwise use marginRight
-    paddingVertical: 4,
+    gap: 4,
+    paddingVertical: 2,
     paddingHorizontal: 6,
     borderRadius: 4,
   },

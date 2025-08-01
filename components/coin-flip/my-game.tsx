@@ -7,7 +7,7 @@ import { AppItemText } from '../app-item-text'
 import FlipCard from './flip-card'
 
 export function MyGame() {
-  const { appSocket, accountInfo } = useAppStore()
+  const { accountInfo } = useAppStore()
   const { flipGamesTable } = useCoinFlipStore()
 
   const myGames = useMemo(() => {
@@ -15,6 +15,22 @@ export function MyGame() {
 
     return flipGamesTable.filter((item) => item?.userCreator?.wallet === accountInfo?.wallet)
   }, [flipGamesTable, accountInfo])
+
+  return (
+    <ScrollView
+      style={{ flex: 1 }}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
+    >
+      {myGames.map((item, index) => {
+        return <FlipCard key={index} data={item} action={<CallBotButton gameId={item.gameId} />} />
+      })}
+    </ScrollView>
+  )
+}
+
+export const CallBotButton = ({ gameId }: { gameId: number }) => {
+  const { appSocket, accountInfo } = useAppStore()
 
   const handleCallBot = async (gameId: number) => {
     if (!appSocket || !appSocket.connected || !accountInfo) return
@@ -26,31 +42,14 @@ export function MyGame() {
   }
 
   return (
-    <ScrollView
-      style={{ flex: 1 }}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
+    <AppButton
+      style={{
+        width: 79,
+        height: 33,
+      }}
+      onPress={() => handleCallBot(gameId)}
     >
-      {myGames.map((item, index) => {
-        return (
-          <FlipCard
-            key={index}
-            data={item}
-            action={
-              <AppButton
-                variant="contained"
-                style={{
-                  width: 79,
-                  height: 33,
-                }}
-                onPress={() => handleCallBot(item.gameId)}
-              >
-                <AppItemText>Call bot</AppItemText>
-              </AppButton>
-            }
-          />
-        )
-      })}
-    </ScrollView>
+      <AppItemText>Call bot</AppItemText>
+    </AppButton>
   )
 }

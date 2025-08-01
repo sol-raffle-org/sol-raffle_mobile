@@ -38,17 +38,31 @@ export default function JackpotScreen() {
         >
           <WebView
             source={{ uri: 'https://dev-frontend.solraffle.xyz/jackpot-wv' }}
-            style={{ width: '100%', height: 280, backgroundColor: 'transparent' }}
+            style={{
+              width: '100%',
+              height: 280,
+              position: 'relative',
+              zIndex: 10,
+              transform: [{ scale: 1.05 }],
+              backgroundColor: 'transparent',
+            }}
             injectedJavaScript={`
               document.body.style.background = 'transparent';
               document.body.style.backgroundColor = 'transparent';
               true;
             `}
-            androidHardwareAccelerationDisabled={false}
+          />
+          <View
+            style={{
+              height: '100%',
+              width: '100%',
+              zIndex: 20,
+              position: 'absolute',
+            }}
           />
         </View>
 
-        <AppPage style={{ flexDirection: 'column', gap: 8 }}>
+        <AppPage style={{ flexDirection: 'column', gap: 8, marginTop: -30 }}>
           <JackpotSlotMachineAction />
           <JackpotPlayInRound />
         </AppPage>

@@ -1,73 +1,50 @@
-import { CoinSideEnum } from "@/types/coin-flip.type";
+import useTransaction from '@/hooks/blockchain-hooks'
 import {
   createJoinGameTransactionService,
   createNewGameTransactionService,
-} from "@/services/games-service/coin-flip/coin-flip.blockchain-service";
-import useTransaction from "@/hooks/blockchain-hooks";
-import { SupportedChainEnum } from "@/types/common.type";
+} from '@/services/games-service/coin-flip/coin-flip.blockchain-service'
+import { CoinSideEnum } from '@/types/coin-flip.type'
+import { SupportedChainEnum } from '@/types/common.type'
 
 const useCoinFlipGame = () => {
-  const { transactionError, handleReset, handleSendTransaction } =
-    useTransaction();
+  const { transactionError, handleReset, handleSendTransaction } = useTransaction()
 
-  const handleCreateNewFlipGame = async (
-    walletAddress: string,
-    betAmount: number,
-    side: CoinSideEnum
-  ) => {
+  const handleCreateNewFlipGame = async (walletAddress: string, betAmount: number, side: CoinSideEnum) => {
     try {
-      const newGameTransaction = await createNewGameTransactionService(
-        walletAddress,
-        betAmount,
-        side
-      );
+      const newGameTransaction = await createNewGameTransactionService(walletAddress, betAmount, side)
 
-      if (!newGameTransaction) return "";
+      if (!newGameTransaction) return ''
 
-      const txHash = await handleSendTransaction(
-        SupportedChainEnum.Solana,
-        newGameTransaction
-      );
+      const txHash = await handleSendTransaction(SupportedChainEnum.Solana, newGameTransaction)
 
-      return txHash;
+      return txHash
     } catch (error) {
-      console.error("Error while send bet transaction", error);
-      return;
+      console.error('Error while create flip transaction', error)
+      return
     }
-  };
+  }
 
-  const handleJoinFlipGame = async (
-    walletAddress: string,
-    creatorAddress: string,
-    gameId: number
-  ) => {
+  const handleJoinFlipGame = async (walletAddress: string, creatorAddress: string, gameId: number) => {
     try {
-      const joinGameTransaction = await createJoinGameTransactionService(
-        walletAddress,
-        creatorAddress,
-        gameId
-      );
+      const joinGameTransaction = await createJoinGameTransactionService(walletAddress, creatorAddress, gameId)
 
-      if (!joinGameTransaction) return "";
+      if (!joinGameTransaction) return ''
 
-      const txHash = await handleSendTransaction(
-        SupportedChainEnum.Solana,
-        joinGameTransaction
-      );
+      const txHash = await handleSendTransaction(SupportedChainEnum.Solana, joinGameTransaction)
 
-      return txHash;
+      return txHash
     } catch (error) {
-      console.error("Error while send bet transaction", error);
-      return;
+      console.error('Error while join flip transaction', error)
+      return
     }
-  };
+  }
 
   return {
     transactionError,
     handleReset,
     handleJoinFlipGame,
     handleCreateNewFlipGame,
-  };
-};
+  }
+}
 
-export default useCoinFlipGame;
+export default useCoinFlipGame
