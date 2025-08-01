@@ -27,7 +27,7 @@ const UserInfo: FC<UserInfoProps> = ({ avatar, name, level, width }) => {
           borderRadius: 63 / 2,
         }}
       />
-      <Level level={level} style={{ position: 'absolute', bottom: 20 }} />
+      <Level level={level} style={{ position: 'absolute', bottom: 22 }} />
       <AppText style={{ fontSize: 13 }}>{name}</AppText>
     </AppView>
   )

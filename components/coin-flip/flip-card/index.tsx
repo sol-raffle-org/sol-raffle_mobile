@@ -1,14 +1,13 @@
-import { CoinHeadImage, CoinTailImage, FlipCardBgImage } from '@/assets/images'
+import { FlipCardBgImage } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { AppView } from '@/components/app-view'
-import { VersusIcon } from '@/components/icons'
 import { useCountdownByTimestamp } from '@/hooks/common/useCountdown'
 import useAppStore from '@/stores/useAppStore'
 import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
 import React, { useEffect, useMemo, useState } from 'react'
-import FlipAnimation from './FlipAnimation'
 import Header from './Header'
+import Status from './Status'
 import UserInfo from './UserInfo'
 
 const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
@@ -75,36 +74,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
           level={data.userCreator.level}
           name={data.userCreator.name}
         />
-        <AppView
-          style={{
-            flex: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden',
-          }}
-        >
-          {data.status !== FlipGameStatusEnum.Finished && data.status !== FlipGameStatusEnum.Awarding && (
-            <VersusIcon color="#01FC7F99" />
-          )}
 
-          {data.status === FlipGameStatusEnum.Awarding && !isNil(data.result) && (
-            <FlipAnimation result={data.result} setResult={setResult} />
-          )}
-
-          {data.status === FlipGameStatusEnum.Finished && (
-            <AppImage
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 40 / 2,
-                borderWidth: 1,
-                borderColor: '#FEF08A',
-              }}
-              source={data.result === CoinSideEnum.Heads ? CoinHeadImage : CoinTailImage}
-            />
-          )}
-        </AppView>
+        <Status gameData={data} setResult={setResult} />
 
         {data.userJoin ? (
           <UserInfo width={79} avatar={data.userJoin.avatar} level={data.userJoin.level} name={data.userJoin.name} />
