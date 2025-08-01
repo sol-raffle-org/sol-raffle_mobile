@@ -19,6 +19,7 @@ export default function JackpotScreen() {
 
     setRandom(Math.random())
   }, [jackpotGameData])
+
   return (
     <AppTabView>
       <AutoHeightImage source={JackpotBackgroundImage} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />

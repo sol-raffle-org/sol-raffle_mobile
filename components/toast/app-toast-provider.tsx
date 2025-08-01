@@ -24,7 +24,7 @@ export const AppToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <AppToastContext.Provider value={{ showToast, hideToast }}>
       {children}
-      <AppToast {...params} />
+      <AppToast {...params} onDismiss={hideToast} />
     </AppToastContext.Provider>
   )
 }

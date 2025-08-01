@@ -1,7 +1,7 @@
 import { JackpotPlaceBetImage, SolanaLogo } from '@/assets/images'
 import React, { useEffect, useMemo, useState } from 'react'
 import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native'
-import { TextInput, TextInputProps } from 'react-native-paper'
+import { ActivityIndicator, TextInput, TextInputProps } from 'react-native-paper'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
 import { AppView } from '../app-view'
@@ -187,6 +187,7 @@ export function JackpotAmountInput({ onChange }: JackpotAmountInputProps) {
         value={typingValue}
         balance={balance || 0}
         disableBet={disableBet}
+        isLoading={isBetting}
       />
     </AppView>
   )
@@ -196,10 +197,11 @@ type PlaceBetProps = {
   value: string
   balance: number
   disableBet: boolean
+  isLoading?: boolean
   onChangeValue: (value: string) => void
   onBetClick: () => void
 }
-const PlaceBet = ({ value, balance, disableBet, onChangeValue, onBetClick }: PlaceBetProps) => {
+const PlaceBet = ({ value, balance, disableBet, isLoading, onChangeValue, onBetClick }: PlaceBetProps) => {
   const autoBetData = ['0.1', '0.5', '1']
 
   const handleHotAdd = (hotValue: number) => {
@@ -238,7 +240,7 @@ const PlaceBet = ({ value, balance, disableBet, onChangeValue, onBetClick }: Pla
         <BetButton key={item} title={`+${item}`} onPress={() => handleHotAdd(Number(item))} />
       ))}
 
-      <PlaceBetButton onPress={onBetClick} disabled={disableBet} />
+      <PlaceBetButton isLoading={isLoading} onPress={onBetClick} disabled={disableBet} />
     </AppView>
   )
 }
@@ -279,7 +281,10 @@ export function BetButton({ title, ...otherProps }: BetButtonProps) {
   )
 }
 
-export function PlaceBetButton({ ...props }: TouchableOpacityProps) {
+interface PlaceBetButtonProps extends TouchableOpacityProps {
+  isLoading?: boolean
+}
+export function PlaceBetButton({ isLoading, ...props }: PlaceBetButtonProps) {
   const borderRadius = 8
 
   return (
@@ -306,53 +311,7 @@ export function PlaceBetButton({ ...props }: TouchableOpacityProps) {
         contentFit="fill"
       />
 
-      <AppItemText>Place Bet</AppItemText>
+      {isLoading ? <ActivityIndicator animating={true} color="#fff" /> : <AppItemText>Place Bet</AppItemText>}
     </TouchableOpacity>
   )
 }
-
-// export function PlaceBetButton(props: TouchableOpacityProps) {
-//   const borderRadius = 8
-
-//   return (
-//     <View
-//       style={{
-//         flex: 1,
-//         borderRadius: borderRadius + 2,
-//         overflow: 'hidden',
-//         position: 'relative',
-//       }}
-//     >
-//       <LinearGradient
-//         colors={['rgba(255, 255, 255, 0.68)', 'rgba(255,255,255,0.46)', 'rgba(255, 255, 255, 0.16)']}
-//         start={{ x: 0.5, y: 0 }}
-//         end={{ x: 0.5, y: 1 }}
-//         style={{
-//           flex: 1,
-//           padding: 2,
-//         }}
-//       >
-//         <TouchableOpacity
-//           activeOpacity={0.5}
-//           style={{
-//             flex: 1,
-//             borderRadius: borderRadius,
-//             justifyContent: 'center',
-//             alignContent: 'center',
-//             overflow: 'hidden',
-//           }}
-//           {...props}
-//         >
-//           <LinearGradient
-//             colors={['#B7CA49', '#508031']}
-//             start={{ x: 0, y: 0 }}
-//             end={{ x: 1, y: 0 }}
-//             style={[StyleSheet.absoluteFill]}
-//           />
-
-//           <AppItemText>Place Bet</AppItemText>
-//         </TouchableOpacity>
-//       </LinearGradient>
-//     </View>
-//   )
-// }
