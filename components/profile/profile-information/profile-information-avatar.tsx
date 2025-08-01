@@ -1,6 +1,7 @@
-import { DefaultAvatarImage, Level1Image } from '@/assets/images'
+import { DefaultAvatarImage } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { AppItemText } from '@/components/app-item-text'
+import AppLevel from '@/components/app-level'
 import { AppView } from '@/components/app-view'
 import { useToast } from '@/components/toast/app-toast-provider'
 import { AccountInterface } from '@/types/app.type'
@@ -81,27 +82,18 @@ export function ProfileInformationAvatar({ profile, onChange }: ProfileInformati
           <AppItemText textType="title" style={{ fontSize: 20 }}>
             {profile?.name}
           </AppItemText>
-          <AppView
+          <AppLevel
             style={{
-              backgroundColor: '#0D9C6D33',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'center',
               padding: 4,
               borderRadius: 2,
+              gap: 4,
             }}
-          >
-            <AppImage
-              source={Level1Image}
-              style={{
-                width: 11,
-                height: 11,
-              }}
-            />
-            <AppItemText textType="title" style={{ fontSize: 10, color: '#81F70D' }}>
-              {profile?.level}
-            </AppItemText>
-          </AppView>
+            level={profile?.level}
+            label={profile?.level}
+          />
         </ProfileView>
 
         <TouchableOpacity
