@@ -1,6 +1,6 @@
 import { JackpotPlaceBetImage, SolanaLogo } from '@/assets/images'
 import React, { useEffect, useMemo, useState } from 'react'
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import { TextInput, TextInputProps } from 'react-native-paper'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
@@ -280,15 +280,79 @@ export function BetButton({ title, ...otherProps }: BetButtonProps) {
 }
 
 export function PlaceBetButton({ ...props }: TouchableOpacityProps) {
+  const borderRadius = 8
+
   return (
-    <TouchableOpacity activeOpacity={0.5} {...props}>
+    <TouchableOpacity
+      activeOpacity={0.5}
+      style={{
+        flex: 1,
+        borderRadius: borderRadius,
+        justifyContent: 'center',
+        alignContent: 'center',
+        overflow: 'hidden',
+      }}
+      {...props}
+    >
       <AppImage
         source={JackpotPlaceBetImage}
-        style={{
-          width: 128,
-          height: 34,
-        }}
+        style={[
+          StyleSheet.absoluteFill,
+          {
+            width: 128,
+            height: 34,
+          },
+        ]}
+        contentFit="fill"
       />
+
+      <AppItemText>Place Bet</AppItemText>
     </TouchableOpacity>
   )
 }
+
+// export function PlaceBetButton(props: TouchableOpacityProps) {
+//   const borderRadius = 8
+
+//   return (
+//     <View
+//       style={{
+//         flex: 1,
+//         borderRadius: borderRadius + 2,
+//         overflow: 'hidden',
+//         position: 'relative',
+//       }}
+//     >
+//       <LinearGradient
+//         colors={['rgba(255, 255, 255, 0.68)', 'rgba(255,255,255,0.46)', 'rgba(255, 255, 255, 0.16)']}
+//         start={{ x: 0.5, y: 0 }}
+//         end={{ x: 0.5, y: 1 }}
+//         style={{
+//           flex: 1,
+//           padding: 2,
+//         }}
+//       >
+//         <TouchableOpacity
+//           activeOpacity={0.5}
+//           style={{
+//             flex: 1,
+//             borderRadius: borderRadius,
+//             justifyContent: 'center',
+//             alignContent: 'center',
+//             overflow: 'hidden',
+//           }}
+//           {...props}
+//         >
+//           <LinearGradient
+//             colors={['#B7CA49', '#508031']}
+//             start={{ x: 0, y: 0 }}
+//             end={{ x: 1, y: 0 }}
+//             style={[StyleSheet.absoluteFill]}
+//           />
+
+//           <AppItemText>Place Bet</AppItemText>
+//         </TouchableOpacity>
+//       </LinearGradient>
+//     </View>
+//   )
+// }
