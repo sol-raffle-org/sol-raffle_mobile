@@ -98,6 +98,7 @@ const CoinFlipAmount = ({ value, onChange }: CoinFlipAmountProps) => {
         value={value}
         onChangeText={onChange}
         placeholder="Bet amount..."
+        placeholderTextColor="#FFFFFF66"
         style={{
           flex: 1,
           backgroundColor: '#FFFFFF1A',

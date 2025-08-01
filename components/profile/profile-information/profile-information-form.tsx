@@ -25,9 +25,19 @@ export function ProfileInformationForm() {
     <AppView style={{ flexDirection: 'column', gap: 16 }}>
       <ProfileTextInput label="Name" value={accountInfo?.name} onChangeText={handleChange('name')} />
 
-      <ProfileTextInput label="Email" value={accountInfo?.email || ''} onChangeText={handleChange('email')} />
+      <ProfileTextInput
+        label="Email"
+        placeholder="Your Email"
+        value={accountInfo?.email || ''}
+        onChangeText={handleChange('email')}
+      />
 
-      <ProfileTextInput label="Referred By" value={accountInfo?.referralByWallet || ''} disabled />
+      <ProfileTextInput
+        label="Referred By"
+        placeholder="Referred By"
+        value={accountInfo?.referralByWallet || ''}
+        disabled
+      />
     </AppView>
   )
 }
