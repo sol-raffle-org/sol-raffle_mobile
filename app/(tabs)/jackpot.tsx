@@ -33,7 +33,23 @@ export default function JackpotScreen() {
         >
           <WebView
             source={{ uri: 'https://dev-frontend.solraffle.xyz/jackpot-wv' }}
-            style={{ width: '100%', height: 280 }}
+            style={{
+              width: '100%',
+              height: 280,
+              position: 'relative',
+              zIndex: 10,
+              transform: [
+                { scale: 1.05 }, // 👈 Scale by 1.5x
+              ],
+            }}
+          />
+          <View
+            style={{
+              height: '100%',
+              width: '100%',
+              zIndex: 20,
+              position: 'absolute',
+            }}
           />
         </View>
 

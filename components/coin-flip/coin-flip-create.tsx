@@ -249,7 +249,6 @@ const CoinFlipSide = ({ value }: CoinFlipSideProps) => {
       </View>
 
       <AppButton
-        variant="contained"
         style={{
           width: 105,
           height: 40,
