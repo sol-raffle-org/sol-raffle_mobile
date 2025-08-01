@@ -38,7 +38,13 @@ export default function JackpotScreen() {
         >
           <WebView
             source={{ uri: 'https://dev-frontend.solraffle.xyz/jackpot-wv' }}
-            style={{ width: '100%', height: 280 }}
+            style={{ width: '100%', height: 280, backgroundColor: 'transparent' }}
+            injectedJavaScript={`
+              document.body.style.background = 'transparent';
+              document.body.style.backgroundColor = 'transparent';
+              true;
+            `}
+            androidHardwareAccelerationDisabled={false}
           />
         </View>
 
