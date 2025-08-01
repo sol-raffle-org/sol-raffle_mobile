@@ -1,4 +1,4 @@
-import { BigWinImage, Level3Image, SolanaLogo } from '@/assets/images'
+import { BigWinImage, SolanaLogo } from '@/assets/images'
 import useJackpotStore from '@/stores/useJackpotStore'
 import { JackpotWinnerItemInterface, WinTypeEnum } from '@/types/jackpot.type'
 import { getAvatarUrl } from '@/utils/common.utils'
@@ -8,6 +8,7 @@ import { ScrollView, View } from 'react-native'
 import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
+import AppLevel from '../app-level'
 import { CoinFlipIcon, JackpotIcon } from '../icons'
 import { StatsView } from './stats-view'
 
@@ -94,20 +95,18 @@ function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
           }}
         />
 
-        <View
+        <AppLevel
           style={{
             position: 'absolute',
             bottom: 0,
             left: 16,
             width: 18,
             height: 10,
-            backgroundColor: '#0d9c6d33',
             justifyContent: 'center',
             alignItems: 'center',
           }}
-        >
-          <AppImage source={Level3Image} style={{ width: 8, height: 8 }} />
-        </View>
+          level={1}
+        />
       </View>
 
       <View style={{ flex: 1, flexDirection: 'column' }}>

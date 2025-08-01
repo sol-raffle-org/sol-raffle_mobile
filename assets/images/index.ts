@@ -53,6 +53,7 @@ import CoinFlipTitleImage from './coin-flip/img-coin-flip-title.png'
 import CoinHeadImage from './coin-flip/img-coin-head.png'
 import CoinHeadLeanImage from './coin-flip/img-coin-head_lean.png'
 import CoinTailImage from './coin-flip/img-coin-tail.png'
+import CoinFlipBackgroundImage from './coin-flip/img-coinflip-background.png'
 import FlipCardBgImage from './coin-flip/img-flip-bg.png'
 
 // Toast
@@ -80,6 +81,7 @@ export {
   BlurStatusImage,
   ButtonDefaultImage,
   ButtonSlotFullImage,
+  CoinFlipBackgroundImage,
   CoinFlipTitleImage,
   CoinHeadImage,
   CoinHeadLeanImage,

@@ -127,7 +127,9 @@ const JackpotPlayer = ({
       >
         <JackpotRow style={{ gap: 4 }}>
           <JackpotPlayerAvatar avatar={getAvatarUrl(data.userInfo.avatar)} borderColor={borderAvatarColor} />
-          <AppItemText>{data.userInfo.name}</AppItemText>
+          <AppItemText style={{ width: 50 }} numberOfLines={1} ellipsizeMode="tail">
+            {data.userInfo.name}
+          </AppItemText>
           <AppCircle
             style={{
               borderWidth: 1,
@@ -140,10 +142,10 @@ const JackpotPlayer = ({
           </AppCircle>
         </JackpotRow>
 
-        <JackpotRow style={{ gap: 8 }}>
+        <JackpotRow style={{ gap: 4 }}>
           <AppImage source={SolanaLogo} style={{ width: 24, height: 24 }} />
           <View>
-            <AppItemText>{data.betInfo.wagered}</AppItemText>
+            <AppItemText style={{ textAlign: 'left' }}>{data.betInfo.wagered}</AppItemText>
             <AppItemText
               textType="subtitle"
               style={{
@@ -162,6 +164,7 @@ const JackpotPlayer = ({
             style={{
               color: '#FFF',
               fontSize: 12,
+              textAlign: 'right',
             }}
           >
             Chance
@@ -182,7 +185,7 @@ const JackpotPlayer = ({
               />
             )}
 
-            <AppItemText style={[isHighestChance && { color: '#D59704' }]}>
+            <AppItemText style={[{ fontSize: 12 }, isHighestChance && { color: '#D59704' }]}>
               {calculateWinChance(data.betInfo.wagered, totalPot)}
             </AppItemText>
           </AppView>

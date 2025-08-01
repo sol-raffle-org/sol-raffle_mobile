@@ -1,4 +1,4 @@
-import { JackpotBackgroundImage } from '@/assets/images'
+import { CoinFlipBackgroundImage } from '@/assets/images'
 import { AutoHeightImage } from '@/components/app-image-height'
 import { AppPage } from '@/components/app-page'
 import AppTabView from '@/components/app-tab-view'
@@ -12,9 +12,9 @@ export default function CoinFlipScreen() {
   const { gameTab } = useCoinFlipStore()
   return (
     <AppTabView>
-      <AutoHeightImage source={JackpotBackgroundImage} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
+      <AutoHeightImage source={CoinFlipBackgroundImage} style={{ position: 'absolute', top: 0, left: 0, right: 0 }} />
 
-      <AppPage style={{ flex: 1, flexDirection: 'column', gap: 16 }}>
+      <AppPage>
         <CoinFlipCreateGame />
 
         <CoinFlipCreateTabs />

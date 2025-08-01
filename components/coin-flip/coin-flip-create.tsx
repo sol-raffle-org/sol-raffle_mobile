@@ -36,6 +36,7 @@ export function CoinFlipCreateGame() {
         borderRadius: 4,
         padding: 16,
         gap: 8,
+        backgroundColor: '#00000099',
       }}
     >
       <CoinFlipAmount value={typingValue} onChange={handleChange} />
