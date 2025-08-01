@@ -42,6 +42,7 @@ export function ProfileInformationAvatar() {
           uri: asset.uri,
           name: asset.fileName || `avatar.jpg`, // fallback name
           type: asset.type || 'image/jpeg',
+          fileName: asset.fileName || `avatar.jpg`,
         },
       })
     }
