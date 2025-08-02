@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Pressable, PressableProps, StyleSheet } from 'react-native'
+import { Pressable, PressableProps, StyleSheet, View } from 'react-native'
 import { AppItemText } from './app-item-text'
 
 export interface CommonButtonProps extends PressableProps {
@@ -18,21 +18,33 @@ export const AppButton: FC<CommonButtonProps> = ({
   ...otherProps
 }) => {
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.button,
-        variant === 'contained' && styles.containedGreen,
-        pressed && { opacity: 0.8 },
-        style,
-      ]}
-      {...otherProps}
-    >
-      {title && (
-        <AppItemText style={[styles.text, variant === 'contained' && styles.containedText]}>{title}</AppItemText>
-      )}
-      {children}
-    </Pressable>
+    <View>
+      <View
+        style={[
+          variant === 'contained' && {
+            backgroundColor: '#133018',
+            paddingBottom: 3,
+            borderRadius: 2,
+          },
+        ]}
+      >
+        <Pressable
+          onPress={onPress}
+          style={({ pressed }) => [
+            styles.button,
+            variant === 'contained' && styles.containedGreen,
+            pressed && { opacity: 0.8 },
+            style,
+          ]}
+          {...otherProps}
+        >
+          {title && (
+            <AppItemText style={[styles.text, variant === 'contained' && styles.containedText]}>{title}</AppItemText>
+          )}
+          {children}
+        </Pressable>
+      </View>
+    </View>
   )
 }
 
@@ -41,16 +53,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
     gap: 8,
     borderRadius: 2,
-    padding: 4,
   },
   containedGreen: {
     backgroundColor: 'rgba(37, 92, 47, 1)',
-
-    // Android Shadow
-    elevation: 4,
   },
   text: {
     color: '#fff',
