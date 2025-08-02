@@ -41,7 +41,7 @@ export function ProfileInformationAvatar() {
         avatar: {
           uri: asset.uri,
           name: asset.fileName || `avatar.jpg`, // fallback name
-          type: asset.type || 'image/jpeg',
+          mimeType: asset.mimeType || 'image/jpeg',
           fileName: asset.fileName || `avatar.jpg`,
         },
       })

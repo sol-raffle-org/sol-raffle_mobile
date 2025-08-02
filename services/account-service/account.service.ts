@@ -1,4 +1,4 @@
-import { GET_USER, POST_UPDATE_AVATAR, PUT_EMAIL, PUT_NAME, PUT_REFER_BY, PUT_REF_CODE } from '@/constants/api.const'
+import { GET_USER, POST_UPDATE_AVATAR, PUT_EMAIL, PUT_NAME, PUT_REF_CODE, PUT_REFER_BY } from '@/constants/api.const'
 import { AccountInterface } from '@/types/app.type'
 import { ApiResponse } from 'apisauce'
 import { createDappServices } from '../client-side-config'
@@ -64,10 +64,18 @@ export const putUpdateReferByService = async (referralCode: string) => {
 
 export const putUpdateAvatarService = async (avatar: any) => {
   const formData = new FormData()
-  formData.append('avatar', avatar)
+  formData.append('avatar', {
+    uri: avatar.avatar.uri,
+    type: avatar.avatar.mimeType,
+    name: avatar.avatar.name,
+  } as any)
 
-  const api = await createDappServices(undefined, undefined)
-  const response: ApiResponse<any> = await api.post(POST_UPDATE_AVATAR, formData)
+  const api = await createDappServices()
+  const response: ApiResponse<any> = await api.post(POST_UPDATE_AVATAR, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
 
   return {
     ...response,
