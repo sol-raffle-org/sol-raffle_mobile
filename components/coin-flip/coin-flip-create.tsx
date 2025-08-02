@@ -136,7 +136,7 @@ const CoinFlipAmount = ({ value, onChange }: CoinFlipAmountProps) => {
             } as StyleProp<ViewStyle>,
           ]}
         >
-          <AppItemText style={{ color: '#fff' }}>{`+${item}`}</AppItemText>
+          <AppItemText textType="subtitle">{`+${item}`}</AppItemText>
         </Pressable>
       ))}
     </AppView>
@@ -230,7 +230,7 @@ const CoinFlipSide = ({ value }: CoinFlipSideProps) => {
           gap: 8,
         }}
       >
-        <AppItemText>Side</AppItemText>
+        <AppItemText textType="subtitle">Side</AppItemText>
         {SIDE_IMAGE.map((imageSource, index) => (
           <IconButton
             key={index}
