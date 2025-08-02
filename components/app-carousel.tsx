@@ -6,10 +6,12 @@ const { width } = Dimensions.get('window')
 
 export interface AppCarouselProps<T> {
   data: T[]
+  autoplay: boolean
+  autoplayInterval?: number
   renderItem: ({ item, index }: { item: T; index: number }) => ReactNode
 }
 
-export const AppCarousel = <T,>({ data, renderItem }: AppCarouselProps<T>) => {
+export const AppCarousel = <T,>({ data, renderItem, ...otherProps }: AppCarouselProps<T>) => {
   const carouselRef = useRef<Carousel<T>>(null)
 
   const [activeIndex, setActiveIndex] = useState<number>(0)
@@ -25,6 +27,7 @@ export const AppCarousel = <T,>({ data, renderItem }: AppCarouselProps<T>) => {
         onSnapToItem={(index: number) => setActiveIndex(index)}
         loop
         vertical={false}
+        {...otherProps}
       />
 
       <Pagination

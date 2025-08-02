@@ -1,7 +1,7 @@
 import useAppStore from '@/stores/useAppStore'
 import useCoinFlipStore from '@/stores/useCoinflipStore'
 import React, { useMemo } from 'react'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { AppButton } from '../app-button'
 import { AppItemText } from '../app-item-text'
 import FlipCard from './flip-card'
@@ -42,22 +42,14 @@ export const CallBotButton = ({ gameId }: { gameId: number }) => {
   }
 
   return (
-    <View
+    <AppButton
       style={{
-        backgroundColor: '#133018',
-        borderRadius: 2,
-        paddingBottom: 3,
+        width: 79,
+        height: 33,
       }}
+      onPress={() => handleCallBot(gameId)}
     >
-      <AppButton
-        style={{
-          width: 79,
-          height: 33,
-        }}
-        onPress={() => handleCallBot(gameId)}
-      >
-        <AppItemText>Call bot</AppItemText>
-      </AppButton>
-    </View>
+      <AppItemText>Call bot</AppItemText>
+    </AppButton>
   )
 }

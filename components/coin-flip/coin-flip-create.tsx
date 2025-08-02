@@ -250,17 +250,9 @@ const CoinFlipSide = ({ value }: CoinFlipSideProps) => {
         ))}
       </View>
 
-      <View
-        style={{
-          backgroundColor: '#133018',
-          borderRadius: 2,
-          height: 43,
-        }}
-      >
-        <AppButton disabled={!Boolean(value) || isCreate} style={{ width: 105, height: 40 }} onPress={handleCreateGame}>
-          {isCreate ? <ActivityIndicator /> : <AppItemText>Create Game</AppItemText>}
-        </AppButton>
-      </View>
+      <AppButton disabled={!Boolean(value) || isCreate} style={{ width: 105, height: 40 }} onPress={handleCreateGame}>
+        {isCreate ? <ActivityIndicator /> : <AppItemText>Create Game</AppItemText>}
+      </AppButton>
     </AppView>
   )
 }

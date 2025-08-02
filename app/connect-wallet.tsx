@@ -22,6 +22,8 @@ export default function ConnectWallet() {
       <View style={[styles.fullContainer, styles.spaceContent]}>
         <AppCarousel
           data={data}
+          autoplay={true}
+          autoplayInterval={5000}
           renderItem={({ item }: { item: SlideItem }) => (
             <View style={carouselStyles.card}>
               <View style={styles.fullContainer}>
@@ -45,28 +47,20 @@ export default function ConnectWallet() {
       </View>
 
       <View style={[styles.buttonContainer]}>
-        <View
-          style={{
-            backgroundColor: '#133018',
-            paddingBottom: 3,
-            borderRadius: 2,
+        <AppButton
+          title={isConnected ? 'Sign Message' : 'Connect Wallet Now'}
+          disabled={isLoading}
+          style={{ width: '100%', height: 49 }}
+          onPress={() => {
+            if (isConnected) {
+              handleSignMessage()
+            } else {
+              handleConnectWallet()
+            }
           }}
         >
-          <AppButton
-            title={isConnected ? 'Sign Message' : 'Connect Wallet Now'}
-            disabled={isLoading}
-            style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8 }}
-            onPress={() => {
-              if (isConnected) {
-                handleSignMessage()
-              } else {
-                handleConnectWallet()
-              }
-            }}
-          >
-            {isLoading && <ActivityIndicator />}
-          </AppButton>
-        </View>
+          {isLoading && <ActivityIndicator />}
+        </AppButton>
       </View>
     </View>
   )
