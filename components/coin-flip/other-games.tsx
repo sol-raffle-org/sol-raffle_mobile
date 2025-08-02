@@ -8,7 +8,8 @@ import { FlipGameInterface } from '@/types/coin-flip.type'
 import { BlockchainTransactionStatusEnum, SupportedChainEnum } from '@/types/common.type'
 import { isNil } from '@/utils/common.utils'
 import React, { useEffect, useState } from 'react'
-import { ScrollView } from 'react-native'
+import { ScrollView, View } from 'react-native'
+import { ActivityIndicator } from 'react-native-paper'
 import { AppButton } from '../app-button'
 import { AppItemText } from '../app-item-text'
 import { useToast } from '../toast/app-toast-provider'
@@ -147,16 +148,24 @@ const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
   }, [txHash, txStatus]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <AppButton
-      variant="contained"
+    <View
       style={{
-        width: 79,
-        height: 33,
+        backgroundColor: '#133018',
+        borderRadius: 2,
+        paddingBottom: 3,
       }}
-      onPress={() => handleJoinGame()}
-      disabled={isLoading}
     >
-      <AppItemText>Join game</AppItemText>
-    </AppButton>
+      <AppButton
+        variant="contained"
+        style={{
+          width: 79,
+          height: 33,
+        }}
+        onPress={() => handleJoinGame()}
+        disabled={isLoading}
+      >
+        {isLoading ? <ActivityIndicator /> : <AppItemText>Join game</AppItemText>}
+      </AppButton>
+    </View>
   )
 }

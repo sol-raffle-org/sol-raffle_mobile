@@ -64,7 +64,7 @@ export default function ConnectWallet() {
               }
             }}
           >
-            {isLoading && <ActivityIndicator animating={true} color="#fff" />}
+            {isLoading && <ActivityIndicator />}
           </AppButton>
         </View>
       </View>
