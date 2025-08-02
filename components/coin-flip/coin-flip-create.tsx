@@ -10,7 +10,7 @@ import { isNil } from '@/utils/common.utils'
 import { formatNumber } from '@/utils/format.utils'
 import React, { useEffect, useState } from 'react'
 import { Pressable, StyleProp, View, ViewStyle } from 'react-native'
-import { IconButton, TextInput } from 'react-native-paper'
+import { ActivityIndicator, IconButton, TextInput } from 'react-native-paper'
 import { AppButton } from '../app-button'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
@@ -136,7 +136,7 @@ const CoinFlipAmount = ({ value, onChange }: CoinFlipAmountProps) => {
             } as StyleProp<ViewStyle>,
           ]}
         >
-          <AppItemText style={{ color: '#fff' }}>{`+${item}`}</AppItemText>
+          <AppItemText textType="subtitle">{`+${item}`}</AppItemText>
         </Pressable>
       ))}
     </AppView>
@@ -230,7 +230,7 @@ const CoinFlipSide = ({ value }: CoinFlipSideProps) => {
           gap: 8,
         }}
       >
-        <AppItemText>Side</AppItemText>
+        <AppItemText textType="subtitle">Side</AppItemText>
         {SIDE_IMAGE.map((imageSource, index) => (
           <IconButton
             key={index}
@@ -250,16 +250,17 @@ const CoinFlipSide = ({ value }: CoinFlipSideProps) => {
         ))}
       </View>
 
-      <AppButton
+      <View
         style={{
-          width: 105,
-          height: 40,
+          backgroundColor: '#133018',
+          borderRadius: 2,
+          height: 43,
         }}
-        disabled={!Boolean(value) || isCreate}
-        onPress={handleCreateGame}
       >
-        <AppItemText>Create Game</AppItemText>
-      </AppButton>
+        <AppButton disabled={!Boolean(value) || isCreate} style={{ width: 105, height: 40 }} onPress={handleCreateGame}>
+          {isCreate ? <ActivityIndicator /> : <AppItemText>Create Game</AppItemText>}
+        </AppButton>
+      </View>
     </AppView>
   )
 }

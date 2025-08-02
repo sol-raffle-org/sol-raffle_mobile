@@ -311,7 +311,7 @@ export function PlaceBetButton({ isLoading, ...props }: PlaceBetButtonProps) {
         contentFit="fill"
       />
 
-      {isLoading ? <ActivityIndicator animating={true} color="#fff" /> : <AppItemText>Place Bet</AppItemText>}
+      {isLoading ? <ActivityIndicator /> : <AppItemText>Place Bet</AppItemText>}
     </TouchableOpacity>
   )
 }

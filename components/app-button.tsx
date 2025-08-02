@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { Pressable, PressableProps, StyleSheet, Text } from 'react-native'
+import { Pressable, PressableProps, StyleSheet } from 'react-native'
+import { AppItemText } from './app-item-text'
 
 export interface CommonButtonProps extends PressableProps {
   variant?: 'contained' | 'text'
@@ -27,7 +28,9 @@ export const AppButton: FC<CommonButtonProps> = ({
       ]}
       {...otherProps}
     >
-      {title && <Text style={[styles.text, variant === 'contained' && styles.containedText]}>{title}</Text>}
+      {title && (
+        <AppItemText style={[styles.text, variant === 'contained' && styles.containedText]}>{title}</AppItemText>
+      )}
       {children}
     </Pressable>
   )
@@ -35,11 +38,13 @@ export const AppButton: FC<CommonButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    width: '100%',
-    height: 49,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 8,
     borderRadius: 2,
+    padding: 4,
   },
   containedGreen: {
     backgroundColor: 'rgba(37, 92, 47, 1)',
@@ -49,7 +54,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontWeight: 'bold',
     opacity: 0.5,
   },
   containedText: {
