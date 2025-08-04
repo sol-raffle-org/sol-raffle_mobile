@@ -21,8 +21,8 @@ const ProfileLogOutButton = () => {
   const router = useRouter()
   const { handleLogout } = useAuthentication()
 
-  const handleLogoutClick = () => {
-    handleLogout()
+  const handleLogoutClick = async () => {
+    await handleLogout()
     router.replace('/connect-wallet')
   }
 

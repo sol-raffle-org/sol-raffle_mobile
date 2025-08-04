@@ -16,7 +16,7 @@ export interface AuthState {
   connect: () => Promise<Account>
   signIn: () => Promise<Account>
   signOut: () => Promise<void>
-  handleSignMessage: () => Promise<void>
+  handleSignMessage: () => Promise<boolean>
 }
 
 const Context = createContext<AuthState>({} as AuthState)
@@ -57,15 +57,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const signInMutation = useSignInMutation()
   const connectMutation = useConnectMutation()
 
-  const [isSigned, setIsSigned] = useState(false)
   const [hasToken, setHasToken] = useState(false)
 
   const handleSignMessage = async () => {
-    if (!selectedAccount) return
+    if (!selectedAccount) return false
 
     const { nonce, message } = await handleGetNonce(selectedAccount.publicKey.toString())
 
-    if (!nonce || !message) return
+    if (!nonce || !message) return false
 
     const encodedMessage = new TextEncoder().encode(message)
     const res = await signMessage(encodedMessage)
@@ -76,9 +75,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (token && accountInfo) {
       setAccountInfo(accountInfo)
       AsyncStorage.setItem(KEY_TOKEN, token)
-      setIsSigned(true)
+      await handleGetToken()
+      return true
     }
+
+    return false
   }
+
   const handleGetToken = async () => {
     const token = await AsyncStorage.getItem(KEY_TOKEN)
     setHasToken(Boolean(token))
@@ -86,7 +89,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     handleGetToken()
-  }, [isSigned, selectedAccount])
+  }, [selectedAccount])
 
   const value: AuthState = useMemo(
     () => ({

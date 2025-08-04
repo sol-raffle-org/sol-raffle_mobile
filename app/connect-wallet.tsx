@@ -12,9 +12,13 @@ export default function ConnectWallet() {
   const { isLoading, connect, handleSignMessage, isConnected } = useAuth()
   const insets = useSafeAreaInsets()
 
-  const handleConnectWallet = async () => {
-    await connect()
-    router.replace('/(tabs)')
+  const handleConnectClick = async () => {
+    if (isConnected) {
+      const isSigned = await handleSignMessage()
+      if (isSigned) router.replace('/(tabs)')
+    } else {
+      await connect()
+    }
   }
 
   return (
@@ -51,13 +55,7 @@ export default function ConnectWallet() {
           title={isConnected ? 'Sign Message' : 'Connect Wallet Now'}
           disabled={isLoading}
           style={{ width: '100%', height: 49 }}
-          onPress={() => {
-            if (isConnected) {
-              handleSignMessage()
-            } else {
-              handleConnectWallet()
-            }
-          }}
+          onPress={handleConnectClick}
         >
           {isLoading && <ActivityIndicator />}
         </AppButton>
