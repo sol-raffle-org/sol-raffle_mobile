@@ -32,6 +32,7 @@ import useCoinFlipStore from '@/stores/useCoinflipStore'
 import useJackpotStore from '@/stores/useJackpotStore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { usePathname } from 'expo-router'
+import { sortBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 const RaffleSocketProvider = () => {
@@ -151,22 +152,26 @@ const RaffleSocketProvider = () => {
   useEffect(() => {
     if (!raffleSocket) return
 
-    let tempWinnerList: JackpotWinnerListInterface | undefined = undefined
+    let tempWinnerList: JackpotWinnerListInterface = { data: [] }
 
     raffleSocket.on('notify-win-data', (winnerList?: JackpotWinnerListInterface) => {
-      tempWinnerList = winnerList
+      // Sort desc (newest to oldest)
+      tempWinnerList = {
+        data: Array.isArray(winnerList?.data) ? sortBy(winnerList.data, ['createdAt'], ['desc']) : [],
+      }
 
       setWinnerList(winnerList)
     })
 
     raffleSocket.on('notify-win-update', (newWinner: JackpotWinnerItemInterface) => {
-      if (!tempWinnerList) {
+      if (!tempWinnerList?.data?.length) {
         setWinnerList({ data: [newWinner] })
       } else {
         const newList = [newWinner, ...tempWinnerList.data]
 
+        // Remove last item if maximum size
         if (newList.length > 20) {
-          newList.shift()
+          newList.pop()
         }
         const newData = { data: newList }
         setWinnerList(newData)

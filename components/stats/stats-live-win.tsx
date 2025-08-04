@@ -16,13 +16,9 @@ export function StatsLiveWin() {
   const { winnerList } = useJackpotStore()
 
   const list = useMemo(() => {
-    if (!winnerList?.data) return []
+    if (!winnerList?.data || !winnerList.data.length) return []
 
-    if (!winnerList.data.length) return []
-
-    const clonedWinnerList = cloneData(winnerList.data)
-
-    return clonedWinnerList
+    return winnerList.data
   }, [winnerList])
 
   console.log({
