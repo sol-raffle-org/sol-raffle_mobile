@@ -11,6 +11,7 @@ import { getSystemTopPlayerService } from '@/services/system-service/system.serv
 import { SystemTopPlayerType } from '@/types/service.type'
 import { getAvatarUrl, truncateHash } from '@/utils/common.utils'
 import { LinearGradient } from 'expo-linear-gradient'
+import { uniqueId } from 'lodash'
 import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { AppCircle } from '../app-circle'
@@ -18,13 +19,24 @@ import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
 import { StatsView } from './stats-view'
 
+type TopPlayerType = Omit<SystemTopPlayerType, 'avatar'> & Partial<Pick<SystemTopPlayerType, 'avatar'>>
 export function StatsRanking() {
-  const [rankingList, setRankingList] = useState<SystemTopPlayerType[]>([])
+  const [rankingList, setRankingList] = useState<TopPlayerType[]>([])
 
   useEffect(() => {
     getSystemTopPlayerService().then((data) => {
-      setRankingList(data || [])
-      return true
+      const topPlayers: TopPlayerType[] = data || []
+      const newRanking = new Array(3).fill(0).map((_, index) => {
+        return topPlayers[index]
+          ? topPlayers[index]
+          : {
+              id: uniqueId(),
+              name: 'Waiting',
+              value: 0,
+              wallet: 'Waiting',
+            }
+      })
+      setRankingList(newRanking)
     })
   }, [])
 
@@ -48,7 +60,7 @@ export function StatsRanking() {
       </LinearGradient>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: 8 }}>
-        {rankingList.map((item: SystemTopPlayerType, index) => (
+        {rankingList.map((item: TopPlayerType, index) => (
           <StatsRankingItem key={index} topNumber={index + 1} user={item} />
         ))}
       </View>
@@ -58,7 +70,7 @@ export function StatsRanking() {
 
 type StatsRankingItemProps = {
   topNumber: number
-  user: SystemTopPlayerType
+  user: TopPlayerType
 }
 function StatsRankingItem({ topNumber, user }: StatsRankingItemProps) {
   const borderColor = topNumber === 1 ? '#FEEBA6' : topNumber === 2 ? '#DBE1E3' : '#A7CB75'
@@ -79,7 +91,9 @@ function StatsRankingItem({ topNumber, user }: StatsRankingItemProps) {
         <AppImage source={topImage} style={{ width: 30, height: 26, position: 'absolute', top: -16, left: 38 }} />
       </View>
 
-      <AppItemText textType="subtitle">{truncateHash(user.wallet)}</AppItemText>
+      <AppItemText textType="subtitle">
+        {user.wallet === 'Waiting' ? user.wallet : truncateHash(user.wallet)}
+      </AppItemText>
 
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <AppImage source={SolanaLogo} style={{ width: 17, height: 17, marginRight: 8 }} />
