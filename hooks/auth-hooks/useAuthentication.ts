@@ -30,11 +30,11 @@ const useAuthentication = () => {
   const handleLogout = async () => {
     AsyncStorage.removeItem(KEY_TOKEN)
 
-    disconnect()
     setAccountInfo(undefined)
     setBalance(0)
     setReferralInfo(undefined)
     setIsEmitAuthenticate(false)
+    disconnect()
   }
 
   return { handleGetNonce, handleVerify, handleLogout }
