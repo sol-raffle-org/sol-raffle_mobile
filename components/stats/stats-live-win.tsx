@@ -16,14 +16,8 @@ export function StatsLiveWin() {
   const { winnerList } = useJackpotStore()
 
   const list = useMemo(() => {
-    if (!winnerList?.data || !winnerList.data.length) return []
-
-    return winnerList.data
+    return Array.isArray(winnerList?.data) ? winnerList.data : []
   }, [winnerList])
-
-  console.log({
-    winnerList,
-  })
 
   return (
     <StatsView variant="column" style={{ flex: 1 }}>

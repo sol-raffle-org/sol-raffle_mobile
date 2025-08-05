@@ -32,7 +32,7 @@ import useCoinFlipStore from '@/stores/useCoinflipStore'
 import useJackpotStore from '@/stores/useJackpotStore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { usePathname } from 'expo-router'
-import { sortBy } from 'lodash'
+import { orderBy } from 'lodash'
 import { useTranslation } from 'react-i18next'
 
 const RaffleSocketProvider = () => {
@@ -134,10 +134,12 @@ const RaffleSocketProvider = () => {
       raffleSocket.connect()
     }
 
+    // Request win data
+    raffleSocket.emit('notify-win-data')
+
     if (pathname === JACKPOT) {
       raffleSocket.emit('jp-join-room')
       raffleSocket.emit('jp-game-data')
-      raffleSocket.emit('notify-win-data')
     }
 
     if (pathname === COIN_FLIP) {
@@ -152,29 +154,29 @@ const RaffleSocketProvider = () => {
   useEffect(() => {
     if (!raffleSocket) return
 
-    let tempWinnerList: JackpotWinnerListInterface = { data: [] }
+    let socketWinnerList: JackpotWinnerListInterface = { data: [] }
 
     raffleSocket.on('notify-win-data', (winnerList?: JackpotWinnerListInterface) => {
       // Sort desc (newest to oldest)
-      tempWinnerList = {
-        data: Array.isArray(winnerList?.data) ? sortBy(winnerList.data, ['createdAt'], ['desc']) : [],
+      socketWinnerList = {
+        data: Array.isArray(winnerList?.data) ? orderBy(winnerList.data, ['createdAt'], ['desc']) : [],
       }
 
-      setWinnerList(winnerList)
+      setWinnerList(socketWinnerList)
     })
 
     raffleSocket.on('notify-win-update', (newWinner: JackpotWinnerItemInterface) => {
-      if (!tempWinnerList?.data?.length) {
+      if (!socketWinnerList?.data?.length) {
         setWinnerList({ data: [newWinner] })
       } else {
-        const newList = [newWinner, ...tempWinnerList.data]
+        const newList = [newWinner, ...socketWinnerList.data]
 
         // Remove last item if maximum size
         if (newList.length > 20) {
           newList.pop()
         }
-        const newData = { data: newList }
-        setWinnerList(newData)
+        socketWinnerList = { data: newList }
+        setWinnerList(socketWinnerList)
       }
     })
   }, [raffleSocket]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -339,7 +341,7 @@ const RaffleSocketProvider = () => {
   //   )
   // }, [])
 
-  return <></>
+  return null
 }
 
 export default RaffleSocketProvider
