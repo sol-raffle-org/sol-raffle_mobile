@@ -1,5 +1,5 @@
 import { GET_LATEST_PRICE } from '@/constants/api.const'
-import { PYTH_SERVICE_URL, SOL_PRICE_FEED_ID } from '@/constants/app.const'
+import { PYTH_SERVICE_URL, SOL_PRICE_FEED_ID } from '@env'
 import { ApiResponse } from 'apisauce'
 import { createPriceFeedApi } from '../client-side-config'
 

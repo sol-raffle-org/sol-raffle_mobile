@@ -1,32 +1,31 @@
-"use server";
+'use server'
 
-import { cookies } from "next/headers";
-import { KEY_TOKEN } from "@/constants/app.const";
-
-const baseUrl = process.env.DAPP_SERVICE_URL;
+import { KEY_TOKEN } from '@/constants/app.const'
+import { DAPP_SERVICE_URL } from '@env'
+import { cookies } from 'next/headers'
 
 export async function fetchWithAuthServerSide(url: string, init?: RequestInit) {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get(KEY_TOKEN)?.value;
-  const endpoint = baseUrl + url;
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get(KEY_TOKEN)?.value
+  const endpoint = DAPP_SERVICE_URL + url
 
   try {
     const res = await fetch(endpoint, {
       ...init,
       headers: {
-        accept: "application/json",
+        accept: 'application/json',
         Authorization: `Bearer ${accessToken}`,
         ...init?.headers,
       },
-    });
+    })
 
     if (!res.ok) {
-      return undefined;
+      return undefined
     } else {
-      return res.json();
+      return res.json()
     }
   } catch (error) {
-    console.log("Error fetch from server", error);
-    return undefined;
+    console.log('Error fetch from server', error)
+    return undefined
   }
 }
