@@ -18,7 +18,7 @@ import {
 
 import { Audio } from 'expo-av'
 
-import { KEY_TOKEN, SOCKET_URL } from '@/constants/app.const'
+import { KEY_TOKEN } from '@/constants/app.const'
 
 // import soundCoolDown from '@/assets/sounds/sound-cooldown.mp3'
 // import soundNewEntry from '@/assets/sounds/sound-new-entry.mp3'
@@ -30,6 +30,7 @@ import { useToast } from '@/components/toast/app-toast-provider'
 import useAppStore from '@/stores/useAppStore'
 import useCoinFlipStore from '@/stores/useCoinflipStore'
 import useJackpotStore from '@/stores/useJackpotStore'
+import { SOCKET_URL } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { usePathname } from 'expo-router'
 import { orderBy } from 'lodash'

@@ -29,9 +29,3 @@ export const METADATA = {
     'A fully on-chain gambling game with transparent, provably fair jackpots. Bet SOL, grab tickets, and verify every win on the blockchain!',
   imgSrc: 'https://solraffle.s3.ap-southeast-1.amazonaws.com/tag_image.jpg',
 }
-
-export const DAPP_SERVICE_URL = 'https://dev-api.solraffle.xyz'
-export const SOCKET_URL = 'https://dev-wss.solraffle.xyz'
-export const PYTH_SERVICE_URL = 'https://hermes.pyth.network'
-export const SOL_PRICE_FEED_ID = 'ef0d8b6fda2ceba41da15d4095d1da392a0d2f8ed0c6c7bc0f4cfac8c280b56d'
-export const AVATAR_URL_PREFIX = 'https://dev-api.solraffle.xyz/user/avatar?f='

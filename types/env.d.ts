@@ -2,6 +2,7 @@ declare module '@env' {
   export const NETWORK_MODE: string
   export const DAPP_SERVICE_URL: string
   export const SOCKET_URL: string
+  export const WEBVIEW_JACKPOT_URL: string
 
   export const SOL_RAFFLE_CA: string
   export const PYTH_SERVICE_URL: string

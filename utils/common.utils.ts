@@ -1,4 +1,4 @@
-import { AVATAR_URL_PREFIX } from '@/constants/app.const'
+import { AVATAR_URL_PREFIX } from '@env'
 
 export const isValidEnumValue = <T extends { [key: string]: string }>(
   enumObj: T,

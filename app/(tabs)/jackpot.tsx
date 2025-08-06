@@ -8,6 +8,7 @@ import useJackpotStore from '@/stores/useJackpotStore'
 import { useEffect, useState } from 'react'
 import { ScrollView, View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import { WEBVIEW_JACKPOT_URL } from '@env'
 
 export default function JackpotScreen() {
   const { jackpotGameData } = useJackpotStore()
@@ -37,7 +38,7 @@ export default function JackpotScreen() {
           }}
         >
           <WebView
-            source={{ uri: 'https://dev-frontend.solraffle.xyz/jackpot-wv' }}
+            source={{ uri: WEBVIEW_JACKPOT_URL }}
             style={{
               width: '100%',
               height: 280,
