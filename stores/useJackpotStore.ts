@@ -9,10 +9,7 @@ import {
   JackpotFairnessTransactionInterface,
   JackpotTransactionItemType,
 } from '@/types/service.type'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createJSONStorage, persist } from 'zustand/middleware'
-import { shallow } from 'zustand/shallow'
-import { createWithEqualityFn } from 'zustand/traditional'
+import { create } from 'zustand'
 
 interface JackpotStore {
   isFetching: boolean
@@ -58,63 +55,49 @@ interface JackpotStore {
   setJackpotGameData: (value?: JackpotGameDataInterface) => void
 }
 
-const useJackpotStore = createWithEqualityFn<JackpotStore>()(
-  persist(
-    (set) => ({
-      isFetching: false,
-      setIsFetching: (value: boolean) => set({ isFetching: value }),
+const useJackpotStore = create<JackpotStore>()((set) => ({
+  isFetching: false,
+  setIsFetching: (value: boolean) => set({ isFetching: value }),
 
-      isBettingJackpot: false,
-      setIsBettingJackpot: (value: boolean) => set({ isBettingJackpot: value }),
+  isBettingJackpot: false,
+  setIsBettingJackpot: (value: boolean) => set({ isBettingJackpot: value }),
 
-      page: 1,
-      setPage: (value) => set({ page: value }),
+  page: 1,
+  setPage: (value) => set({ page: value }),
 
-      isMuted: false,
-      setIsMuted: (value) => set({ isMuted: value }),
+  isMuted: false,
+  setIsMuted: (value) => set({ isMuted: value }),
 
-      totalItems: 0,
-      setTotalItems: (value) => set({ totalItems: value }),
+  totalItems: 0,
+  setTotalItems: (value) => set({ totalItems: value }),
 
-      // NOTE: For user Jackpot history
-      userJackpotHistory: undefined,
-      setUserJackpotHistory: (value) => set({ userJackpotHistory: value }),
+  // NOTE: For user Jackpot history
+  userJackpotHistory: undefined,
+  setUserJackpotHistory: (value) => set({ userJackpotHistory: value }),
 
-      // NOTE: For Jackpot fairness
-      jackpotFairness: undefined,
-      setJackpotFairness: (value) => set({ jackpotFairness: value }),
+  // NOTE: For Jackpot fairness
+  jackpotFairness: undefined,
+  setJackpotFairness: (value) => set({ jackpotFairness: value }),
 
-      currentRoundTransaction: undefined,
-      setCurrentRoundTransaction: (value) => set({ currentRoundTransaction: value }),
+  currentRoundTransaction: undefined,
+  setCurrentRoundTransaction: (value) => set({ currentRoundTransaction: value }),
 
-      // Note: For Jackpot game
+  // Note: For Jackpot game
 
-      currentAddressBetAccount: undefined,
-      setCurrentAddressBetAccount: (value?: BetAccountInfoInterface) => set({ currentAddressBetAccount: value }),
+  currentAddressBetAccount: undefined,
+  setCurrentAddressBetAccount: (value?: BetAccountInfoInterface) => set({ currentAddressBetAccount: value }),
 
-      showWinGlow: false,
-      setShowWinGlow: (value: boolean) => set({ showWinGlow: value }),
+  showWinGlow: false,
+  setShowWinGlow: (value: boolean) => set({ showWinGlow: value }),
 
-      gameAccount: undefined,
-      setGameAccount: (value?: GameAccountInfoInterface) => set({ gameAccount: value }),
+  gameAccount: undefined,
+  setGameAccount: (value?: GameAccountInfoInterface) => set({ gameAccount: value }),
 
-      winnerList: undefined,
-      setWinnerList: (value?: JackpotWinnerListInterface) => set({ winnerList: value }),
+  winnerList: undefined,
+  setWinnerList: (value?: JackpotWinnerListInterface) => set({ winnerList: value }),
 
-      jackpotGameData: undefined,
-      setJackpotGameData: (value?: JackpotGameDataInterface) => set({ jackpotGameData: value }),
-    }),
-    {
-      name: 'jackpot-store',
-      storage: createJSONStorage(() => AsyncStorage),
-      partialize: (state) => ({
-        userJackpotHistory: state.userJackpotHistory,
-        jackpotFairness: state.jackpotFairness,
-        winnerList: state.winnerList,
-      }),
-    },
-  ),
-  shallow,
-)
+  jackpotGameData: undefined,
+  setJackpotGameData: (value?: JackpotGameDataInterface) => set({ jackpotGameData: value }),
+}))
 
 export default useJackpotStore

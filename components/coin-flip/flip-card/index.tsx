@@ -1,11 +1,12 @@
 import { FlipCardBgImage } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { AppView } from '@/components/app-view'
+import useAccount from '@/hooks/account-hooks/useAccount'
 import { useCountdownByTimestamp } from '@/hooks/common/useCountdown'
-import useAppStore from '@/stores/useAppStore'
+import useCoinFlipStore from '@/stores/useCoinflipStore'
 import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { Fragment, useEffect, useMemo, useState } from 'react'
 import Header from './Header'
 import Status from './Status'
 import UserInfo from './UserInfo'
@@ -15,7 +16,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
     (data?.deleteTime && data?.deleteTime > 0 && Math.floor(Number(data?.deleteTime) / 1000)) || 0,
   )
 
-  const { appSocket } = useAppStore()
+  const { handleGetBalance } = useAccount()
+  const { setCount } = useCoinFlipStore()
 
   const [result, setResult] = useState<undefined | CoinSideEnum>(undefined)
 
@@ -29,17 +31,20 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
   }, [data, remain])
 
   useEffect(() => {
-    if (!isDelete || !appSocket || !appSocket.connected) return
-    setTimeout(() => {
-      appSocket.emit('fl-game-data')
-    }, 3000)
-  }, [isDelete, appSocket])
+    if (!isDelete) return
+
+    handleGetBalance()
+    setCount(Math.random())
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDelete])
 
   useEffect(() => {
     if (data.status === FlipGameStatusEnum.Finished && !isNil(data.result)) {
       setResult(data.result)
     }
   }, [data])
+
+  if (isDelete) return <Fragment />
 
   return (
     <AppView

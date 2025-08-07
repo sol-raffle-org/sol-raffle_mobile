@@ -1,10 +1,7 @@
 import { AccountInterface } from '@/types/app.type'
 import { GetAffiliateInfoInterface, SystemStatsServiceType } from '@/types/service.type'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Socket } from 'socket.io-client'
-import { createJSONStorage, persist } from 'zustand/middleware'
-import { shallow } from 'zustand/shallow'
-import { createWithEqualityFn } from 'zustand/traditional'
+import { create } from 'zustand'
 
 interface AppStore {
   soundOn: boolean
@@ -41,55 +38,39 @@ interface AppStore {
   setIsShowNavigation: (value: boolean) => void
 }
 
-const useAppStore = createWithEqualityFn<AppStore>()(
-  persist(
-    (set) => ({
-      soundOn: true,
-      setSoundOn: (value: boolean) => set({ soundOn: value }),
+const useAppStore = create<AppStore>()((set) => ({
+  soundOn: true,
+  setSoundOn: (value: boolean) => set({ soundOn: value }),
 
-      appSocket: null,
-      setAppSocket: (value: Socket | null) => set({ appSocket: value }),
+  appSocket: null,
+  setAppSocket: (value: Socket | null) => set({ appSocket: value }),
 
-      isEmitAuthenticate: false,
-      setIsEmitAuthenticate: (value: boolean) => set({ isEmitAuthenticate: value }),
+  isEmitAuthenticate: false,
+  setIsEmitAuthenticate: (value: boolean) => set({ isEmitAuthenticate: value }),
 
-      solPrice: 0,
-      setSolPrice: (value: number) => set({ solPrice: value }),
+  solPrice: 0,
+  setSolPrice: (value: number) => set({ solPrice: value }),
 
-      isShowSplash: true,
-      setIsShowSplash: (value) => set({ isShowSplash: value }),
+  isShowSplash: true,
+  setIsShowSplash: (value) => set({ isShowSplash: value }),
 
-      isOpenConnectDialog: false,
-      setIsOpenConnectDialog: (value: boolean) => set({ isOpenConnectDialog: value }),
+  isOpenConnectDialog: false,
+  setIsOpenConnectDialog: (value: boolean) => set({ isOpenConnectDialog: value }),
 
-      accountInfo: undefined,
-      setAccountInfo: (value: AccountInterface | undefined) => set({ accountInfo: value }),
+  accountInfo: undefined,
+  setAccountInfo: (value: AccountInterface | undefined) => set({ accountInfo: value }),
 
-      balance: 0,
-      setBalance: (value: number) => set({ balance: value }),
+  balance: 0,
+  setBalance: (value: number) => set({ balance: value }),
 
-      systemStats: undefined,
-      setSystemStats: (value?: SystemStatsServiceType) => set({ systemStats: value }),
+  systemStats: undefined,
+  setSystemStats: (value?: SystemStatsServiceType) => set({ systemStats: value }),
 
-      referralInfo: undefined,
-      setReferralInfo: (value?: GetAffiliateInfoInterface) => set({ referralInfo: value }),
+  referralInfo: undefined,
+  setReferralInfo: (value?: GetAffiliateInfoInterface) => set({ referralInfo: value }),
 
-      isShowNavigation: true,
-      setIsShowNavigation: (value) => set({ isShowNavigation: value }),
-    }),
-    {
-      name: 'app-store',
-      storage: createJSONStorage(() => AsyncStorage),
-      partialize: (state) => ({
-        soundOn: state.soundOn,
-        solPrice: state.solPrice,
-        systemStats: state.systemStats,
-        referralInfo: state.referralInfo,
-        isShowNavigation: state.isShowNavigation,
-      }),
-    },
-  ),
-  shallow,
-)
+  isShowNavigation: true,
+  setIsShowNavigation: (value) => set({ isShowNavigation: value }),
+}))
 
 export default useAppStore

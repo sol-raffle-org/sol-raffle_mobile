@@ -8,15 +8,26 @@ import { AppView } from '../app-view'
 
 export function CoinFlipCreateTabs() {
   const { accountInfo } = useAppStore()
-  const { flipGamesTable, gameTab, setGameTab } = useCoinFlipStore()
+  const { flipGamesTable, gameTab, count, setGameTab } = useCoinFlipStore()
+
   const [totalGames, myTotalGames] = useMemo(() => {
     if (!accountInfo || !flipGamesTable?.length) return [0, 0]
 
-    return [
-      flipGamesTable.length,
-      flipGamesTable.filter((item) => item?.userCreator?.wallet === accountInfo?.wallet).length,
-    ]
-  }, [flipGamesTable, accountInfo])
+    const currentTime = Math.floor(Date.now() / 1000) + 2
+
+    const totalGames = flipGamesTable.filter((item) => {
+      const deleteTime = Number(item.deleteTime || 0) > 0 ? Math.floor((item.deleteTime || 0) / 1000) : 0
+
+      const end = deleteTime > 0 ? currentTime >= deleteTime : false
+
+      return !end
+    })
+
+    const totalMyGames = totalGames.filter((item) => item?.userCreator?.wallet === accountInfo?.wallet)
+
+    return [totalGames.length, totalMyGames.length]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flipGamesTable, accountInfo, count])
 
   return (
     <AppView
