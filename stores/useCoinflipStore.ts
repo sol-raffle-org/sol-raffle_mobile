@@ -1,7 +1,5 @@
 import { FlipGameInterface } from '@/types/coin-flip.type'
-import { persist } from 'zustand/middleware'
-import { shallow } from 'zustand/shallow'
-import { createWithEqualityFn } from 'zustand/traditional'
+import { create } from 'zustand'
 
 interface CoinFlipStore {
   isFetching: boolean
@@ -19,6 +17,9 @@ interface CoinFlipStore {
   gameTab: 0 | 1
   setGameTab: (value: 0 | 1) => void
 
+  count: number
+  setCount: (value: number) => void
+
   // NOTE: For Coin Flip fairness
   coinFlipFairness?: any[]
   setCoinFlipFairness: (value?: any[]) => void
@@ -27,38 +28,30 @@ interface CoinFlipStore {
   setCurrentTransaction: (value?: any) => void
 }
 
-const useCoinFlipStore = createWithEqualityFn<CoinFlipStore>()(
-  persist(
-    (set) => ({
-      isFetching: false,
-      setIsFetching: (value: boolean) => set({ isFetching: value }),
+const useCoinFlipStore = create<CoinFlipStore>((set) => ({
+  isFetching: false,
+  setIsFetching: (value: boolean) => set({ isFetching: value }),
 
-      page: 1,
-      setPage: (value) => set({ page: value }),
+  page: 1,
+  setPage: (value) => set({ page: value }),
 
-      totalItems: 0,
-      setTotalItems: (value) => set({ totalItems: value }),
+  totalItems: 0,
+  setTotalItems: (value) => set({ totalItems: value }),
 
-      gameTab: 0,
-      setGameTab: (value: 0 | 1) => set({ gameTab: value }),
+  gameTab: 0,
+  setGameTab: (value: 0 | 1) => set({ gameTab: value }),
 
-      flipGamesTable: undefined,
-      setFlipGamesTable: (value?: FlipGameInterface[]) => set({ flipGamesTable: value }),
+  count: 0,
+  setCount: (value: number) => set({ count: value }),
 
-      coinFlipFairness: undefined,
-      setCoinFlipFairness: (value) => set({ coinFlipFairness: value }),
+  flipGamesTable: undefined,
+  setFlipGamesTable: (value?: FlipGameInterface[]) => set({ flipGamesTable: value }),
 
-      currentTransaction: undefined,
-      setCurrentTransaction: (value?: any) => set({ currentTransaction: value }),
-    }),
-    {
-      name: 'coin-flip-store',
-      partialize: (state) => ({
-        coinFlipFairness: state.coinFlipFairness,
-      }),
-    },
-  ),
-  shallow,
-)
+  coinFlipFairness: undefined,
+  setCoinFlipFairness: (value) => set({ coinFlipFairness: value }),
+
+  currentTransaction: undefined,
+  setCurrentTransaction: (value?: any) => set({ currentTransaction: value }),
+}))
 
 export default useCoinFlipStore
