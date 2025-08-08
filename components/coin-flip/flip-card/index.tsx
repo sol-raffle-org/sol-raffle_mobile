@@ -7,6 +7,7 @@ import useCoinFlipStore from '@/stores/useCoinflipStore'
 import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
 import React, { Fragment, useEffect, useMemo, useState } from 'react'
+import Confetti from './Confetti'
 import Header from './Header'
 import Status from './Status'
 import UserInfo from './UserInfo'
@@ -57,6 +58,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
         width: '100%',
         height: 177,
         overflow: 'hidden',
+        position: 'relative',
       }}
     >
       <Header data={data} result={result} />
@@ -88,6 +90,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
           action
         )}
       </AppView>
+
+      {!isNil(result) ? <Confetti /> : <Fragment />}
 
       <AppImage
         source={FlipCardBgImage}
