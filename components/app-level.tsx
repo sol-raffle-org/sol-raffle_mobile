@@ -16,7 +16,7 @@ import { AppItemText } from './app-item-text'
 
 interface AppLevelProps extends ViewProps {
   level?: number
-  label?: string | number
+  label?: string | number | null
 }
 
 const AppLevel: FC<AppLevelProps> = ({ level = 1, label, style, ...otherProps }) => {
@@ -39,7 +39,7 @@ const AppLevel: FC<AppLevelProps> = ({ level = 1, label, style, ...otherProps })
   }, [level])
 
   return (
-    <View style={[{ backgroundColor: backgroundColor }, style]} {...otherProps}>
+    <View style={[{ backgroundColor: backgroundColor, gap: 8, flexDirection: 'row' }, style]} {...otherProps}>
       <AppImage
         source={imgSrc}
         style={{
@@ -47,6 +47,7 @@ const AppLevel: FC<AppLevelProps> = ({ level = 1, label, style, ...otherProps })
           height: 10,
         }}
       />
+
       {label && (
         <AppItemText textType="title" style={[{ fontSize: 10, color: textColor }]}>
           {label}

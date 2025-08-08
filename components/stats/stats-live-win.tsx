@@ -1,14 +1,13 @@
 import { BigWinImage, SolanaLogo } from '@/assets/images'
 import useJackpotStore from '@/stores/useJackpotStore'
 import { JackpotWinnerItemInterface, WinTypeEnum } from '@/types/jackpot.type'
-import { getAvatarUrl } from '@/utils/common.utils'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useMemo } from 'react'
 import { ScrollView, View } from 'react-native'
 import { AppCircle } from '../app-circle'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
-import AppLevel from '../app-level'
+import { AppRankingAvatar } from '../app-ranking-avatar'
 import { CoinFlipIcon, JackpotIcon } from '../icons'
 import { StatsView } from './stats-view'
 
@@ -74,30 +73,7 @@ function StatsLiveWinItem({ item }: { item: JackpotWinnerItemInterface }) {
         gap: 6,
       }}
     >
-      <View>
-        <AppImage
-          source={getAvatarUrl(item.avatar)}
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: 24,
-            borderWidth: 1,
-          }}
-        />
-
-        <AppLevel
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 16,
-            width: 18,
-            height: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          level={item.level}
-        />
-      </View>
+      <AppRankingAvatar avatar={item.avatar} level={item.level} />
 
       <View style={{ flex: 1, flexDirection: 'column' }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
