@@ -45,7 +45,7 @@ export function OtherGames() {
   )
 }
 
-const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
+export const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
   const { handleGetTransactionResult } = useTransaction()
   const { handleGetBalance } = useAccount()
   const { appSocket, accountInfo, balance, setBalance } = useAppStore()
