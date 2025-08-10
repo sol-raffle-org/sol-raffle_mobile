@@ -8,10 +8,10 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { AppCircle } from '../app-circle'
+import IconCopyButton from '../app-icon-copy-button'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
 import { AppView, AppViewProps } from '../app-view'
-import { CopyIcon } from '../icons'
 
 export function JackpotPlayInRound() {
   const { jackpotGameData } = useJackpotStore()
@@ -71,13 +71,13 @@ export function JackpotPlayInRound() {
         }}
       >
         <JackpotRow style={{ gap: 4 }}>
-          <CopyIcon color="#FFFFFF8C" />
+          <IconCopyButton copyContent={jackpotGameData?.serverSeed || ''} />
           <AppItemText textType="subtitle" color="#FFFFFF8C">
             Hash seed: {jackpotGameData?.serverSeed ? truncateHash(jackpotGameData?.serverSeed) : 'Waiting'}
           </AppItemText>
         </JackpotRow>
         <JackpotRow style={{ gap: 4 }}>
-          <CopyIcon color="#FFFFFF8C" />
+          <IconCopyButton copyContent={jackpotGameData?.blockNumber || ''} />
           <AppItemText textType="subtitle" color="#FFFFFF8C">
             EOS Block: {jackpotGameData?.blockNumber || 'Waiting'}
           </AppItemText>
