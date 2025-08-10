@@ -188,8 +188,6 @@ const RaffleSocketProvider = () => {
 
       raffleSocket.off('level-up')
       raffleSocket.off('server-message')
-      raffleSocket.off('notify-win-data')
-      raffleSocket.off('notify-win-update')
       raffleSocket.off('jp-status-update')
       raffleSocket.off('jp-player-bet')
       raffleSocket.off('jp-game-data')
