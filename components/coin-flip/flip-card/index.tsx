@@ -119,6 +119,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
           />
         </AppView>
       </TouchableWithoutFeedback>
+
       {isShowDetail && (
         <CoinFlipGameDetail
           isMyGame={data.userCreator.wallet === accountInfo?.wallet}

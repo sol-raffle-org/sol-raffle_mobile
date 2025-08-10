@@ -12,7 +12,7 @@ const UserInfo: FC<UserInfoProps> = ({ avatar, name, level, width }) => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 12,
+        gap: 20,
       }}
     >
       <AppRankingAvatar avatar={avatar} level={level} size="large" customStyles={{ bottom: -14 }} />

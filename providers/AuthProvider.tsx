@@ -8,6 +8,7 @@ import useAccount from '@/hooks/account-hooks/useAccount'
 import useSystem from '@/hooks/system-hooks/useSystem'
 import useAppStore from '@/stores/useAppStore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Portal } from 'react-native-paper'
 
 const AuthRaffleProvider: FC<PropsWithChildren> = ({ children }) => {
   const { handleGetBalance, handleGetAccountInfo } = useAccount()
@@ -42,7 +43,7 @@ const AuthRaffleProvider: FC<PropsWithChildren> = ({ children }) => {
     handleGetBalance()
   }, [accountInfo]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <>{children}</>
+  return <Portal.Host>{children}</Portal.Host>
 }
 
 export default AuthRaffleProvider

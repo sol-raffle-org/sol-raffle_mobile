@@ -66,13 +66,13 @@ export const AppToast = ({ visible, type = 'info', title, subtitle, onDismiss, d
 
       <AppToastIcon type={type} />
 
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start', paddingHorizontal: 8 }}>
+      <View style={{ flex: 1, alignItems: 'flex-start', paddingHorizontal: 8 }}>
         <AppItemText textType="title" color={getTitleColor(type)}>
           {title || getTitleText(type)}
         </AppItemText>
 
         {subtitle && (
-          <AppItemText textType="subtitle" color="#FFFFFFB2">
+          <AppItemText textType="subtitle" color="#FFFFFFB2" style={{ textAlign: 'left' }}>
             {subtitle}
           </AppItemText>
         )}
