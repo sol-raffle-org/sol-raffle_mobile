@@ -9,17 +9,9 @@ export interface AppRankingAvatarProps extends ViewProps {
   avatar?: string
   level?: number
   size?: 'medium' | 'large'
-  customStyles?: any
 }
-export function AppRankingAvatar({
-  avatar,
-  level,
-  size = 'medium',
-  children,
-  customStyles,
-  ...otherProps
-}: AppRankingAvatarProps) {
-  const [avatarSize, levelSize] = useMemo(() => {
+export function AppRankingAvatar({ avatar, level, size = 'medium', children, ...otherProps }: AppRankingAvatarProps) {
+  const [avatarSize, levelSize, levelHeight] = useMemo(() => {
     switch (size) {
       case 'large':
         const largeSize = 64
@@ -31,10 +23,8 @@ export function AppRankingAvatar({
           },
           {
             bottom: -8,
-            left: (largeSize - 28) / 2,
-            width: 28,
-            height: 20,
           },
+          { height: 20 },
         ]
 
       case 'medium':
@@ -48,10 +38,8 @@ export function AppRankingAvatar({
           },
           {
             bottom: -4,
-            left: (mediumSize - 18) / 2,
-            width: 18,
-            height: 10,
           },
+          { height: 10 },
         ]
     }
   }, [size])
@@ -68,17 +56,26 @@ export function AppRankingAvatar({
 
       {children}
 
-      <AppLevel
+      <View
         style={{
           position: 'absolute',
-          justifyContent: 'center',
+          flexDirection: 'row',
           alignItems: 'center',
+          justifyContent: 'center',
+          left: 0,
+          right: 0,
           ...levelSize,
-          ...customStyles,
         }}
-        level={level}
-        label={size === 'large' ? level : null}
-      />
+      >
+        <AppLevel
+          style={{
+            ...levelHeight,
+          }}
+          level={level}
+          label={size === 'large' ? level : null}
+          size={size}
+        />
+      </View>
     </View>
   )
 }

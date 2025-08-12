@@ -3,7 +3,7 @@ import { AppImage } from '@/components/app-image'
 import { AppText } from '@/components/app-text'
 import { AppView } from '@/components/app-view'
 import { VersusIcon } from '@/components/icons'
-import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
+import { CoinSideEnum, FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
 import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
@@ -11,13 +11,7 @@ import ApproveCountdown from './ApproveCountdown'
 import FlipAnimation from './FlipAnimation'
 import FlipCountdown from './FlipCountdown'
 
-const Status = ({
-  gameData,
-  setResult,
-}: {
-  gameData: FlipGameInterface
-  setResult: React.Dispatch<React.SetStateAction<CoinSideEnum | undefined>>
-}) => {
+const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
   const isShowVersusIcon = useMemo(() => {
     return [FlipGameStatusEnum.Playing, FlipGameStatusEnum.Created].includes(gameData.status)
   }, [gameData])
@@ -35,12 +29,15 @@ const Status = ({
       {isShowVersusIcon && <VersusIcon color="#01FC7F99" />}
 
       {gameData.status === FlipGameStatusEnum.Awarding && !isNil(gameData.result) && (
-        <FlipAnimation result={gameData.result} setResult={setResult} />
+        <FlipAnimation result={gameData.result} gameId={gameData.gameId} />
       )}
 
       {gameData.status === FlipGameStatusEnum.WaitingReady && (
         <AppView style={styles.container}>
-          <ApproveCountdown endTime={gameData?.endTime > 0 ? Math.floor(gameData.endTime / 1000) : 0} />
+          <ApproveCountdown
+            endTime={gameData?.endTime > 0 ? Math.floor(gameData.endTime / 1000) : 0}
+            gameId={gameData.gameId}
+          />
           <AppText style={styles.text}>Waiting{'\n'}Approve</AppText>
         </AppView>
       )}
@@ -58,7 +55,7 @@ const Status = ({
         />
       )}
 
-      {gameData.status === FlipGameStatusEnum.Mining && <FlipCountdown />}
+      {gameData.status === FlipGameStatusEnum.Mining && <FlipCountdown gameId={gameData.gameId} />}
     </AppView>
   )
 }

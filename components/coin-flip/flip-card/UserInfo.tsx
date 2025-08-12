@@ -3,19 +3,24 @@ import { AppText } from '@/components/app-text'
 import { AppView } from '@/components/app-view'
 import { FC } from 'react'
 
-const UserInfo: FC<UserInfoProps> = ({ avatar, name, level, width }) => {
+const UserInfo: FC<UserInfoProps> = ({ avatar, name, level, width, isLoser }) => {
   return (
     <AppView
-      style={{
-        width: width,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 20,
-      }}
+      style={[
+        {
+          width: width,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 20,
+        },
+        isLoser && {
+          opacity: 0.4,
+        },
+      ]}
     >
-      <AppRankingAvatar avatar={avatar} level={level} size="large" customStyles={{ bottom: -14 }} />
+      <AppRankingAvatar avatar={avatar} level={level} size="large" />
       <AppText style={{ fontSize: 13, maxWidth: 80 }} numberOfLines={1} ellipsizeMode="tail">
         {name}
       </AppText>
@@ -30,4 +35,5 @@ interface UserInfoProps {
   name: string
   level: number
   width: number
+  isLoser?: boolean
 }

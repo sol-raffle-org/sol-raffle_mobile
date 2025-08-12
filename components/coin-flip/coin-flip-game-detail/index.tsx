@@ -1,46 +1,23 @@
 import { CoinHeadImage, CoinTailImage, SolanaLogo } from '@/assets/images'
-import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum, FlipPlayerInterface } from '@/types/coin-flip.type'
-import { isNil } from 'lodash'
-import React, { Dispatch, Fragment, SetStateAction, useMemo, useState } from 'react'
+import { VersusIcon } from '@/components/icons'
+import { CoinSideEnum, FlipPlayerInterface } from '@/types/coin-flip.type'
+import React, { memo, useMemo } from 'react'
 import { View } from 'react-native'
 import { Modal, Portal } from 'react-native-paper'
 import { AppImage } from '../../app-image'
 import { AppItemText } from '../../app-item-text'
 import { AppRankingAvatar } from '../../app-ranking-avatar'
 import { AppView } from '../../app-view'
-import Confetti from '../flip-card/Confetti'
-import Status from '../flip-card/Status'
 import { CallBotButton } from '../my-game'
 import { JoinGameButton } from '../other-games'
-import {
-  CoinFlipGameDetailProps,
-  CoinLoop,
-  DialogBackdrop,
-  DialogSlideAnimated,
-  DialogTitle,
-  GameInfo,
-} from './components'
-import FlipDetailCountdown from './FlipDetailCountdown'
+import { CoinFlipGameDetailProps, DialogBackdrop, DialogSlideAnimated, DialogTitle, GameInfo } from './components'
+import GameStatusAnimation from './GameStatusAnimation'
 
-export default function CoinFlipGameDetail({
-  visible,
-  isMyGame,
-  gameData,
-  onDismiss,
-  setResult,
-}: CoinFlipGameDetailProps) {
-  const [gameResult, setGameResult] = useState<undefined | CoinSideEnum>(undefined)
-
-  const handleResult: Dispatch<SetStateAction<CoinSideEnum | undefined>> = (value) => {
-    setGameResult(value as CoinSideEnum | undefined)
-    setResult(value as CoinSideEnum | undefined)
-  }
-
+const CoinFlipGameDetail = ({ visible, isMyGame, gameData, onDismiss }: CoinFlipGameDetailProps) => {
   const [isRenderCallBot, isRenderJoinGame] = useMemo(() => {
     return [Boolean(isMyGame && !gameData.userJoin), Boolean(!isMyGame && !gameData.userJoin)]
   }, [gameData, isMyGame])
 
-  if (!gameData?.gameId) return null
   return (
     <Portal>
       <Modal visible={visible} onDismiss={onDismiss} contentContainerStyle={{ flex: 1 }}>
@@ -57,25 +34,36 @@ export default function CoinFlipGameDetail({
               flex: 1,
             }}
           >
-            {!isNil(gameResult) ? <Confetti /> : <Fragment />}
-
             <GameStatusAnimation gameData={gameData} />
+
             <GameValue gameValue={gameData.gameValue} />
 
-            <AppView style={{ width: '100%', flexDirection: 'row' }}>
+            <AppView style={{ width: '100%', flexDirection: 'row', alignItems: 'center' }}>
               <View style={{ flex: 1, justifyContent: 'center' }}>
-                <PlayerInfo user={gameData.userCreator} coinSide={gameData.creatorChoice} />
+                <PlayerInfo
+                  user={gameData.userCreator}
+                  coinSide={gameData.creatorChoice}
+                  isLoser={gameData.isCreatorLose}
+                />
               </View>
 
-              <Status gameData={gameData} setResult={handleResult} />
+              <VersusIcon
+                color="#01FC7F99"
+                style={{
+                  width: 47,
+                  height: 47,
+                }}
+              />
 
               <View style={{ flex: 1, justifyContent: 'center' }}>
                 {gameData.userJoin && (
                   <PlayerInfo
                     user={gameData.userJoin}
                     coinSide={gameData.creatorChoice === CoinSideEnum.Heads ? CoinSideEnum.Tails : CoinSideEnum.Heads}
+                    isLoser={gameData.isOtherLose}
                   />
                 )}
+
                 <View style={{ alignSelf: 'center' }}>
                   {isRenderCallBot && <CallBotButton gameId={gameData.gameId} />}
                   {isRenderJoinGame && <JoinGameButton gameData={gameData} />}
@@ -91,52 +79,7 @@ export default function CoinFlipGameDetail({
   )
 }
 
-const GameStatusAnimation = ({ gameData }: { gameData: FlipGameInterface }) => {
-  const [isPending, isMining, isOtherCase] = useMemo(() => {
-    const isPending = [
-      FlipGameStatusEnum.Playing,
-      FlipGameStatusEnum.Created,
-      FlipGameStatusEnum.WaitingReady,
-    ].includes(gameData.status)
-    return [
-      isPending,
-      gameData.status === FlipGameStatusEnum.Mining,
-      !isPending && gameData.status !== FlipGameStatusEnum.Mining,
-    ]
-  }, [gameData])
-
-  return (
-    <AppView
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <AppView
-        style={{
-          width: 210,
-          height: 210,
-          borderRadius: 110,
-          backgroundColor: '#FFFFFF1A',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {isPending && <CoinLoop />}
-        {isMining && <FlipDetailCountdown />}
-        {isOtherCase && (
-          <AppImage
-            source={gameData.creatorChoice === CoinSideEnum.Heads ? CoinHeadImage : CoinTailImage}
-            style={{
-              width: 164,
-              height: 164,
-            }}
-          />
-        )}
-      </AppView>
-    </AppView>
-  )
-}
+export default memo(CoinFlipGameDetail)
 
 const GameValue = ({ gameValue }: { gameValue: number }) => {
   return (
@@ -166,14 +109,20 @@ const GameValue = ({ gameValue }: { gameValue: number }) => {
 interface PlayerInfoProps {
   user: FlipPlayerInterface
   coinSide: CoinSideEnum
+  isLoser?: boolean
 }
-const PlayerInfo = ({ user, coinSide }: PlayerInfoProps) => {
+const PlayerInfo = ({ user, coinSide, isLoser }: PlayerInfoProps) => {
   return (
     <AppView
-      style={{
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
+      style={[
+        {
+          flexDirection: 'column',
+          alignItems: 'center',
+        },
+        isLoser && {
+          opacity: 0.4,
+        },
+      ]}
     >
       <AppRankingAvatar avatar={user.avatar} level={user.level} size="large">
         <AppImage

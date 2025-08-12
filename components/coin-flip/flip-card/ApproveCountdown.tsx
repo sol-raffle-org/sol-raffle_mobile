@@ -1,17 +1,30 @@
-import React, { FC } from 'react'
+import React, { FC, memo, useEffect } from 'react'
 import { StyleSheet, Text, TextProps } from 'react-native'
 
 import { AppView } from '@/components/app-view'
 import { useCountdownByTimestamp } from '@/hooks/common/useCountdown'
+import { useCoinFlipProvider } from '../coin-flip-provider'
 
 interface ApproveCountdownProps extends TextProps {
   endTime: number
+  gameId: number
 }
 
-const ApproveCountdown: FC<ApproveCountdownProps> = ({ endTime, ...otherProps }) => {
+const ApproveCountdown: FC<ApproveCountdownProps> = ({ endTime, gameId, ...otherProps }) => {
+  const { updateCountdown } = useCoinFlipProvider()
   const remain = useCountdownByTimestamp(endTime)
 
   const isCounting = Boolean(remain)
+
+  useEffect(() => {
+    console.log({
+      gameId,
+      remain,
+    })
+
+    if (gameId) updateCountdown(gameId, remain)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameId, remain])
 
   return (
     <AppView
@@ -33,7 +46,7 @@ const ApproveCountdown: FC<ApproveCountdownProps> = ({ endTime, ...otherProps })
   )
 }
 
-export default ApproveCountdown
+export default memo(ApproveCountdown)
 
 const styles = StyleSheet.create({
   container: {

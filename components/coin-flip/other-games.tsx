@@ -3,8 +3,7 @@ import useAccount from '@/hooks/account-hooks/useAccount'
 import useTransaction from '@/hooks/blockchain-hooks'
 import useCoinFlipGame from '@/hooks/game-hooks/coin-flip-hooks/useCoinFlipGame'
 import useAppStore from '@/stores/useAppStore'
-import useCoinFlipStore from '@/stores/useCoinflipStore'
-import { FlipGameInterface } from '@/types/coin-flip.type'
+import { PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { BlockchainTransactionStatusEnum, SupportedChainEnum } from '@/types/common.type'
 import { isNil } from '@/utils/common.utils'
 import React, { useEffect, useState } from 'react'
@@ -13,11 +12,12 @@ import { ActivityIndicator } from 'react-native-paper'
 import { AppButton } from '../app-button'
 import { AppItemText } from '../app-item-text'
 import { useToast } from '../toast/app-toast-provider'
+import { useCoinFlipProvider } from './coin-flip-provider'
 import FlipCard from './flip-card'
 import { CallBotButton } from './my-game'
 
 export function OtherGames() {
-  const { flipGamesTable } = useCoinFlipStore()
+  const { playingGames } = useCoinFlipProvider()
   const { accountInfo } = useAppStore()
 
   return (
@@ -26,7 +26,7 @@ export function OtherGames() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
     >
-      {flipGamesTable?.map((item, index) => {
+      {Object.values(playingGames).map((item, index) => {
         return (
           <FlipCard
             key={index}
@@ -45,7 +45,7 @@ export function OtherGames() {
   )
 }
 
-export const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) => {
+export const JoinGameButton = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
   const { handleGetTransactionResult } = useTransaction()
   const { handleGetBalance } = useAccount()
   const { appSocket, accountInfo, balance, setBalance } = useAppStore()
@@ -75,10 +75,12 @@ export const JoinGameButton = ({ gameData }: { gameData: FlipGameInterface }) =>
   }
 
   const handleJoinGame = async () => {
+    console.log('CLICKED_JOIN_GAME')
     if (!appSocket || !appSocket.connected || !accountInfo) return
 
     setIsLoading(true)
 
+    console.log('STARTED_EMIT_JOIN_GAME')
     appSocket.emit('fl-sitdown-table', {
       creator: gameData.userCreator.wallet,
       gameId: gameData.gameId,
