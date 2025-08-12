@@ -17,9 +17,10 @@ import { AppItemText } from './app-item-text'
 interface AppLevelProps extends ViewProps {
   level?: number
   label?: string | number | null
+  size?: 'medium' | 'large'
 }
 
-const AppLevel: FC<AppLevelProps> = ({ level = 1, label, style, ...otherProps }) => {
+const AppLevel: FC<AppLevelProps> = ({ level = 1, label, size, style, ...otherProps }) => {
   const [imgSrc, backgroundColor, textColor] = useMemo(() => {
     if (level > 100) {
       return [Level7Image, '#403424', '#FFD44E']
@@ -38,6 +39,7 @@ const AppLevel: FC<AppLevelProps> = ({ level = 1, label, style, ...otherProps })
     }
   }, [level])
 
+  const imageSize = size === 'large' ? 10 : 8
   return (
     <View
       style={[
@@ -59,8 +61,8 @@ const AppLevel: FC<AppLevelProps> = ({ level = 1, label, style, ...otherProps })
       <AppImage
         source={imgSrc}
         style={{
-          width: 10,
-          height: 10,
+          width: imageSize,
+          height: imageSize,
         }}
       />
 

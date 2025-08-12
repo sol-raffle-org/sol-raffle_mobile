@@ -15,7 +15,7 @@ const UserInfo: FC<UserInfoProps> = ({ avatar, name, level, width }) => {
         gap: 20,
       }}
     >
-      <AppRankingAvatar avatar={avatar} level={level} size="large" customStyles={{ bottom: -14 }} />
+      <AppRankingAvatar avatar={avatar} level={level} size="large" />
       <AppText style={{ fontSize: 13, maxWidth: 80 }} numberOfLines={1} ellipsizeMode="tail">
         {name}
       </AppText>
