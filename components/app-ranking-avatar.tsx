@@ -32,7 +32,6 @@ export function AppRankingAvatar({
           {
             bottom: -8,
             left: (largeSize - 28) / 2,
-            width: 28,
             height: 20,
           },
         ]
@@ -49,7 +48,6 @@ export function AppRankingAvatar({
           {
             bottom: -4,
             left: (mediumSize - 18) / 2,
-            width: 18,
             height: 10,
           },
         ]
@@ -71,8 +69,6 @@ export function AppRankingAvatar({
       <AppLevel
         style={{
           position: 'absolute',
-          justifyContent: 'center',
-          alignItems: 'center',
           ...levelSize,
           ...customStyles,
         }}

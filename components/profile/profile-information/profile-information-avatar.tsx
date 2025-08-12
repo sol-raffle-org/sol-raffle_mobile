@@ -79,18 +79,7 @@ export function ProfileInformationAvatar() {
           <AppItemText textType="title" style={{ fontSize: 20 }}>
             {accountInfo?.name}
           </AppItemText>
-          <AppLevel
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: 4,
-              borderRadius: 2,
-              gap: 4,
-            }}
-            level={accountInfo?.level}
-            label={accountInfo?.level}
-          />
+          <AppLevel level={accountInfo?.level} label={accountInfo?.level} />
         </ProfileView>
 
         <TouchableOpacity
