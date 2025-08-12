@@ -12,7 +12,7 @@ const AppTabView: React.FC<AppTabViewProps> = ({ children, ...otherProps }) => {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, paddingTop: HEADER_PADDING + insets.top, paddingBottom: insets.bottom + 8 }}
+      style={{ flex: 1, paddingTop: HEADER_PADDING + insets.top, paddingBottom: insets.bottom + 32 }}
       {...otherProps}
     >
       {children}

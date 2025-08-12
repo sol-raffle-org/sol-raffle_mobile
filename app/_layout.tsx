@@ -19,8 +19,9 @@ export default function RootLayout() {
     console.log(`Track ${pathname}`, { params })
   })
   const [loaded] = useFonts({
-    'InriaSans-Regular': require('../assets/fonts/InriaSans-Regular.ttf'),
-    'InriaSans-Bold': require('../assets/fonts/InriaSans-Bold.ttf'),
+    'InriaSans-Regular': require('../assets/fonts/InriaSans/InriaSans-Regular.ttf'),
+    'InriaSans-Bold': require('../assets/fonts/InriaSans/InriaSans-Bold.ttf'),
+    JerseyRegular: require('../assets/fonts/Jersey_10/Jersey10-Regular.ttf'),
   })
 
   const onLayoutRootView = useCallback(async () => {
