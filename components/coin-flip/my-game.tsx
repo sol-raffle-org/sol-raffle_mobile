@@ -1,20 +1,20 @@
 import useAppStore from '@/stores/useAppStore'
-import useCoinFlipStore from '@/stores/useCoinflipStore'
 import React, { useMemo } from 'react'
 import { ScrollView } from 'react-native'
 import { AppButton } from '../app-button'
 import { AppItemText } from '../app-item-text'
+import { useCoinFlipProvider } from './coin-flip-provider'
 import FlipCard from './flip-card'
 
 export function MyGame() {
   const { accountInfo } = useAppStore()
-  const { flipGamesTable } = useCoinFlipStore()
+  const { playingGames } = useCoinFlipProvider()
 
   const myGames = useMemo(() => {
-    if (!accountInfo || !flipGamesTable?.length) return []
+    if (!accountInfo || !playingGames) return []
 
-    return flipGamesTable.filter((item) => item?.userCreator?.wallet === accountInfo?.wallet)
-  }, [flipGamesTable, accountInfo])
+    return Object.values(playingGames).filter((item) => item?.userCreator?.wallet === accountInfo?.wallet)
+  }, [playingGames, accountInfo])
 
   return (
     <ScrollView
@@ -33,7 +33,10 @@ export const CallBotButton = ({ gameId }: { gameId: number }) => {
   const { appSocket, accountInfo } = useAppStore()
 
   const handleCallBot = async (gameId: number) => {
+    console.log('CLICKED_CALL_BOT')
     if (!appSocket || !appSocket.connected || !accountInfo) return
+
+    console.log('STARTED_EMIT_CALL_BOT')
 
     appSocket.emit('fl-call-bot', {
       creator: accountInfo.wallet,

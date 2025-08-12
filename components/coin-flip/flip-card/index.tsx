@@ -3,29 +3,30 @@ import { AppImage } from '@/components/app-image'
 import { AppView } from '@/components/app-view'
 import useAccount from '@/hooks/account-hooks/useAccount'
 import { useCountdownByTimestamp } from '@/hooks/common/useCountdown'
-import useAppStore from '@/stores/useAppStore'
 import useCoinFlipStore from '@/stores/useCoinflipStore'
-import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
+import { FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
-import React, { Fragment, useEffect, useMemo, useState } from 'react'
+import React, { Fragment, memo, useEffect, useMemo } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
-import CoinFlipGameDetail from '../coin-flip-game-detail'
+import { useCoinFlipProvider } from '../coin-flip-provider'
 import Confetti from './Confetti'
 import Header from './Header'
 import Status from './Status'
 import UserInfo from './UserInfo'
+
+interface FlipCardProps {
+  data: PlayingFlipGameItem
+  action: React.ReactNode
+}
 
 const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
   const remain = useCountdownByTimestamp(
     (data?.deleteTime && data?.deleteTime > 0 && Math.floor(Number(data?.deleteTime) / 1000)) || 0,
   )
 
+  const { showGame, closeGame, selectedGame } = useCoinFlipProvider()
   const { handleGetBalance } = useAccount()
   const { setCount } = useCoinFlipStore()
-  const { accountInfo } = useAppStore()
-
-  const [result, setResult] = useState<undefined | CoinSideEnum>(undefined)
-  const [isShowDetail, setIsShowDetail] = useState(false)
 
   const isDeleteStatus = [FlipGameStatusEnum.Awarding, FlipGameStatusEnum.Finished].includes(data.status)
 
@@ -35,110 +36,89 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
 
     return Boolean(isDeleteStatus && deleteTime <= currentTime)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, remain])
+  }, [data.deleteTime, remain])
 
   useEffect(() => {
     if (!isDelete) return
 
+    if (selectedGame?.gameId === data.gameId) closeGame()
+
     handleGetBalance()
     setCount(Math.random())
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDelete])
-
-  useEffect(() => {
-    if (data.status === FlipGameStatusEnum.Finished && !isNil(data.result)) {
-      setResult(data.result)
-    } else {
-      setResult(undefined)
-    }
-  }, [data])
+  }, [isDelete, selectedGame])
 
   if (isDelete) return <Fragment />
 
   return (
-    <>
-      <TouchableWithoutFeedback onPress={() => setIsShowDetail(true)}>
+    <TouchableWithoutFeedback onPress={() => showGame(data.gameId)}>
+      <AppView
+        style={{
+          paddingVertical: 8,
+          paddingHorizontal: 16,
+          borderWidth: 0.5,
+          borderRadius: 4,
+          borderColor: '#FFFFFF4D',
+          width: '100%',
+          height: 177,
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
+        <Header data={data} result={data.displayResult} />
+
         <AppView
           style={{
-            paddingVertical: 8,
-            paddingHorizontal: 16,
-            borderWidth: 0.5,
-            borderRadius: 4,
-            borderColor: '#FFFFFF4D',
             width: '100%',
-            height: 177,
-            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'row',
             position: 'relative',
+            zIndex: 20,
+            alignItems: 'center',
+            paddingHorizontal: 32,
+            justifyContent: 'space-between',
           }}
         >
-          <Header data={data} result={result} />
+          <UserInfo
+            width={79}
+            avatar={data.userCreator.avatar}
+            level={data.userCreator.level}
+            name={data.userCreator.name}
+            isLoser={data.isCreatorLose}
+          />
 
-          <AppView
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              position: 'relative',
-              zIndex: 20,
-              alignItems: 'center',
-              paddingHorizontal: 32,
-              justifyContent: 'space-between',
-            }}
-          >
+          <Status gameData={data} />
+
+          {data.userJoin ? (
             <UserInfo
               width={79}
-              avatar={data.userCreator.avatar}
-              level={data.userCreator.level}
-              name={data.userCreator.name}
+              avatar={data.userJoin.avatar}
+              level={data.userJoin.level}
+              name={data.userJoin.name}
+              isLoser={data.isOtherLose}
             />
-
-            <Status gameData={data} setResult={setResult} />
-
-            {data.userJoin ? (
-              <UserInfo
-                width={79}
-                avatar={data.userJoin.avatar}
-                level={data.userJoin.level}
-                name={data.userJoin.name}
-              />
-            ) : (
-              action
-            )}
-          </AppView>
-
-          {!isNil(result) && isDeleteStatus ? <Confetti /> : <Fragment />}
-
-          <AppImage
-            source={FlipCardBgImage}
-            style={{
-              width: '200%',
-              height: '200%',
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              zIndex: 10,
-              transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
-            }}
-          />
+          ) : (
+            action
+          )}
         </AppView>
-      </TouchableWithoutFeedback>
 
-      {isShowDetail && (
-        <CoinFlipGameDetail
-          isMyGame={data.userCreator.wallet === accountInfo?.wallet}
-          gameData={data}
-          visible={true}
-          onDismiss={() => setIsShowDetail(false)}
-          setResult={setResult}
+        {!isNil(data.displayResult) && isDeleteStatus ? <Confetti /> : <Fragment />}
+
+        <AppImage
+          source={FlipCardBgImage}
+          style={{
+            width: '200%',
+            height: '200%',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            zIndex: 10,
+            transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
+          }}
         />
-      )}
-    </>
+      </AppView>
+    </TouchableWithoutFeedback>
   )
 }
 
-export default FlipCard
-
-interface FlipCardProps {
-  data: FlipGameInterface
-  action: React.ReactNode
-}
+export default memo(FlipCard)

@@ -2,7 +2,7 @@ import { CoinHeadImage, CoinTailImage, SolanaLogo } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { AppText } from '@/components/app-text'
 import { AppView } from '@/components/app-view'
-import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
+import { CoinSideEnum, FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
 import React from 'react'
 
@@ -67,7 +67,7 @@ export default Header
 
 interface HeaderProps {
   result?: CoinSideEnum
-  data: FlipGameInterface
+  data: PlayingFlipGameItem
 }
 
 const HeadChoice = ({ isWin }: { isWin?: boolean }) => {

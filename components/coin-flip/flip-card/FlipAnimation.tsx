@@ -2,19 +2,39 @@ import { CoinHeadImage, CoinTailImage, FlipHeadGif, FlipTailGif } from '@/assets
 import { AppImage } from '@/components/app-image'
 import { CoinSideEnum } from '@/types/coin-flip.type'
 import React, { FC, useEffect, useState } from 'react'
+import { useCoinFlipProvider } from '../coin-flip-provider'
 
-const FlipAnimation: FC<FlipAnimationProps> = ({ result, setResult }) => {
+interface FlipAnimationProps {
+  result: CoinSideEnum
+  gameId: number
+}
+
+const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
+  const { updateAnimation, updateResult } = useCoinFlipProvider()
+
   const [stopAnimation, setStopAnimation] = useState(false)
 
   useEffect(() => {
-    setTimeout(
-      () => {
-        setStopAnimation(true)
-        setResult(result)
-      },
-      result === 1 ? 2350 : 2200,
-    )
-  })
+    if (gameId) {
+      updateAnimation(gameId, true)
+      setTimeout(
+        () => {
+          setStopAnimation(true)
+          updateAnimation(gameId, false)
+          updateResult(gameId, result)
+        },
+        result === 1 ? 2350 : 2200,
+      )
+
+      return () => {
+        updateAnimation(gameId, false)
+        updateResult(gameId, result)
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameId])
+
   return (
     <>
       {stopAnimation ? (
@@ -33,8 +53,3 @@ const FlipAnimation: FC<FlipAnimationProps> = ({ result, setResult }) => {
 }
 
 export default FlipAnimation
-
-interface FlipAnimationProps {
-  result: CoinSideEnum
-  setResult: React.Dispatch<React.SetStateAction<CoinSideEnum | undefined>>
-}

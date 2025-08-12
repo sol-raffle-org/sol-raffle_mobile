@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text } from 'react-native'
 
 import { AppView } from '@/components/app-view'
 import { useCountdownByDuration } from '@/hooks/common/useCountdown'
+import { useCoinFlipProvider } from '../coin-flip-provider'
 
-const FlipCountdown = ({ ...otherProps }) => {
+const FlipCountdown = ({ gameId }: { gameId: number }) => {
+  const { updateCountdown } = useCoinFlipProvider()
   const remain = useCountdownByDuration(3)
+
+  useEffect(() => {
+    if (gameId) updateCountdown(gameId, remain)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameId, remain])
 
   return (
     <AppView
@@ -20,9 +27,7 @@ const FlipCountdown = ({ ...otherProps }) => {
         backgroundColor: remain ? 'black' : 'transparent',
       }}
     >
-      <Text style={[styles.text, remain ? styles.textLarge : styles.textSmall]} {...otherProps}>
-        {remain || 'Mining'}
-      </Text>
+      <Text style={[styles.text, remain ? styles.textLarge : styles.textSmall]}>{remain || 'Mining'}</Text>
     </AppView>
   )
 }

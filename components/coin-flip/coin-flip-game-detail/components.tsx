@@ -1,7 +1,7 @@
 import { CoinHeadImage, CoinTailImage, FlipDetailBackgroundImage } from '@/assets/images'
 import IconCopyButton from '@/components/app-icon-copy-button'
 import { AppImage } from '@/components/app-image'
-import { CoinSideEnum, FlipGameInterface } from '@/types/coin-flip.type'
+import { CoinSideEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { truncateHash } from '@/utils/common.utils'
 import React, { useEffect, useRef, useState } from 'react'
 import { Animated, Dimensions, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, View } from 'react-native'
@@ -13,12 +13,11 @@ import { AppView } from '../../app-view'
 const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 export type CoinFlipGameDetailProps = {
-  gameData: FlipGameInterface
+  gameData: PlayingFlipGameItem
   visible: boolean
   isMyGame: boolean
   children?: React.ReactNode
   onDismiss: () => void
-  setResult: React.Dispatch<React.SetStateAction<CoinSideEnum | undefined>>
 }
 
 export const DialogBackdrop = ({ onDismiss }: Pick<CoinFlipGameDetailProps, 'onDismiss'>) => {
@@ -134,7 +133,7 @@ export const DialogSlideAnimated = ({ visible, children }: Pick<CoinFlipGameDeta
   )
 }
 
-export const GameInfo = ({ gameData }: { gameData: FlipGameInterface }) => {
+export const GameInfo = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
   const data = [
     {
       label: 'Server Seed:',
