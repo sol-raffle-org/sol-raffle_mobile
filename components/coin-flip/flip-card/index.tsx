@@ -22,10 +22,11 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
 
   const [result, setResult] = useState<undefined | CoinSideEnum>(undefined)
 
+  const isDeleteStatus = [FlipGameStatusEnum.Awarding, FlipGameStatusEnum.Finished].includes(data.status)
+
   const isDelete = useMemo(() => {
     const deleteTime = Math.floor(Number(data?.deleteTime) / 1000)
     const currentTime = Math.floor(Date.now() / 1000) + 2
-    const isDeleteStatus = [FlipGameStatusEnum.Awarding, FlipGameStatusEnum.Finished].includes(data.status)
 
     return Boolean(isDeleteStatus && deleteTime <= currentTime)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,6 +43,8 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
   useEffect(() => {
     if (data.status === FlipGameStatusEnum.Finished && !isNil(data.result)) {
       setResult(data.result)
+    } else {
+      setResult(undefined)
     }
   }, [data])
 
@@ -91,7 +94,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
         )}
       </AppView>
 
-      {!isNil(result) ? <Confetti /> : <Fragment />}
+      {!isNil(result) && isDeleteStatus ? <Confetti /> : <Fragment />}
 
       <AppImage
         source={FlipCardBgImage}

@@ -2,13 +2,15 @@ import { CoinHeadImage, CoinTailImage, SolanaLogo } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { AppText } from '@/components/app-text'
 import { AppView } from '@/components/app-view'
-import { CoinSideEnum, FlipGameInterface } from '@/types/coin-flip.type'
+import { CoinSideEnum, FlipGameInterface, FlipGameStatusEnum } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
 import React from 'react'
 
 const Header: React.FC<HeaderProps> = ({ result, data }) => {
   const creatorWin = result === data.creatorChoice
   const creatorLose = !isNil(result) && result !== data.creatorChoice
+
+  const isDeleteStatus = [FlipGameStatusEnum.Awarding, FlipGameStatusEnum.Finished].includes(data.status)
 
   return (
     <AppView
@@ -37,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ result, data }) => {
             height: 30,
             borderWidth: 1,
             borderRadius: 60,
-            borderColor: !isNil(result) ? '#FAB40F' : '#FFFFFF17',
-            backgroundColor: !isNil(result) ? '#FAB40F' : '',
+            borderColor: !isNil(result) && isDeleteStatus ? '#FAB40F' : '#FFFFFF17',
+            backgroundColor: !isNil(result) && isDeleteStatus ? '#FAB40F' : '',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
