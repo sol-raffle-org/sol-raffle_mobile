@@ -1,7 +1,7 @@
 import { CoinHeadImage, CoinTailImage, SolanaLogo } from '@/assets/images'
 import { VersusIcon } from '@/components/icons'
 import { CoinSideEnum, FlipPlayerInterface } from '@/types/coin-flip.type'
-import React, { memo, useMemo } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Modal, Portal } from 'react-native-paper'
 import { AppImage } from '../../app-image'
@@ -112,6 +112,8 @@ interface PlayerInfoProps {
   isLoser?: boolean
 }
 const PlayerInfo = ({ user, coinSide, isLoser }: PlayerInfoProps) => {
+  const [parentHeight, setParentHeight] = useState(0)
+
   return (
     <AppView
       style={[
@@ -119,10 +121,8 @@ const PlayerInfo = ({ user, coinSide, isLoser }: PlayerInfoProps) => {
           flexDirection: 'column',
           alignItems: 'center',
         },
-        isLoser && {
-          opacity: 0.4,
-        },
       ]}
+      onLayout={(event) => setParentHeight(event.nativeEvent.layout.height)}
     >
       <AppRankingAvatar avatar={user.avatar} level={user.level} size="large">
         <AppImage
@@ -140,6 +140,21 @@ const PlayerInfo = ({ user, coinSide, isLoser }: PlayerInfoProps) => {
       <AppItemText textType="subtitle" style={{ fontSize: 15 }}>
         {user.name}
       </AppItemText>
+
+      {isLoser && parentHeight > 0 && (
+        <View
+          style={{
+            position: 'absolute',
+            top: -16,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100%',
+            height: parentHeight + 16,
+            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          }}
+        />
+      )}
     </AppView>
   )
 }
