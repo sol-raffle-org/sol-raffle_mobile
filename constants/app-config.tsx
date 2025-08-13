@@ -4,7 +4,7 @@ import { ClusterNetwork } from '@/components/cluster/cluster-network'
 
 export class AppConfig {
   static name = 'sol-raffle'
-  static uri = 'https://example.com'
+  static uri = 'https://solraffle.xyz'
   static clusters: Cluster[] = [
     {
       id: 'solana:devnet',
