@@ -83,7 +83,7 @@ const data: SlideItem[] = [
   },
   {
     title: 'Create an Affiliate code and earn',
-    subTitle: 'Earn 10% commision from the users you refer by <br/> creating an affiliate code and sharing it.',
+    subTitle: 'Earn upto 40% commision from the users you refer by <br/> creating an affiliate code and sharing it.',
     image: require('@/assets/images/login/img-slider-3.png'),
   },
 ]
