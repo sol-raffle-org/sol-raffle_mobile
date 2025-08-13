@@ -7,7 +7,6 @@ import { formatNumber } from '@/utils/format.utils'
 import { LinearGradient } from 'expo-linear-gradient'
 import React, { useMemo } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { AppCircle } from '../app-circle'
 import IconCopyButton from '../app-icon-copy-button'
 import { AppImage } from '../app-image'
 import { AppItemText } from '../app-item-text'
@@ -125,25 +124,15 @@ const JackpotPlayer = ({
       >
         <JackpotRow style={{ gap: 4 }}>
           <JackpotPlayerAvatar avatar={getAvatarUrl(data.userInfo.avatar)} borderColor={borderAvatarColor} />
-          <AppItemText style={{ width: 50 }} numberOfLines={1} ellipsizeMode="tail">
+          <AppItemText style={{ width: 60 }} numberOfLines={1} ellipsizeMode="tail">
             {data.userInfo.name}
           </AppItemText>
-          <AppCircle
-            style={{
-              borderWidth: 1,
-              borderColor: '#ffffff40',
-              paddingVertical: 4,
-              paddingHorizontal: 8,
-            }}
-          >
-            <AppItemText style={{ fontSize: 12 }}>{data.userInfo.level}</AppItemText>
-          </AppCircle>
         </JackpotRow>
 
         <JackpotRow style={{ gap: 4 }}>
           <AppImage source={SolanaLogo} style={{ width: 24, height: 24 }} />
           <View>
-            <AppItemText style={{ textAlign: 'left' }}>{data.betInfo.wagered}</AppItemText>
+            <AppItemText style={{ textAlign: 'left' }}>{formatNumber(data.betInfo.wagered, 3, 3)}</AppItemText>
             <AppItemText
               textType="subtitle"
               style={{
@@ -151,7 +140,7 @@ const JackpotPlayer = ({
                 fontSize: 12,
               }}
             >
-              ~${formatNumber(data.betInfo.wagered * solPrice, 3)}
+              ~${formatNumber(data.betInfo.wagered * solPrice, 2)}
             </AppItemText>
           </View>
         </JackpotRow>
