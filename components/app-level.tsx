@@ -22,7 +22,7 @@ interface AppLevelProps extends ViewProps {
 
 const AppLevel: FC<AppLevelProps> = ({ level = 1, label, size, style, ...otherProps }) => {
   const [imgSrc, backgroundColor, textColor] = useMemo(() => {
-    if (level > 100) {
+    if (level >= 100) {
       return [Level7Image, '#403424', '#FFD44E']
     } else if (level >= 80 && level < 100) {
       return [Level6Image, '#282828', '#81F70D']
