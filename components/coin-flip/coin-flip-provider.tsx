@@ -44,8 +44,8 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
     (gameId: number, result: CoinSideEnum | null) => {
       const data = playingGames[gameId]
       const [isCreatorLose, isOtherLose] = [
-        !isNil(result) && result === data.creatorChoice,
         !isNil(result) && result !== data.creatorChoice,
+        !isNil(result) && result === data.creatorChoice,
       ]
 
       setPlayingGames((preState) => ({
