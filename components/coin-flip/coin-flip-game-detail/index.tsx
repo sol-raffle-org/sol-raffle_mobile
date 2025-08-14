@@ -60,7 +60,7 @@ const CoinFlipGameDetail = ({ visible, isMyGame, gameData, onDismiss }: CoinFlip
                   <PlayerInfo
                     user={gameData.userJoin}
                     coinSide={gameData.creatorChoice === CoinSideEnum.Heads ? CoinSideEnum.Tails : CoinSideEnum.Heads}
-                    isLoser={gameData.isOtherLose}
+                    isLoser={gameData.isCreatorWin === true}
                   />
                 )}
 

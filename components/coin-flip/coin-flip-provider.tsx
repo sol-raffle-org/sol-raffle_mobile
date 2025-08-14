@@ -44,14 +44,11 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const updateResult = useCallback(
     (gameKey: string, result: CoinSideEnum | null) => {
       const data = playingGames[gameKey]
-      const [isCreatorLose, isOtherLose] = [
-        !isNil(result) && result !== data.creatorChoice,
-        !isNil(result) && result === data.creatorChoice,
-      ]
+      const { isCreatorWin, isCreatorLose } = getGameResult(data)
 
       setPlayingGames((preState) => ({
         ...preState,
-        [gameKey]: { ...preState[gameKey], displayResult: result, result, isCreatorLose, isOtherLose },
+        [gameKey]: { ...preState[gameKey], displayResult: result, result, isCreatorWin, isCreatorLose },
       }))
     },
     [playingGames],
@@ -76,11 +73,8 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
           const gameKey = getUniqueKey(gameItem.gameId, gameItem.userCreator.wallet)
           if (Object.keys(playingGamesRef.current).length === 0 || !playingGamesRef.current[gameKey]) {
             // Init data
-            const [isCreatorLose, isOtherLose] = [
-              !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
-              !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
-            ]
-            games[gameKey] = { isCreatorLose, isOtherLose, ...gameItem }
+            const { isCreatorWin, isCreatorLose } = getGameResult(gameItem)
+            games[gameKey] = { isCreatorWin, isCreatorLose, ...gameItem }
           } else if (playingGamesRef.current[gameKey]) {
             // Update data
             games[gameKey] = { ...playingGamesRef.current[gameKey], ...gameItem }
@@ -139,3 +133,8 @@ export const useCoinFlipProvider = () => {
   if (!context) throw new Error('useCoinFlipProvider must be used within CoinFlipProvider')
   return context
 }
+
+const getGameResult = (gameItem: PlayingFlipGameItem) => ({
+  isCreatorWin: !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
+  isCreatorLose: !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
+})

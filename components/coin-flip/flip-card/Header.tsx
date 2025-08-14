@@ -4,13 +4,14 @@ import { AppText } from '@/components/app-text'
 import { AppView } from '@/components/app-view'
 import { CoinSideEnum, FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
-import React from 'react'
+import React, { useMemo } from 'react'
 
-const Header: React.FC<HeaderProps> = ({ result, data }) => {
-  const creatorWin = result === data.creatorChoice
-  const creatorLose = !isNil(result) && result !== data.creatorChoice
+const Header: React.FC<HeaderProps> = ({ data }) => {
+  const [creatorWin, creatorLose, isDeleteStatus] = useMemo(() => {
+    const hasResult = !isNil(data.displayResult)
 
-  const isDeleteStatus = [FlipGameStatusEnum.Awarding, FlipGameStatusEnum.Finished].includes(data.status)
+    return [data.isCreatorWin, data.isCreatorLose, hasResult || data.status === FlipGameStatusEnum.Finished]
+  }, [data])
 
   return (
     <AppView
@@ -39,8 +40,8 @@ const Header: React.FC<HeaderProps> = ({ result, data }) => {
             height: 30,
             borderWidth: 1,
             borderRadius: 60,
-            borderColor: !isNil(result) && isDeleteStatus ? '#FAB40F' : '#FFFFFF17',
-            backgroundColor: !isNil(result) && isDeleteStatus ? '#FAB40F' : '',
+            borderColor: isDeleteStatus ? '#FAB40F' : '#FFFFFF17',
+            backgroundColor: isDeleteStatus ? '#FAB40F' : '',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -66,7 +67,6 @@ const Header: React.FC<HeaderProps> = ({ result, data }) => {
 export default Header
 
 interface HeaderProps {
-  result?: CoinSideEnum | null
   data: PlayingFlipGameItem
 }
 

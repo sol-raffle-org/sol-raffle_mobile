@@ -55,7 +55,7 @@ export interface FlipPlayerInterface {
 export interface PlayingFlipGameItem extends FlipGameInterface {
   displayResult?: CoinSideEnum | null
   countdown?: number | null
+  isCreatorWin?: boolean
   isCreatorLose?: boolean
-  isOtherLose?: boolean
   isShowAnimation?: boolean
 }
