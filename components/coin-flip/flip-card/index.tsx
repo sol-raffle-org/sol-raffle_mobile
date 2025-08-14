@@ -5,11 +5,9 @@ import useAccount from '@/hooks/account-hooks/useAccount'
 import { useCountdownByTimestamp } from '@/hooks/common/useCountdown'
 import useCoinFlipStore from '@/stores/useCoinflipStore'
 import { FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
-import { isNil } from '@/utils/common.utils'
 import React, { Fragment, memo, useEffect, useMemo } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
 import { getUniqueKey, useCoinFlipProvider } from '../coin-flip-provider'
-import Confetti from './Confetti'
 import Header from './Header'
 import Status from './Status'
 import UserInfo from './UserInfo'
@@ -100,8 +98,6 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
             action
           )}
         </AppView>
-
-        {!isNil(data.displayResult) && isDeleteStatus ? <Confetti /> : <Fragment />}
 
         <AppImage
           source={FlipCardBgImage}

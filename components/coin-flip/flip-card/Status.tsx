@@ -9,12 +9,21 @@ import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import { getUniqueKey } from '../coin-flip-provider'
 import ApproveCountdown from './ApproveCountdown'
+import Confetti from './Confetti'
 import FlipAnimation from './FlipAnimation'
 import FlipCountdown from './FlipCountdown'
 
 const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
-  const isShowVersusIcon = useMemo(() => {
-    return [FlipGameStatusEnum.Playing, FlipGameStatusEnum.Created].includes(gameData.status)
+  const [isPending, isWaitingReady, isMining, isAwarding, isFinished] = useMemo(() => {
+    const isPending = [FlipGameStatusEnum.Playing, FlipGameStatusEnum.Created].includes(gameData.status)
+
+    return [
+      isPending,
+      gameData.status === FlipGameStatusEnum.WaitingReady,
+      gameData.status === FlipGameStatusEnum.Mining,
+      !isNil(gameData.result) && gameData.status === FlipGameStatusEnum.Awarding,
+      gameData.status === FlipGameStatusEnum.Finished,
+    ]
   }, [gameData])
 
   return (
@@ -27,23 +36,29 @@ const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
         overflow: 'hidden',
       }}
     >
-      {isShowVersusIcon && <VersusIcon color="#01FC7F99" />}
+      {isPending && <VersusIcon color="#01FC7F99" />}
 
-      {gameData.status === FlipGameStatusEnum.Awarding && !isNil(gameData.result) && (
-        <FlipAnimation result={gameData.result} key={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)} />
-      )}
-
-      {gameData.status === FlipGameStatusEnum.WaitingReady && (
+      {isWaitingReady && (
         <AppView style={styles.container}>
           <ApproveCountdown
             endTime={gameData?.endTime > 0 ? Math.floor(gameData.endTime / 1000) : 0}
-            key={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)}
+            gameKey={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)}
           />
           <AppText style={styles.text}>Waiting{'\n'}Approve</AppText>
         </AppView>
       )}
 
-      {gameData.status === FlipGameStatusEnum.Finished && (
+      {isMining && <FlipCountdown gameKey={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)} />}
+
+      {isAwarding && (
+        <FlipAnimation
+          result={gameData.result}
+          displayResult={gameData.displayResult}
+          gameKey={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)}
+        />
+      )}
+
+      {isFinished && (
         <AppImage
           style={{
             height: 40,
@@ -56,9 +71,7 @@ const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
         />
       )}
 
-      {gameData.status === FlipGameStatusEnum.Mining && (
-        <FlipCountdown key={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)} />
-      )}
+      {!isNil(gameData.displayResult) && <Confetti />}
     </AppView>
   )
 }

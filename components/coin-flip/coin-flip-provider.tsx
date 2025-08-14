@@ -7,17 +7,17 @@ import { createContext, FC, ReactNode, useCallback, useContext, useEffect, useRe
 import CoinFlipGameDetail from './coin-flip-game-detail'
 
 interface IPlayingGames {
-  [key: string]: PlayingFlipGameItem
+  [gameKey: string]: PlayingFlipGameItem
 }
 
 export interface CoinFlipContextProps {
   playingGames: IPlayingGames
   selectedGame: PlayingFlipGameItem | null
-  showGame: (key: string) => void
+  showGame: (gameKey: string) => void
   closeGame: () => void
-  updateResult: (key: string, result: CoinSideEnum | null) => void
-  updateCountdown: (key: string, countdown: number | null) => void
-  updateAnimation: (key: string, isShowAnimation: boolean) => void
+  updateResult: (gameKey: string, result: CoinSideEnum | null) => void
+  updateCountdown: (gameKey: string, countdown: number | null) => void
+  updateAnimation: (gameKey: string, isShowAnimation: boolean) => void
 }
 
 const CoinFlipContext = createContext<CoinFlipContextProps | undefined>(undefined)
@@ -32,7 +32,7 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const { accountInfo } = useAppStore()
   const { flipGamesTable } = useCoinFlipStore()
 
-  const showGame = useCallback((key: string) => updateSelectedGame(playingGames[key] || null), [playingGames])
+  const showGame = useCallback((gameKey: string) => updateSelectedGame(playingGames[gameKey] || null), [playingGames])
 
   const closeGame = useCallback(() => updateSelectedGame(null), [])
 
@@ -42,8 +42,8 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [])
 
   const updateResult = useCallback(
-    (key: string, result: CoinSideEnum | null) => {
-      const data = playingGames[key]
+    (gameKey: string, result: CoinSideEnum | null) => {
+      const data = playingGames[gameKey]
       const [isCreatorLose, isOtherLose] = [
         !isNil(result) && result === data.creatorChoice,
         !isNil(result) && result !== data.creatorChoice,
@@ -51,47 +51,42 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
       setPlayingGames((preState) => ({
         ...preState,
-        [key]: { ...preState[key], displayResult: result, result, isCreatorLose, isOtherLose },
+        [gameKey]: { ...preState[gameKey], displayResult: result, result, isCreatorLose, isOtherLose },
       }))
     },
     [playingGames],
   )
 
-  const updateCountdown = useCallback((key: string, countdown: number | null) => {
-    setPlayingGames((preState) => ({ ...preState, [key]: { ...preState[key], countdown } }))
+  const updateCountdown = useCallback((gameKey: string, countdown: number | null) => {
+    setPlayingGames((preState) => ({ ...preState, [gameKey]: { ...preState[gameKey], countdown } }))
   }, [])
 
-  const updateAnimation = useCallback((key: string, isShowAnimation: boolean) => {
-    if (getUniqueKey(selectedGame?.gameId || 0, selectedGame?.userCreator.wallet || '') === key) {
+  const updateAnimation = useCallback((gameKey: string, isShowAnimation: boolean) => {
+    if (selectedGame && getUniqueKey(selectedGame.gameId, selectedGame.userCreator.wallet) === gameKey) {
       setSelectedGame((preState) => (preState ? { ...preState, isShowAnimation } : null))
     }
 
-    setPlayingGames((preState) => ({ ...preState, [key]: { ...preState[key], isShowAnimation } }))
+    setPlayingGames((preState) => ({ ...preState, [gameKey]: { ...preState[gameKey], isShowAnimation } }))
   }, [])
 
   useEffect(() => {
     const isValid = flipGamesTable && Array.isArray(flipGamesTable)
     const newPlayingGames = isValid
       ? flipGamesTable.reduce<IPlayingGames>((games, gameItem: FlipGameInterface) => {
-          const currentTime = Math.floor(Date.now() / 1000) + 2
-          const isEnd = gameItem.deleteTime && gameItem.deleteTime > 0 ? currentTime >= gameItem.deleteTime : false
-
-          if (gameItem.gameId && gameItem.userCreator.wallet && !isEnd) {
-            const key = getUniqueKey(gameItem.gameId, gameItem.userCreator.wallet)
-            if (Object.keys(playingGamesRef.current).length === 0 || !playingGamesRef.current[key]) {
-              // Init data
-              const [isCreatorLose, isOtherLose] = [
-                !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
-                !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
-              ]
-              games[key] = { ...gameItem, isCreatorLose, isOtherLose }
-            } else if (playingGamesRef.current[key]) {
-              // Update data
-              games[key] = { ...gameItem, ...playingGamesRef.current[key], deleteTime: gameItem.deleteTime }
-            } else {
-              // Set data
-              games[key] = gameItem
-            }
+          const gameKey = getUniqueKey(gameItem.gameId, gameItem.userCreator.wallet)
+          if (Object.keys(playingGamesRef.current).length === 0 || !playingGamesRef.current[gameKey]) {
+            // Init data
+            const [isCreatorLose, isOtherLose] = [
+              !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
+              !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
+            ]
+            games[gameKey] = { isCreatorLose, isOtherLose, ...gameItem }
+          } else if (playingGamesRef.current[gameKey]) {
+            // Update data
+            games[gameKey] = { ...playingGamesRef.current[gameKey], ...gameItem }
+          } else {
+            // Set data
+            games[gameKey] = gameItem
           }
 
           return games
@@ -137,7 +132,7 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-export const getUniqueKey = (gameId: number, wallet: string) => `${gameId}-${wallet}`
+export const getUniqueKey = (gameId?: number, wallet?: string) => (gameId && wallet ? `${gameId}-${wallet}` : '')
 
 export const useCoinFlipProvider = () => {
   const context = useContext(CoinFlipContext)
