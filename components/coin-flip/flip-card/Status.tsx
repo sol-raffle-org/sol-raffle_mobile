@@ -19,7 +19,7 @@ const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
   return (
     <AppView
       style={{
-        flex: 1,
+        width: 100,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

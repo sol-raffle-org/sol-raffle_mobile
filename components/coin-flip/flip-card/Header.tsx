@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ result, data }) => {
 export default Header
 
 interface HeaderProps {
-  result?: CoinSideEnum
+  result?: CoinSideEnum | null
   data: PlayingFlipGameItem
 }
 
