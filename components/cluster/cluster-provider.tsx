@@ -1,7 +1,8 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
-import { AppConfig } from '@/constants/app-config'
 import { Cluster } from '@/components/cluster/cluster'
 import { ClusterNetwork } from '@/components/cluster/cluster-network'
+import { AppConfig } from '@/constants/app-config'
+import { NETWORK_MODE } from '@env'
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 
 export interface ClusterProviderContext {
   selectedCluster: Cluster
@@ -14,7 +15,9 @@ export interface ClusterProviderContext {
 const Context = createContext<ClusterProviderContext>({} as ClusterProviderContext)
 
 export function ClusterProvider({ children }: { children: ReactNode }) {
-  const [selectedCluster, setSelectedCluster] = useState<Cluster>(AppConfig.clusters[0])
+  const [selectedCluster, setSelectedCluster] = useState<Cluster>(
+    NETWORK_MODE === 'mainnet' ? AppConfig.clusters[0] : AppConfig.clusters[1],
+  )
   const value: ClusterProviderContext = useMemo(
     () => ({
       selectedCluster,

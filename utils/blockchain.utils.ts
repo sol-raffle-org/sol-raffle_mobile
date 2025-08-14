@@ -5,7 +5,7 @@ import { NetworkModeEnum, SupportedChainEnum } from '@/types/common.type'
 import { BN } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
 
-import { NETWORK_MODE } from '@/constants/blockchain.const'
+import { NETWORK_MODE } from '@env'
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token'
 
 export const getSolanaRpcEndpoint = (rpcUrl?: string): string => {
