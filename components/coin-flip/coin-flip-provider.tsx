@@ -73,12 +73,19 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const newPlayingGames = isValid
       ? flipGamesTable.reduce<IPlayingGames>((games, gameItem: FlipGameInterface) => {
           if (gameItem.gameId) {
-            games[gameItem.gameId] = gameItem
+            const [isCreatorLose, isOtherLose] = [
+              !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
+              !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
+            ]
+
+            games[gameItem.gameId] = { ...gameItem, isCreatorLose, isOtherLose }
           }
 
           return games
         }, {})
       : {}
+    console.log({ flipGamesTable, new: Object.values(newPlayingGames) })
+
     setPlayingGames(newPlayingGames)
   }, [flipGamesTable])
 
