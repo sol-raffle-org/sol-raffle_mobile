@@ -1,7 +1,7 @@
-import { CoinFlipHeadImage, CoinFlipTailImage, CoinHeadImage, CoinTailImage } from '@/assets/images'
+import { CoinHeadImage, CoinTailImage } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { CoinSideEnum } from '@/types/coin-flip.type'
-import React, { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import CoinFlipAnimation from '../coin-flip-game-detail/CoinFlipAnimation'
 import { useCoinFlipProvider } from '../coin-flip-provider'
 
@@ -14,8 +14,6 @@ const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
   const { updateAnimation, updateResult } = useCoinFlipProvider()
 
   const [stopAnimation, setStopAnimation] = useState(false)
-
-  const imageSource = useMemo(() => (result === CoinSideEnum.Tails ? CoinFlipTailImage : CoinFlipHeadImage), [result])
 
   const handleFinishAnimation = useCallback(() => {
     updateAnimation(gameId, false)
@@ -45,7 +43,7 @@ const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
           style={{ width: 40, height: 40, borderRadius: 40 / 2, borderWidth: 1, borderColor: '#FAB40F' }}
         />
       ) : (
-        <CoinFlipAnimation imageSource={imageSource} viewSize={100} onFinish={handleFinishAnimation} />
+        <CoinFlipAnimation result={result} viewSize={100} onFinish={handleFinishAnimation} />
       )}
     </>
   )
