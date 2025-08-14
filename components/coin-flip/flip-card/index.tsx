@@ -63,7 +63,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
           position: 'relative',
         }}
       >
-        <Header data={data} result={data.displayResult} />
+        <Header data={data} />
 
         <AppView
           style={{
@@ -92,7 +92,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
               avatar={data.userJoin.avatar}
               level={data.userJoin.level}
               name={data.userJoin.name}
-              isLoser={data.isOtherLose}
+              isLoser={data.isCreatorWin === true}
             />
           ) : (
             action
