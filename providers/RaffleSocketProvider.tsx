@@ -73,22 +73,6 @@ const RaffleSocketProvider = () => {
       }
     })
 
-    raffleSocket.on('server-message', (data: any) => {
-      if (data?.success === true) {
-        showToast({
-          type: 'success',
-          subtitle: data?.message,
-        })
-      }
-
-      if (data?.success === false) {
-        showToast({
-          type: 'error',
-          subtitle: data?.message,
-        })
-      }
-    })
-
     raffleSocket.on('jp-game-data', (jackpotGameData: JackpotGameDataInterface) => {
       setJackpotGameData(jackpotGameData)
       if (jackpotGameData.status === JackpotGameStatus.Playing) {
@@ -137,6 +121,22 @@ const RaffleSocketProvider = () => {
 
     // Request win data
     raffleSocket.emit('notify-win-data')
+    raffleSocket.on('server-message', (data: any) => {
+      console.log('server-message', data?.message)
+      if (data?.success === true) {
+        showToast({
+          type: 'success',
+          subtitle: data?.message,
+        })
+      }
+
+      if (data?.success === false) {
+        showToast({
+          type: 'error',
+          subtitle: data?.message,
+        })
+      }
+    })
 
     if (pathname === JACKPOT) {
       raffleSocket.emit('jp-join-room')
@@ -187,7 +187,6 @@ const RaffleSocketProvider = () => {
       raffleSocket.emit('jp-leave-room')
 
       raffleSocket.off('level-up')
-      raffleSocket.off('server-message')
       raffleSocket.off('jp-status-update')
       raffleSocket.off('jp-player-bet')
       raffleSocket.off('jp-game-data')
