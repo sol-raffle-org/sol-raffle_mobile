@@ -7,6 +7,7 @@ import { CoinSideEnum, FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/c
 import { isNil } from '@/utils/common.utils'
 import React, { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
+import { getUniqueKey } from '../coin-flip-provider'
 import ApproveCountdown from './ApproveCountdown'
 import FlipAnimation from './FlipAnimation'
 import FlipCountdown from './FlipCountdown'
@@ -29,14 +30,14 @@ const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
       {isShowVersusIcon && <VersusIcon color="#01FC7F99" />}
 
       {gameData.status === FlipGameStatusEnum.Awarding && !isNil(gameData.result) && (
-        <FlipAnimation result={gameData.result} gameId={gameData.gameId} />
+        <FlipAnimation result={gameData.result} key={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)} />
       )}
 
       {gameData.status === FlipGameStatusEnum.WaitingReady && (
         <AppView style={styles.container}>
           <ApproveCountdown
             endTime={gameData?.endTime > 0 ? Math.floor(gameData.endTime / 1000) : 0}
-            gameId={gameData.gameId}
+            key={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)}
           />
           <AppText style={styles.text}>Waiting{'\n'}Approve</AppText>
         </AppView>
@@ -55,7 +56,9 @@ const Status = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
         />
       )}
 
-      {gameData.status === FlipGameStatusEnum.Mining && <FlipCountdown gameId={gameData.gameId} />}
+      {gameData.status === FlipGameStatusEnum.Mining && (
+        <FlipCountdown key={getUniqueKey(gameData.gameId, gameData.userCreator.wallet)} />
+      )}
     </AppView>
   )
 }

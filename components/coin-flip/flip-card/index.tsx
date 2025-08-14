@@ -8,7 +8,7 @@ import { FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { isNil } from '@/utils/common.utils'
 import React, { Fragment, memo, useEffect, useMemo } from 'react'
 import { TouchableWithoutFeedback } from 'react-native'
-import { useCoinFlipProvider } from '../coin-flip-provider'
+import { getUniqueKey, useCoinFlipProvider } from '../coin-flip-provider'
 import Confetti from './Confetti'
 import Header from './Header'
 import Status from './Status'
@@ -51,7 +51,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
   if (isDelete) return <Fragment />
 
   return (
-    <TouchableWithoutFeedback onPress={() => showGame(data.gameId)}>
+    <TouchableWithoutFeedback onPress={() => showGame(getUniqueKey(data.gameId, data.userCreator.wallet))}>
       <AppView
         style={{
           paddingVertical: 8,

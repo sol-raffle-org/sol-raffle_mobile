@@ -51,10 +51,6 @@ const CoinFlipAnimation: FC<CoinFlipAnimationProps> = ({ viewSize = FRAME_SIZE, 
 
   const translateY = Math.round(frame * -viewSize)
 
-  console.log({
-    translateY,
-  })
-
   return (
     <View
       style={{

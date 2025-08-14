@@ -7,19 +7,19 @@ import { useCoinFlipProvider } from '../coin-flip-provider'
 
 interface ApproveCountdownProps extends TextProps {
   endTime: number
-  gameId: number
+  key: string
 }
 
-const ApproveCountdown: FC<ApproveCountdownProps> = ({ endTime, gameId, ...otherProps }) => {
+const ApproveCountdown: FC<ApproveCountdownProps> = ({ endTime, key, ...otherProps }) => {
   const { updateCountdown } = useCoinFlipProvider()
   const remain = useCountdownByTimestamp(endTime)
 
   const isCounting = Boolean(remain)
 
   useEffect(() => {
-    if (gameId) updateCountdown(gameId, remain)
+    if (key) updateCountdown(key, remain)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId, remain])
+  }, [key, remain])
 
   return (
     <AppView

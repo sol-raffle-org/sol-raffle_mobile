@@ -7,25 +7,25 @@ import { useCoinFlipProvider } from '../coin-flip-provider'
 
 interface FlipAnimationProps {
   result: CoinSideEnum
-  gameId: number
+  key: string
 }
 
-const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
+const FlipAnimation: FC<FlipAnimationProps> = ({ result, key }) => {
   const { updateAnimation, updateResult } = useCoinFlipProvider()
 
   const [stopAnimation, setStopAnimation] = useState(false)
 
   const handleFinishAnimation = useCallback(() => {
-    updateAnimation(gameId, false)
-    updateResult(gameId, result)
+    updateAnimation(key, false)
+    updateResult(key, result)
     setStopAnimation(true)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateAnimation, updateResult])
 
   useEffect(() => {
-    if (gameId) {
-      updateAnimation(gameId, true)
+    if (key) {
+      updateAnimation(key, true)
 
       return () => {
         handleFinishAnimation()
@@ -33,7 +33,7 @@ const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId])
+  }, [key])
 
   return (
     <>
