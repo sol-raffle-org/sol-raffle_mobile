@@ -1,15 +1,16 @@
-import { CoinHeadImage, CoinTailImage, FlipHeadGif, FlipTailGif } from '@/assets/images'
+import { CoinFlipHeadImage, CoinFlipTailImage, CoinHeadImage, CoinTailImage } from '@/assets/images'
 import { CoinSideEnum, FlipGameStatusEnum, PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { isNil } from 'lodash'
 import React, { memo, useMemo } from 'react'
 import { AppImage } from '../../app-image'
 import { AppView } from '../../app-view'
 import Confetti from '../flip-card/Confetti'
+import CoinFlipAnimation from './CoinFlipAnimation'
 import { CoinLoop } from './components'
 import FlipDetailCountdown from './FlipDetailCountdown'
 
 const GameStatusAnimation = ({ gameData }: { gameData: PlayingFlipGameItem }) => {
-  const [isPending, isWaitingReady, isMining, isAwarding, isFinished] = useMemo(() => {
+  const [isPending, isWaitingReady, isMining, isAwarding, isFinished, imageSource] = useMemo(() => {
     const isPending = [FlipGameStatusEnum.Playing, FlipGameStatusEnum.Created].includes(gameData.status)
 
     return [
@@ -18,6 +19,7 @@ const GameStatusAnimation = ({ gameData }: { gameData: PlayingFlipGameItem }) =>
       gameData.status === FlipGameStatusEnum.Mining,
       !isNil(gameData.result) && gameData.status === FlipGameStatusEnum.Awarding,
       gameData.status === FlipGameStatusEnum.Finished,
+      gameData.result === CoinSideEnum.Tails ? CoinFlipTailImage : CoinFlipHeadImage,
     ]
   }, [gameData])
 
@@ -69,12 +71,7 @@ const GameStatusAnimation = ({ gameData }: { gameData: PlayingFlipGameItem }) =>
           />
         )}
 
-        {isAwarding && (
-          <AppImage
-            source={gameData.result === CoinSideEnum.Tails ? FlipTailGif : FlipHeadGif}
-            style={{ width: 164, height: 164 }}
-          />
-        )}
+        {isAwarding && <CoinFlipAnimation imageSource={imageSource} viewSize={164} />}
 
         {isFinished && (
           <AppImage

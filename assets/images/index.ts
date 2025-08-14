@@ -49,6 +49,8 @@ import WinnerBannerImage from './slot-machine/img-winner-banner.png'
 // Coin Flip
 import FlipHeadGif from './coin-flip/gif-flip-head.gif'
 import FlipTailGif from './coin-flip/gif-flip-tail.gif'
+import CoinFlipHeadImage from './coin-flip/img-coin-flip-head.png'
+import CoinFlipTailImage from './coin-flip/img-coin-flip-tail.png'
 import CoinFlipTitleImage from './coin-flip/img-coin-flip-title.png'
 import CoinHeadImage from './coin-flip/img-coin-head.png'
 import CoinHeadLeanImage from './coin-flip/img-coin-head_lean.png'
@@ -80,6 +82,8 @@ export {
   ButtonDefaultImage,
   ButtonSlotFullImage,
   CoinFlipBackgroundImage,
+  CoinFlipHeadImage,
+  CoinFlipTailImage,
   CoinFlipTitleImage,
   CoinHeadImage,
   CoinHeadLeanImage,

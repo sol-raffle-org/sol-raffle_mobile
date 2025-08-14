@@ -17,11 +17,6 @@ const ApproveCountdown: FC<ApproveCountdownProps> = ({ endTime, gameId, ...other
   const isCounting = Boolean(remain)
 
   useEffect(() => {
-    console.log({
-      gameId,
-      remain,
-    })
-
     if (gameId) updateCountdown(gameId, remain)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId, remain])
