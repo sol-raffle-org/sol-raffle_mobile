@@ -84,7 +84,6 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
           return games
         }, {})
       : {}
-    console.log({ flipGamesTable, new: Object.values(newPlayingGames) })
 
     setPlayingGames(newPlayingGames)
   }, [flipGamesTable])
