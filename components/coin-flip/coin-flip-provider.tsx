@@ -57,12 +57,6 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
   )
 
   const updateCountdown = useCallback((gameId: number, countdown: number | null) => {
-    console.log({
-      gameId: selectedGameRef.current?.gameId,
-      isEqual: selectedGameRef.current?.gameId === gameId,
-      countdown,
-    })
-
     setPlayingGames((preState) => ({ ...preState, [gameId]: { ...preState[gameId], countdown } }))
   }, [])
 
@@ -93,14 +87,6 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
       updateSelectedGame(playingGames[selectedGameRef.current.gameId])
     }
   }, [playingGames])
-
-  if (selectedGame)
-    console.log({
-      countdown: selectedGame.countdown,
-      result: selectedGame.result,
-      displayResult: selectedGame.displayResult,
-      status: selectedGame.status,
-    })
 
   return (
     <CoinFlipContext.Provider

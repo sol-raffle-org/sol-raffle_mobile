@@ -75,8 +75,7 @@ const FlipCard: React.FC<FlipCardProps> = ({ data, action }) => {
             position: 'relative',
             zIndex: 20,
             alignItems: 'center',
-            paddingHorizontal: 32,
-            justifyContent: 'space-between',
+            justifyContent: 'center',
           }}
         >
           <UserInfo
