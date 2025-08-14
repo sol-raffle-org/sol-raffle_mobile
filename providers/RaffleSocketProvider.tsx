@@ -63,16 +63,6 @@ const RaffleSocketProvider = () => {
   const handleEventJackpot = () => {
     if (!raffleSocket) return
 
-    raffleSocket.on('level-up', (levelUpData: any) => {
-      if (levelUpData) {
-        showToast({
-          type: 'level-up',
-          title: `Level up! ${levelUpData.upToLevel}`,
-          subtitle: `${levelUpData.exp || 0}/${levelUpData.nextLevelExp || 0}`,
-        })
-      }
-    })
-
     raffleSocket.on('jp-game-data', (jackpotGameData: JackpotGameDataInterface) => {
       setJackpotGameData(jackpotGameData)
       if (jackpotGameData.status === JackpotGameStatus.Playing) {
@@ -121,22 +111,6 @@ const RaffleSocketProvider = () => {
 
     // Request win data
     raffleSocket.emit('notify-win-data')
-    raffleSocket.on('server-message', (data: any) => {
-      console.log('server-message', data?.message)
-      if (data?.success === true) {
-        showToast({
-          type: 'success',
-          subtitle: data?.message,
-        })
-      }
-
-      if (data?.success === false) {
-        showToast({
-          type: 'error',
-          subtitle: data?.message,
-        })
-      }
-    })
 
     if (pathname === JACKPOT) {
       raffleSocket.emit('jp-join-room')
@@ -180,13 +154,39 @@ const RaffleSocketProvider = () => {
         setWinnerList(socketWinnerList)
       }
     })
+
+    raffleSocket.on('server-message', (data: any) => {
+      console.log('server-message', data?.message)
+      if (data?.success === true) {
+        showToast({
+          type: 'success',
+          subtitle: data?.message,
+        })
+      }
+
+      if (data?.success === false) {
+        showToast({
+          type: 'error',
+          subtitle: data?.message,
+        })
+      }
+    })
+
+    raffleSocket.on('level-up', (levelUpData: any) => {
+      if (levelUpData) {
+        showToast({
+          type: 'level-up',
+          title: `Level up! ${levelUpData.upToLevel}`,
+          subtitle: `${levelUpData.exp || 0}/${levelUpData.nextLevelExp || 0}`,
+        })
+      }
+    })
   }, [raffleSocket]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (pathname !== JACKPOT && raffleSocket && raffleSocket.connected) {
       raffleSocket.emit('jp-leave-room')
 
-      raffleSocket.off('level-up')
       raffleSocket.off('jp-status-update')
       raffleSocket.off('jp-player-bet')
       raffleSocket.off('jp-game-data')
