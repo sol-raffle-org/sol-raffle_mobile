@@ -62,7 +62,7 @@ const GameStatusAnimation = ({ gameData }: { gameData: PlayingFlipGameItem }) =>
 
         {isFinished && (
           <AppImage
-            source={gameData.creatorChoice === CoinSideEnum.Heads ? CoinHeadImage : CoinTailImage}
+            source={gameData.result === CoinSideEnum.Heads ? CoinHeadImage : CoinTailImage}
             style={{
               width: 164,
               height: 164,
