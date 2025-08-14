@@ -5,14 +5,14 @@ import { AppView } from '@/components/app-view'
 import { useCountdownByDuration } from '@/hooks/common/useCountdown'
 import { useCoinFlipProvider } from '../coin-flip-provider'
 
-const FlipCountdown = ({ gameId }: { gameId: number }) => {
+const FlipCountdown = ({ gameKey }: { gameKey: string }) => {
   const { updateCountdown } = useCoinFlipProvider()
   const remain = useCountdownByDuration(3)
 
   useEffect(() => {
-    if (gameId) updateCountdown(gameId, remain)
+    if (gameKey) updateCountdown(gameKey, remain)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId, remain])
+  }, [gameKey, remain])
 
   return (
     <AppView

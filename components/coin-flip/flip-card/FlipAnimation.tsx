@@ -1,31 +1,33 @@
 import { CoinHeadImage, CoinTailImage } from '@/assets/images'
 import { AppImage } from '@/components/app-image'
 import { CoinSideEnum } from '@/types/coin-flip.type'
+import { isNil } from 'lodash'
 import React, { FC, useCallback, useEffect, useState } from 'react'
 import CoinFlipAnimation from '../coin-flip-game-detail/CoinFlipAnimation'
 import { useCoinFlipProvider } from '../coin-flip-provider'
 
 interface FlipAnimationProps {
-  result: CoinSideEnum
-  gameId: number
+  result: CoinSideEnum | null
+  displayResult?: CoinSideEnum | null // Detect to show animation or note
+  gameKey: string
 }
 
-const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
+const FlipAnimation: FC<FlipAnimationProps> = ({ result, displayResult, gameKey }) => {
   const { updateAnimation, updateResult } = useCoinFlipProvider()
 
   const [stopAnimation, setStopAnimation] = useState(false)
 
   const handleFinishAnimation = useCallback(() => {
-    updateAnimation(gameId, false)
-    updateResult(gameId, result)
+    updateAnimation(gameKey, false)
+    updateResult(gameKey, result)
     setStopAnimation(true)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateAnimation, updateResult])
 
   useEffect(() => {
-    if (gameId) {
-      updateAnimation(gameId, true)
+    if (gameKey) {
+      updateAnimation(gameKey, true)
 
       return () => {
         handleFinishAnimation()
@@ -33,11 +35,11 @@ const FlipAnimation: FC<FlipAnimationProps> = ({ result, gameId }) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId])
+  }, [gameKey])
 
   return (
     <>
-      {stopAnimation ? (
+      {stopAnimation || !isNil(displayResult) ? (
         <AppImage
           source={result === CoinSideEnum.Tails ? CoinTailImage : CoinHeadImage}
           style={{ width: 40, height: 40, borderRadius: 40 / 2, borderWidth: 1, borderColor: '#FAB40F' }}

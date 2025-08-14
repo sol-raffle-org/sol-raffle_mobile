@@ -17,8 +17,8 @@ const GameStatusAnimation = ({ gameData }: { gameData: PlayingFlipGameItem }) =>
       isPending,
       gameData.status === FlipGameStatusEnum.WaitingReady,
       gameData.status === FlipGameStatusEnum.Mining,
-      !isNil(gameData.result) && gameData.status === FlipGameStatusEnum.Awarding,
-      gameData.status === FlipGameStatusEnum.Finished,
+      !isNil(gameData.result) && gameData.status === FlipGameStatusEnum.Awarding && isNil(gameData.displayResult),
+      gameData.status === FlipGameStatusEnum.Finished || !isNil(gameData.displayResult),
     ]
   }, [gameData])
 
@@ -70,7 +70,7 @@ const GameStatusAnimation = ({ gameData }: { gameData: PlayingFlipGameItem }) =>
           />
         )}
 
-        {!isNil(gameData.result) && <Confetti />}
+        {!isNil(gameData.displayResult) && <Confetti />}
       </AppView>
     </AppView>
   )
