@@ -69,18 +69,20 @@ export const CoinFlipProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     const isValid = flipGamesTable && Array.isArray(flipGamesTable)
     const newPlayingGames = isValid
-      ? flipGamesTable.reduce<IPlayingGames>((games, gameItem: FlipGameInterface) => {
+      ? flipGamesTable.reduce<IPlayingGames>((games, gameItem: FlipGameInterface, index) => {
+          let playGameItem: PlayingFlipGameItem = { ...gameItem, gameIndex: index }
           const gameKey = getUniqueKey(gameItem.gameId, gameItem.userCreator.wallet)
+
           if (Object.keys(playingGamesRef.current).length === 0 || !playingGamesRef.current[gameKey]) {
             // Init data
-            const { isCreatorWin, isCreatorLose } = getGameResult(gameItem)
-            games[gameKey] = { isCreatorWin, isCreatorLose, ...gameItem }
+            const { isCreatorWin, isCreatorLose } = getGameResult(playGameItem)
+            games[gameKey] = { isCreatorWin, isCreatorLose, ...playGameItem }
           } else if (playingGamesRef.current[gameKey]) {
             // Update data
-            games[gameKey] = { ...playingGamesRef.current[gameKey], ...gameItem }
+            games[gameKey] = { ...playingGamesRef.current[gameKey], ...playGameItem }
           } else {
             // Set data
-            games[gameKey] = gameItem
+            games[gameKey] = playGameItem
           }
 
           return games
@@ -135,6 +137,6 @@ export const useCoinFlipProvider = () => {
 }
 
 const getGameResult = (gameItem: PlayingFlipGameItem) => ({
-  isCreatorWin: !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
-  isCreatorLose: !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
+  isCreatorWin: Boolean(gameItem.userJoin) && !isNil(gameItem.result) && gameItem.result === gameItem.creatorChoice,
+  isCreatorLose: Boolean(gameItem.userJoin) && !isNil(gameItem.result) && gameItem.result !== gameItem.creatorChoice,
 })
