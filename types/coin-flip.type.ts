@@ -58,4 +58,5 @@ export interface PlayingFlipGameItem extends FlipGameInterface {
   isCreatorWin?: boolean
   isCreatorLose?: boolean
   isShowAnimation?: boolean
+  gameIndex: number
 }

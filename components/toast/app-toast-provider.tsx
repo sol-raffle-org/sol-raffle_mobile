@@ -18,7 +18,11 @@ const AppToastContext = createContext<AppToastContextProps | undefined>(undefine
 export const AppToastProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [params, setParams] = useState<AppToastProps>(DEFAULT_PARAMS)
 
-  const showToast = useCallback((params: AppToastParams) => setParams({ visible: true, ...params }), [])
+  const showToast = useCallback((params: AppToastParams) => {
+    setParams(DEFAULT_PARAMS)
+    setParams({ visible: true, ...params })
+  }, [])
+
   const hideToast = useCallback(() => setParams(DEFAULT_PARAMS), [])
 
   return (

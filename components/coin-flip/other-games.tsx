@@ -6,13 +6,14 @@ import useAppStore from '@/stores/useAppStore'
 import { PlayingFlipGameItem } from '@/types/coin-flip.type'
 import { BlockchainTransactionStatusEnum, SupportedChainEnum } from '@/types/common.type'
 import { isNil } from '@/utils/common.utils'
+import { sortBy } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { ActivityIndicator } from 'react-native-paper'
 import { AppButton } from '../app-button'
 import { AppItemText } from '../app-item-text'
 import { useToast } from '../toast/app-toast-provider'
-import { useCoinFlipProvider } from './coin-flip-provider'
+import { getUniqueKey, useCoinFlipProvider } from './coin-flip-provider'
 import FlipCard from './flip-card'
 import { CallBotButton } from './my-game'
 
@@ -26,10 +27,10 @@ export function OtherGames() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexDirection: 'column', gap: 16 }}
     >
-      {Object.values(playingGames).map((item, index) => {
+      {sortBy(Object.values(playingGames), ['gameIndex']).map((item) => {
         return (
           <FlipCard
-            key={index}
+            key={getUniqueKey(item.gameId, item.userCreator.wallet)}
             data={item}
             action={
               item.userCreator.wallet === accountInfo?.wallet ? (
